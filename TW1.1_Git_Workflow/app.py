@@ -4,6 +4,7 @@ app = Flask(__name__) # Create a Flask application.
 
 @app.route('/')
 def hello():
+    print("User authentication workflow initialized.")  # Added statement
     return "Hello World"
 
 if __name__ == '__main__':
