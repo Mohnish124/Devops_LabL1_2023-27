@@ -4,7 +4,6 @@ app = Flask(__name__) # Create a Flask application.
 
 @app.route('/')
 def hello():
-    print("Shrivali student branch route logging active.")
     return "Hello World"
 
 if __name__ == '__main__':
