@@ -1,22 +1,47 @@
-# TW1.3
-## Screenshots
-12. 11 docker build
+# Assignment TW1.3 – Docker and Jenkins Automation
 
-![](screenshots/11_docker_build.png)
+## Objective
+The objective of this assignment is to dockerize a web application, verify its container status, run it locally, and automate its build process using a Jenkins CI/CD pipeline.
 
-12. 12 image status
+## Tools Used
+- **Docker**: Containerization engine for packaging and running applications in isolated containers.
+- **Jenkins**: Open-source automation server for CI/CD pipeline automation.
+- **Git**: Version control system to trigger builds.
 
-![](screenshots/12_image_status.png)
+## Procedure
 
-12. 13 running app
+### Step 1: Docker Build
+The web application is containerized by writing a `Dockerfile` and building the image using the `docker build -t <image-name> .` command. This compiles the application and its dependencies into a lightweight, portable image.
 
-![](screenshots/13_running_app.png)
+![](screenshots/01_docker_build.png)
 
-12. 14 jenkins commands
+### Step 2: Container Status
+After starting the container, its runtime status is verified using `docker ps`. This displays the container ID, image name, command, creation time, port mappings, and running status.
 
-![](screenshots/14_jenkins_commands.png)
+![](screenshots/02_container_status.png)
 
-12. 15 console output
+### Step 3: Running Application
+The application is tested and verified to be running successfully by accessing the exposed host port (e.g. `http://localhost:port`) in a web browser.
 
-![](screenshots/15_console_output.png)
+![](screenshots/03_running_application.png)
 
+### Step 4: Jenkins Build Commands
+A Jenkins pipeline or freestyle project is configured. The build environment triggers script execution commands, such as docker commands, to automate pulling source code and building the application.
+
+![](screenshots/04_jenkins_build_commands.png)
+
+### Step 5: Jenkins Console Output - Part 1
+The Jenkins console output captures live build logs. Part 1 shows the build starting, pulling git branch updates, and starting build command execution.
+
+![](screenshots/05_jenkins_console_output_1.png)
+
+### Step 6: Jenkins Console Output - Part 2
+The second part of the console output logs the completion of the build script, showing container packaging success and the final Jenkins build status marked as `SUCCESS`.
+
+![](screenshots/06_jenkins_console_output_2.png)
+
+## Result
+Successfully containerized the application, verified container status, and configured a Jenkins job that automatically executes build commands and records the build log history.
+
+## Conclusion
+Integrating Docker containerization with Jenkins CI/CD automation enables fast, reliable, and standardized application build pipelines.
