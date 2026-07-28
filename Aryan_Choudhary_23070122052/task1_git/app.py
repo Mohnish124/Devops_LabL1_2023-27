@@ -4,7 +4,7 @@ const app = FastAPI()
 
 @app.get("/")
 async def read_root():
-    return {"Hello": "World-main branch modification"}
+    return {"Hello": "World-final merged version"}
 
 @app.get("/auth")
 async def read_auth():
