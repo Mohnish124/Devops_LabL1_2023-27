@@ -4,7 +4,7 @@ const app = FastAPI()
 
 @app.get("/")
 async def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "World-main branch modification"}
 
 if __name__ == "__main__":
     import uvicorn
