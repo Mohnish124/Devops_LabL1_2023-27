@@ -2,8 +2,8 @@
 
 ## Student Details
 
-**Name:** Aryan Choudhary
-**PNR:** 23070122052
+- **Name:** Aryan Choudhary
+- **PNR:** 23070122052
 
 **Course:** DevOps Lab 
 

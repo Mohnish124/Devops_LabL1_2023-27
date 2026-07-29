@@ -2,8 +2,8 @@
 
 ## 👤 Student Information
 
-**Name:** Aryan Choudhary
-**PNR:** 23070122052
+- **Name:** Aryan Choudhary
+- **PNR:** 23070122052
 
 ## Objective
 The objective of this assignment is to dockerize a web application, verify its container status, run it locally, and automate its build process using a Jenkins CI/CD pipeline.

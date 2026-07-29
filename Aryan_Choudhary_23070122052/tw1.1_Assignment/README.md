@@ -4,8 +4,8 @@ This repository contains the setup and execution steps for the DevOps Lab Assign
 
 ## 👤 Student Information
 
-**Name:** Aryan Choudhary
-**PNR:** 23070122052
+- **Name:** Aryan Choudhary
+- **PNR:** 23070122052
 
 ## 🛠️ Phase 1: Setup Your Fork, Branch, and Folder
 
