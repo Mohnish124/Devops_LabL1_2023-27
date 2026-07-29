@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t devops-flask-app .'
+            }
+        }
+
+        stage('List Docker Images') {
+            steps {
+                bat 'docker images'
+            }
+        }
+
+        // Optional
+        stage('Push Docker Image') {
+            when {
+                expression { false }
+            }
+            steps {
+                bat 'docker push ohmschrodinger/devops-flask-app:latest'
+            }
+        }
+    }
+}
