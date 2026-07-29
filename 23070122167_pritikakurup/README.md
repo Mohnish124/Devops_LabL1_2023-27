@@ -2,7 +2,7 @@
 
 ## Student Details
 - **Name:** Pritika Kurup
-- **PNR:** 23070122167
+- **PRN:** 23070122167
 - **Branch:** pritika-kurup
 
 ## Repository Contents
