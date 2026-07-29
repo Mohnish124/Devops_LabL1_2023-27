@@ -6,7 +6,8 @@ This repository contains the assignments and projects for the DevOps Lab.
 
 - `my-flask-app/`: Contains the Python Flask application (Assignment TW1.1 & TW1.3)
 - `angular-docker-app/`: Contains the Angular application with Docker setup (Project 2)
-- `my-git-practice/`: Contains the Git practice files (Assignment TW1.1 & TW1.2)
+- `TW1.1/`: Contains the Git practice files (Assignment TW1.1 & TW1.2)
+- `TW1.3/`: Contains the Docker & Jenkins setup and PDF documentation (Assignment TW1.3)
 - `project 2/`: Project files
 
 ## Assignments & Projects
