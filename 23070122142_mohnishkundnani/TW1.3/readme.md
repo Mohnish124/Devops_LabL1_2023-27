@@ -1,6 +1,6 @@
-# TW1.3 – Basic Containerization (Docker) & Jenkins Freestyle Project
+# Assignment TW1.3 – Docker Containerization & Jenkins Freestyle Project
 
-## Student Information
+## Student Details
 
 - **Name:** Mohnish Kundnani
 - **PRN:** 23070122142
@@ -9,52 +9,26 @@
 
 # Objective
 
-The objective of this experiment is to understand the basics of application containerization using Docker and continuous integration using Jenkins. A simple Flask application is containerized, executed inside a Docker container, and integrated with a Jenkins Freestyle project.
+The objective of this assignment is to learn the basics of Docker by containerizing a Flask application and to understand Continuous Integration using a Jenkins Freestyle Project.
 
 ---
 
-# Project Files
+# Software & Tools
 
-```
-TW1.3
-│── Dockerfile
-│── main.py
-│── requirements.txt
-│── README.md
-│── Dockerfile.png
-│── docker-build.png
-│── docker-run.png
-│── jenkins.png
-│── Build-status.png
-│── local-host.png
-```
+- Docker Desktop
+- Python 3.12
+- Flask
+- Jenkins
+- Git & GitHub
+- Visual Studio Code
 
 ---
 
-# Task 3.1 – Dockerize Flask Application
+# Task 1 – Create Docker Image
 
-## Application
+A simple Flask application was created and packaged using Docker.
 
-A basic Flask application was created that returns a simple **Hello World** message when accessed through a web browser.
-
-### `main.py`
-
-```python
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return "Hello World from Docker!"
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-```
-
----
-
-## Dockerfile
+### Dockerfile
 
 ```dockerfile
 FROM python:3.12
@@ -71,121 +45,101 @@ EXPOSE 5000
 CMD ["python3", "main.py"]
 ```
 
-### Dockerfile Screenshot
+### Dockerfile
 
-![Dockerfile](Dockerfile.png)
+![Dockerfile](screenshots/Dockerfile.png)
 
 ---
 
 ## Build Docker Image
 
+### Command
+
 ```bash
 docker build -t hello-flask .
 ```
 
-### Build Output
+### Output
 
-![Docker Build](docker-build.png)
+![Docker Build](screenshots/docker-build.png)
 
 ---
 
-## Run Docker Container
+# Task 2 – Run Docker Container
+
+### Command
 
 ```bash
 docker run -d -p 5000:5000 hello-flask
 ```
 
-The container was started successfully and mapped to **port 5000**.
+The container started successfully and exposed the Flask application on port **5000**.
 
 ### Running Container
 
-![Docker Run](docker-run.png)
+![Docker Run](screenshots/docker-run.png)
 
-### Flask Application in Browser
+---
 
-Access the application using:
+# Task 3 – Verify Application
 
-```
+Open the browser and visit:
+
+```text
 http://localhost:5000
 ```
 
-![Application Output](local-host.png)
+The Flask application was successfully accessible.
+
+![Application Output](screenshots/local-host.png)
 
 ---
 
-# Task 3.2 – Jenkins Freestyle Project
+# Task 4 – Jenkins Freestyle Project
 
-A Jenkins Freestyle Project was created to clone the GitHub repository and execute shell commands for verifying the project workspace.
+A Jenkins Freestyle Project was configured to clone the GitHub repository and execute shell commands.
 
-## Shell Commands Used
+### Shell Commands
 
-```sh
-echo "Current Directory:"
+```bash
 pwd
-
 echo
-
-echo "Files in Workspace:"
 ls -la
 ```
 
-These commands display the current working directory along with all project files present inside the Jenkins workspace.
+### Jenkins Configuration
 
----
+![Jenkins](screenshots/jenkins.png)
 
-## Jenkins Configuration
+### Build Result
 
-![Jenkins Configuration](jenkins.png)
+The build completed successfully without any errors.
 
----
-
-## Build Result
-
-The repository was cloned successfully from GitHub, the shell commands executed without errors, and the build finished successfully.
-
-![Build Status](Build-status.png)
+![Build Status](screenshots/Build-status.png)
 
 ---
 
 # Commands Used
 
-### Build Docker Image
-
 ```bash
 docker build -t hello-flask .
-```
 
-### Run Docker Container
-
-```bash
 docker run -d -p 5000:5000 hello-flask
 ```
 
 ---
 
-# Technologies Used
-
-- Docker Desktop
-- Python 3.12
-- Flask
-- Jenkins
-- Git
-- GitHub
-- Visual Studio Code
-
----
-
 # Learning Outcomes
 
-- Created a Docker image using a Dockerfile.
+- Built a Docker image using a Dockerfile.
 - Executed a Flask application inside a Docker container.
-- Verified the application using the localhost URL.
-- Configured a Jenkins Freestyle project with a GitHub repository.
-- Executed shell commands through Jenkins.
-- Successfully completed the Jenkins build process.
+- Verified container deployment using localhost.
+- Configured a Jenkins Freestyle Project.
+- Connected Jenkins with a GitHub repository.
+- Successfully executed the Jenkins build process.
 
 ---
 
 # Result
 
-The Flask application was successfully containerized using Docker and deployed locally. Jenkins was configured to fetch the project from GitHub and execute the build successfully, demonstrating the basic workflow of containerization and continuous integration.
+The Flask application was successfully containerized using Docker and executed locally. Jenkins was configured to clone the project repository and perform the required build steps, demonstrating the basic workflow of Docker containerization and Continuous Integration.
