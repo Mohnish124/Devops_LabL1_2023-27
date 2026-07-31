@@ -6,23 +6,27 @@
 ---
 
 ## 📝 Overview
-This module covers application containerization using Docker Desktop and continuous integration pipeline automation using Jenkins Freestyle jobs.
+This task covers containerizing a Flask web application with Docker and automating build verification using a Jenkins Freestyle CI pipeline.
 
-## 🛠️ Work Done
-* **Task 3.1 (Docker):**
-  * Created a lightweight Python Flask application (`app.py`) and defined dependencies in `requirements.txt`.
-  * Authored a multi-stage `dockerfile` based on `python:3.10-alpine`.
-  * Built container image `flask-hello-world:v1` and verified endpoint execution on port `5000`.
+## 🛠️ Step-by-Step Execution & Evidence
 
-* **Task 3.2 (Jenkins CI):**
-  * Spun up a Jenkins server instance via Docker on port `8080`.
-  * Created a Freestyle job (`TW1.3-Flask-Freestyle`) bound to the GitHub repository branch `Shrivali-Dutt-23070122263`.
-  * Executed workspace checkout and verified build step completion with `SUCCESS`.
+### Task 3.1: Docker Container Deployment & Testing
+1. Built image `flask-hello-world:v1` using `dockerfile`.
+2. Started container `flask-container` on port `5000`.
+3. Verified local endpoint response using PowerShell `curl`.
 
-## 📸 Evidence & Screenshots
+#### Terminal Verification:
+![Docker Run & Curl Test](../ss/ss1t3.png)
 
-### 1. Task 3.1 — Docker Container Run & Curl Test
-![Docker Execution](../ss/ss3t1.png)
+#### Browser Verification (`http://localhost:5000`):
+![Browser Output](../ss/ss2t3.png)
 
-### 2. Task 3.2 — Jenkins Build Console Output
-![Jenkins Output](../ss/ss3t3.png)
+---
+
+### Task 3.2: Jenkins Freestyle CI Pipeline
+1. Configured job `TW1.3-Flask-Freestyle` pulling from branch `Shrivali-Dutt-23070122263`.
+2. Added shell command `ls -la` to verify workspace files.
+3. Executed build `#1` and verified `Finished: SUCCESS`.
+
+#### Build Console Output:
+![Jenkins Console Output](../ss/ss3t3.jpg)

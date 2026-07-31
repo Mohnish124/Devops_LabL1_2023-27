@@ -6,14 +6,17 @@
 ---
 
 ## 📝 Overview
-This module covers Agile software development tracking using Atlassian Jira Cloud for the **Hello-World-App (HWA)** project.
+This task covers setting up an Agile Scrum board in Jira Cloud for the **Hello-World-App (HWA)** project.
 
-## 🛠️ Work Done
-1. Configured a Scrum Software Development project space (`HWA`).
-2. Configured custom work types (**Story**, **Task**, **Bug**) with dedicated issue keys (`HWA-1`, `HWA-2`, `HWA-3`).
-3. Scheduled and started **HWA Sprint 1**, managing task progression from **TO DO** to **IN PROGRESS**.
+## 🛠️ Work Completed
+1. Created a Scrum project named **Hello-World-App (`HWA`)**.
+2. Created issues across custom issue types:
+   * **Story:** `HWA-1` (Implement User Authentication Feature)
+   * **Task:** `HWA-2` (Setup Flask Environment)
+   * **Bug:** `HWA-3` (Login Page Displays Error)
+3. Organized tasks into **HWA Sprint 1** and transitioned `HWA-2` to **IN PROGRESS**.
 
-## 📸 Evidence & Screenshots
+## 📸 Board Evidence
 
-### Active Jira Scrum Board State
-![Jira Board](../ss/ss2t1.png)
+### Active Jira Scrum Board
+![Jira Scrum Board](../ss/ss1t2.png)

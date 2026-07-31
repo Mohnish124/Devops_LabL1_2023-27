@@ -6,17 +6,39 @@
 ---
 
 ## 📝 Overview
-This module demonstrates working with structured Git workflows, feature branching, and manual merge conflict resolution.
+This task demonstrates setting up feature branches, introducing conflicting changes, manually resolving merge conflicts in code, and pushing the merged history.
 
-## 🛠️ Work Done
-1. Created feature branches off the primary repository branch.
-2. Intentionally introduced conflicting edits across branches in application files.
-3. Handled merge conflicts manually, verified clean code state, and completed the merge commit.
+## 🛠️ Step-by-Step Execution & Evidence
 
-## 📸 Evidence & Screenshots
+### Step 1: Base Application Setup
+Pushed the initial Flask application (`app.py`) and dependencies to the student branch.
 
-### 1. Merge Conflict Detected
-![Merge Conflict](../ss/ss1t1.png)
+![Base Commit](../ss/ss1t1.png)
 
-### 2. Conflict Resolved & Merged
-![Conflict Resolved](../ss/ss1t2.png)
+---
+
+### Step 2: Feature Branch Creation
+Created and pushed the `feature/user-auth` branch to implement user authentication logging.
+
+![Feature Branch Push](../ss/ss2t1.png)
+
+---
+
+### Step 3: Merge Conflict Triggered
+Attempted to merge `feature/user-auth` into the student branch, triggering a content conflict in `app.py`.
+
+![Merge Conflict Triggered](../ss/ss3t1.png)
+
+---
+
+### Step 4: Resolving Conflicts in VS Code
+Inspected and manually edited the conflict markers (`<<<<<<< HEAD` vs `>>>>>>> feature/user-auth`) in VS Code.
+
+![Conflict Markers in VS Code](../ss/ss4t1.png)
+
+---
+
+### Step 5: Final Resolution Commit
+Staged the resolved file, committed the merge fix, and pushed to GitHub.
+
+![Conflict Resolved Commit](../ss/ss5t1.png)
