@@ -1,66 +1,87 @@
 # Assignment TW1.2 – Jira Project & Issue Tracking
 
-## Student Details
+## Student Information
 
 - **Name:** Mohnish Kundnani
 - **PRN:** 23070122142
 
 ---
 
-## Aim
+## Objective
 
-To understand the basics of Agile project management by creating and managing a Scrum project using Jira Software. The assignment also covers creating user stories and maintaining a product backlog.
+The objective of this assignment is to gain practical knowledge of Agile project management by creating a Scrum project in Jira, adding user stories, and organizing the project backlog.
 
 ---
 
-## Software Used
+## Tools Used
 
-- Jira Software (Atlassian Cloud)
-- Visual Studio Code
+- Jira Software (Cloud)
 - GitHub
+- Visual Studio Code
 
 ---
 
-## Procedure
+# Task 1: Create Scrum Project
 
-### Step 1: Create a Scrum Project
+### Procedure
 
 - Logged into Jira Cloud.
 - Created a new Scrum project named **Hello World**.
-- Verified the Scrum board, backlog, timeline, and sprint sections.
+- Verified project dashboard, backlog, board, and timeline.
 
-![Scrum Project](scrum_space.png)
+### Screenshot
 
----
-
-### Step 2: Create User Stories
-
-- Added user stories based on project requirements.
-- Entered the story title, description, priority, assignee, and story points.
-- Saved the stories to the project backlog.
-
-![User Stories](create_story.png)
+![Scrum Project](screenshots/scrum_space.png)
 
 ---
 
-### Step 3: Manage the Backlog
+# Task 2: Add User Stories
 
-- Added tasks to the product backlog.
-- Arranged the tasks according to priority.
+### Procedure
+
+- Created multiple user stories.
+- Added descriptions and priorities.
+- Assigned story points where required.
+- Saved all stories to the backlog.
+
+### Screenshot
+
+![User Stories](screenshots/create_story.png)
+
+---
+
+# Task 3: Organize Product Backlog
+
+### Procedure
+
+- Added project tasks to the backlog.
+- Prioritized work items.
 - Prepared the backlog for sprint planning.
 
-![Backlog](backlog_tasks.png)
+### Screenshot
+
+![Backlog](screenshots/backlog_tasks.png)
 
 ---
 
-## Result
+# Result
 
-- Successfully created a Scrum project in Jira.
-- Added user stories with the required details.
-- Organized the project backlog for sprint execution.
+- Scrum project created successfully.
+- User stories added and managed.
+- Product backlog organized for sprint execution.
+- Agile workflow successfully implemented using Jira.
 
 ---
 
-## Conclusion
+# Learning Outcomes
 
-This assignment helped in understanding how Jira supports Agile development. It provided practical experience in creating Scrum projects, managing user stories, and organizing backlog tasks for better project planning.
+- Learned how to create Scrum projects in Jira.
+- Understood user story management.
+- Practiced backlog prioritization.
+- Gained experience with Agile project planning.
+
+---
+
+# Conclusion
+
+This assignment provided hands-on experience with Jira Software and Agile practices. It improved understanding of Scrum workflows, backlog management, and user story organization used in real-world software development.
