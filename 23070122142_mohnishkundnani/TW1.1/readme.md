@@ -1,14 +1,19 @@
-# Assignment TW1.1 - Git Workflow & Collaboration
+# Assignment TW1.1 – Git Workflow & Collaboration
 
-## Name- Mohnish KUNDNANI
-## PRN-23070122142
-## Objective
+## Student Details
 
-To understand Git basics including repository creation, branching, committing changes, merging, resolving conflicts, and working with GitHub.
+- **Name:** Mohnish Kundnani
+- **PRN:** 23070122142
 
 ---
 
-## Task 1.1 - Initialize Git Repository
+## Objective
+
+Learn the fundamentals of Git by creating a repository, working with branches, committing changes, resolving merge conflicts, and collaborating using GitHub.
+
+---
+
+# Task 1.1 – Initialize Git Repository
 
 ### Commands
 
@@ -18,16 +23,16 @@ git add .
 git commit -m "Initial Commit"
 ```
 
-### Result
+### Output
 
-- Git repository initialized successfully.
-- Flask application committed to the main branch.
+- Repository initialized successfully.
+- Flask project committed to the main branch.
 
-![alt text](image-1.png)
+![Git Init](screenshots/image-1.png)
 
 ---
 
-## Task 1.2 - Create Feature Branch
+# Task 1.2 – Create Feature Branch
 
 ### Commands
 
@@ -38,28 +43,29 @@ git commit -m "Added authentication feature"
 git push -u origin feature/user-auth
 ```
 
-### Result
+### Output
 
-- Created a new feature branch.
-- Added authentication feature and pushed it to GitHub.
+- Created a feature branch.
+- Authentication feature pushed to GitHub.
 
-![Feature Branch](create-branch.png)
+![Feature Branch](screenshots/create-branch.png)
 
 ---
 
-## Task 1.3 - Merge Conflict
-
-The same line was modified in both branches to create a merge conflict.
+# Task 1.3 – Merge Branch
 
 ### Commands
 
 ```bash
 git checkout main
-git commit -m "Updated welcome message"
 git merge feature/user-auth
 ```
 
-After resolving the conflict:
+### Merge Conflict
+
+![Merge Conflict](screenshots/merging-1.png)
+
+### Conflict Resolved
 
 ```bash
 git add .
@@ -67,17 +73,11 @@ git commit -m "Resolved merge conflict"
 git push origin main
 ```
 
-### Merge Conflict
-
-![Merge Conflict](merging-1.png)
-
-### Merge Resolved
-
-![Merge Resolved](merging-2.png)
+![Merge Resolved](screenshots/merging-2.png)
 
 ---
 
-## Git Commands Used
+# Git Commands Used
 
 ```bash
 git init
@@ -91,16 +91,16 @@ git push
 
 ---
 
-## Learning Outcomes
+# Learning Outcomes
 
-- Initialized a Git repository.
+- Understood Git repository initialization.
 - Created and managed branches.
-- Committed and pushed changes.
-- Learned merge conflict resolution.
-- Worked with a remote GitHub repository.
+- Performed commits and pushes.
+- Resolved merge conflicts.
+- Practiced GitHub collaboration workflow.
 
 ---
 
-## Conclusion
+# Conclusion
 
-This assignment provided hands-on experience with Git version control, feature branching, merge conflict resolution, and GitHub collaboration.
+This assignment provided practical experience with Git version control, branch management, conflict resolution, and collaborative development using GitHub.
