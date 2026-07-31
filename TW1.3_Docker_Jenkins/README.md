@@ -29,4 +29,4 @@ This task covers containerizing a Flask web application with Docker and automati
 3. Executed build `#1` and verified `Finished: SUCCESS`.
 
 #### Build Console Output:
-![Jenkins Console Output](../ss/ss3t3.jpg)
+![Jenkins Console Output](../ss/ss3t3.png)
