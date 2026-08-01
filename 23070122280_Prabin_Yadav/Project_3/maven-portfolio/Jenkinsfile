@@ -1,0 +1,55 @@
+pipeline {
+    agent none
+
+    tools {
+        maven 'Maven'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            agent { label 'agent1' }
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Clean') {
+            agent { label 'agent1' }
+            steps {
+                sh 'mvn clean'
+            }
+        }
+
+        stage('Compile') {
+            agent { label 'agent2' }
+            steps {
+                sh 'mvn compile'
+            }
+        }
+
+        stage('Test') {
+            agent { label 'agent2' }
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            agent { label 'agent2' }
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Distributed Maven Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
