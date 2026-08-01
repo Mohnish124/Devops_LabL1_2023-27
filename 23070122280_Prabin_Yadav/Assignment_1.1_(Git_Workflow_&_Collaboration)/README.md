@@ -13,8 +13,8 @@ This repository demonstrates a basic Git workflow using a simple Python Flask "H
 - Committed the code to the `main` branch.
 
 ### Screenshot
+![Task 1.1](screenshots/Screenshot 2026-07-13 132330.png)
 
-![Task 1.1 - Initial Commit](screenshots/task1.1-initial-commit.png)
 
 ---
 
