@@ -13,7 +13,7 @@ This repository demonstrates a basic Git workflow using a simple Python Flask "H
 - Committed the code to the `main` branch.
 
 ### Screenshot
-https://github.com/Prabin-yadav/Devops-Lab-L1_2023-27/blob/Devops_LabL1_2023-27/23070122280_Prabin_Yadav/Assignment_1.1_(Git_Workflow_%26_Collaboration)/screenshots/Screenshot%202026-07-13%20132330.png
+![Task 1.1](screenshots/Screenshot 2026-07-13 20132330.png)
 
 
 ---
