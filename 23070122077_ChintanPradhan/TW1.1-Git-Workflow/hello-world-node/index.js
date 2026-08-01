@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+console.log('Authentication module initialized');
 
 app.get('/', (req, res) => {
   res.send('Hello World');
