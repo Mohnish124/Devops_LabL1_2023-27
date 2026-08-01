@@ -8,6 +8,7 @@ separate agent/slave nodes (`slave1`, `slave2`).
 - Registered two Jenkins agent nodes, `slave1` and `slave2`
 
 ![Maven project generated](./screenshots/01-maven-project-generated.png)
+![portfolio app created](./screenshots/01.1-portfolio-created.png)
 ![Both nodes online](./screenshots/02-both-nodes-online.png)
 
 ## Pipeline
