@@ -175,7 +175,14 @@ Project 4
 │   ├── Pipeline Success.png
 │   ├── Compile Agent.png
 │   ├── Test agent.png
-│   └── Build Success.png
+│   ├── Build Success.png
+│   ├── home.png
+│   ├── about.png
+│   ├── technical skills.png
+│   ├── featured projects.png
+│   ├── experience.png
+│   ├── certifications.png
+│   └── contact.png
 │
 └── Source Code
     ├── Jenkinsfile
@@ -223,14 +230,26 @@ The distributed Jenkins pipeline executed successfully.
 
 ## Screenshots
 
-The `Screenshots` directory contains evidence of:
+The `Screenshots` directory contains evidence of both the Jenkins distributed pipeline execution and the Maven-based Portfolio Website.
+
+### Jenkins Pipeline Screenshots
 
 1. Jenkins Dashboard
-2. Jenkins Controller and Agent Nodes
+2. Jenkins Agent Nodes (`compile-agent` and `test-agent`)
 3. Successful Distributed Pipeline
 4. Compile Stage running on `compile-agent`
 5. Test Stage running on `test-agent`
 6. Final Build Success
+
+### Portfolio Website Screenshots
+
+1. Home Page
+2. About Section
+3. Technical Skills Section
+4. Featured Projects Section
+5. Experience Section
+6. Certifications Section
+7. Contact Section
 
 ---
 
