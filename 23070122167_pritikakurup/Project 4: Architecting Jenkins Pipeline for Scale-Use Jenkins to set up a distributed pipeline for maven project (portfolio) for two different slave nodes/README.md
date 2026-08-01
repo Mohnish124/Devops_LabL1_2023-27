@@ -1,8 +1,12 @@
-# Project 4: Architecting Jenkins Pipeline for Scale-Use Jenkins to Set Up a Distributed Pipeline for Maven Project (Portfolio) for Two Different Slave Nodes
+# Project 4: Architecting Jenkins Pipeline for Scale
+
+## Distributed Jenkins Pipeline for Maven Portfolio Project Using Two Agent Nodes
 
 ## Objective
 
-The objective of this project is to design and implement a distributed Jenkins pipeline that compiles and tests a Maven-based Personal Portfolio Website using two different Jenkins slave nodes.
+The objective of this project is to design and implement a distributed Jenkins pipeline for a Maven-based Personal Portfolio Website using two different Jenkins agent nodes.
+
+The pipeline distributes different stages of the CI process across multiple Jenkins agents to demonstrate scalable build execution.
 
 ---
 
@@ -10,63 +14,247 @@ The objective of this project is to design and implement a distributed Jenkins p
 
 - Jenkins
 - Maven
-- Java JSP
+- Git
+- GitHub
+- Java/JSP
 - HTML5
 - CSS3
 - JavaScript
-- GitHub
+- Jenkins Pipeline
 
 ---
 
 ## Project Description
 
-A Maven-based Personal Portfolio Website was used as the sample project for demonstrating Jenkins distributed pipeline execution.
+A Maven-based Personal Portfolio Website was used to demonstrate distributed Continuous Integration using Jenkins.
 
-The pipeline was configured to:
+The Jenkins pipeline uses two separate agent nodes:
 
-- Compile the Maven project on **Slave Node 1**
-- Execute the testing stage on **Slave Node 2**
-- Complete the build successfully through the Jenkins Master node
+- **compile-agent** – Compiles and packages the Maven project.
+- **test-agent** – Executes the Maven testing stage.
 
----
-
-## Source Code
-
-The project includes:
-
-- `index.jsp`
-- `style.css`
-- `script.js`
-- `Jenkinsfile`
-- Maven command documentation
-- Pipeline documentation
+The Jenkins Controller manages and coordinates pipeline execution between both agents.
 
 ---
 
-## Folder Structure
+## Jenkins Architecture
+
+```text
+                 Jenkins Controller
+                        |
+              ---------------------
+              |                   |
+              v                   v
+        compile-agent         test-agent
+        Label: compile        Label: test
+              |                   |
+              v                   v
+       Maven Compilation       Maven Tests
+              |
+              v
+        Maven Packaging
+              |
+              v
+          BUILD SUCCESS
+```
+
+---
+
+## Jenkins Agent Configuration
+
+### Compile Agent
+
+- Node Name: `compile-agent`
+- Label: `compile`
+- Executors: `1`
+- Purpose: Maven compilation and packaging
+
+### Test Agent
+
+- Node Name: `test-agent`
+- Label: `test`
+- Executors: `1`
+- Purpose: Maven test execution
+
+Both agents were connected to the Jenkins Controller and used separate Jenkins workspaces.
+
+---
+
+## Pipeline Stages
+
+### Stage 1: Compile
+
+Executed on the agent with label:
+
+```text
+compile
+```
+
+Maven command:
+
+```bash
+mvn clean compile
+```
+
+### Stage 2: Test
+
+Executed on the agent with label:
+
+```text
+test
+```
+
+Maven command:
+
+```bash
+mvn test
+```
+
+### Stage 3: Package
+
+Executed on the compile agent.
+
+Maven command:
+
+```bash
+mvn package -DskipTests
+```
+
+This generates the deployable WAR package for the Maven web application.
+
+---
+
+## Pipeline Workflow
+
+```text
+GitHub Repository
+       |
+       v
+Jenkins Controller
+       |
+       v
+Checkout Source Code
+       |
+       v
+Compile Stage
+compile-agent
+       |
+       v
+mvn clean compile
+       |
+       v
+Test Stage
+test-agent
+       |
+       v
+mvn test
+       |
+       v
+Package Stage
+compile-agent
+       |
+       v
+mvn package -DskipTests
+       |
+       v
+BUILD SUCCESS
+```
+
+---
+
+## Source Code Structure
 
 ```text
 Project 4
 │
 ├── README.md
+│
 ├── Screenshots
+│   ├── Jenkins Dashboard.png
+│   ├── Jenkins Agents.png
+│   ├── Pipeline Success.png
+│   ├── Compile Agent.png
+│   ├── Test agent.png
+│   └── Build Success.png
+│
 └── Source Code
-    ├── index.jsp
-    ├── style.css
-    ├── script.js
     ├── Jenkinsfile
+    ├── pom.xml
     ├── Maven_Commands.md
-    └── Pipeline_Documentation.md
+    ├── Pipeline_Documentation.md
+    │
+    └── src
+        └── main
+            └── webapp
+                ├── index.jsp
+                ├── css
+                │   └── style.css
+                ├── js
+                │   └── script.js
+                ├── images
+                ├── assets
+                └── WEB-INF
+                    └── web.xml
 ```
 
 ---
 
-## Learning Outcome
+## Jenkinsfile
 
-This project enhanced my understanding of:
+The Jenkinsfile uses a Declarative Pipeline with `agent none`, allowing individual stages to execute on different Jenkins agents.
 
+The Compile stage runs on the `compile` agent, the Test stage runs on the `test` agent, and the Package stage returns to the `compile` agent.
+
+This demonstrates distributed pipeline execution across multiple Jenkins nodes.
+
+---
+
+## Build Result
+
+The distributed Jenkins pipeline executed successfully.
+
+- Source code checkout: **SUCCESS**
+- Maven Compile: **SUCCESS**
+- Maven Test: **SUCCESS**
+- Maven Package: **SUCCESS**
+- Final Pipeline Status: **BUILD SUCCESS**
+
+---
+
+## Screenshots
+
+The `Screenshots` directory contains evidence of:
+
+1. Jenkins Dashboard
+2. Jenkins Controller and Agent Nodes
+3. Successful Distributed Pipeline
+4. Compile Stage running on `compile-agent`
+5. Test Stage running on `test-agent`
+6. Final Build Success
+
+---
+
+## Learning Outcomes
+
+This project provided practical experience with:
+
+- Jenkins Controller-Agent Architecture
 - Distributed Jenkins Pipelines
-- Master-Agent Architecture
+- Jenkins Declarative Pipeline
+- Jenkins Agent Labels
 - Maven Build Automation
-- Continuous Integration (CI)
+- GitHub Integration with Jenkins
+- Continuous Integration
+- Distributed Build Execution
 - Pipeline Scalability
+- CI Pipeline Troubleshooting
+
+---
+
+## Conclusion
+
+A distributed Jenkins CI pipeline was successfully implemented for a Maven-based Personal Portfolio Website.
+
+The compilation and packaging stages were executed on the `compile-agent`, while testing was executed independently on the `test-agent`. Jenkins coordinated the complete workflow and successfully completed the Maven build.
+
+This project demonstrates how Jenkins can distribute CI workloads across multiple agent nodes to improve scalability and separate build responsibilities.
