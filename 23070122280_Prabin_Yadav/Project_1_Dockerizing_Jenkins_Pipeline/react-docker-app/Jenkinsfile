@@ -16,7 +16,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                dir('23070122280_Prabin_Yadav/Project_1_Dockerizing_Jenkins_Pipeline/react-docker-app') {
+                    sh 'docker build -t $IMAGE_NAME .'
+                }
             }
         }
 
