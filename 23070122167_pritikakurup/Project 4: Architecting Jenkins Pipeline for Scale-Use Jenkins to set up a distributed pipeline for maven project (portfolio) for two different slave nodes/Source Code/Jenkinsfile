@@ -4,7 +4,7 @@ pipeline {
     stages {
 
         stage('Compile') {
-            agent { label 'slave1' }
+            agent { label 'compile' }
 
             steps {
                 sh 'mvn clean compile'
@@ -12,17 +12,29 @@ pipeline {
         }
 
         stage('Test') {
-            agent { label 'slave2' }
+            agent { label 'test' }
 
             steps {
                 sh 'mvn test'
             }
         }
+
+        stage('Package') {
+            agent { label 'compile' }
+
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
     }
 
     post {
-        always {
-            echo 'Pipeline execution completed successfully.'
+        success {
+            echo 'Portfolio pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Portfolio pipeline failed.'
         }
     }
 }
