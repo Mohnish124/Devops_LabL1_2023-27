@@ -3,10 +3,13 @@ pipeline {
 
     stages {
 
-        stage('Checkout Source Code') {
+        stage('Check Docker') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/pratiklakra38/devops-lab.git'
+                sh 'whoami'
+                sh 'pwd'    
+                sh 'which docker'
+                sh 'docker version'
+                sh 'docker ps'
             }
         }
 
@@ -22,17 +25,5 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                sh 'docker tag hello-flask:latest YOUR_DOCKERHUB_USERNAME/hello-flask:latest'
-                sh 'docker push YOUR_DOCKERHUB_USERNAME/hello-flask:latest'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline executed successfully!'
-        }
     }
 }
