@@ -2,7 +2,7 @@ pipeline {
     agent none
 
     tools {
-    maven 'Maven-3.9'
+        maven 'Maven-3.9'
     }
 
     stages {
@@ -17,28 +17,36 @@ pipeline {
         stage('Clean') {
             agent { label 'agent1' }
             steps {
-                sh 'mvn clean'
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn clean'
+                }
             }
         }
 
         stage('Compile') {
             agent { label 'agent2' }
             steps {
-                sh 'mvn compile'
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn compile'
+                }
             }
         }
 
         stage('Test') {
             agent { label 'agent2' }
             steps {
-                sh 'mvn test'
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('Package') {
             agent { label 'agent2' }
             steps {
-                sh 'mvn package'
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn package'
+                }
             }
         }
     }
