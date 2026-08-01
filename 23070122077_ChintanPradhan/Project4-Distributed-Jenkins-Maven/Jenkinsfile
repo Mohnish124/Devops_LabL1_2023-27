@@ -1,0 +1,27 @@
+pipeline {
+    agent none
+    stages {
+        stage('Checkout') {
+            agent { label 'slave1' }
+            steps {
+                git branch: '23070122077_ChintanPradhan',
+                    url: 'https://github.com/Chintnn/Devops-Lab-L1_2023-27.git'
+                stash includes: '23070122077_ChintanPradhan/Project4-Distributed-Jenkins-Maven/portfolio/**', name: 'source'
+            }
+        }
+        stage('Build on Slave 1') {
+            agent { label 'slave1' }
+            steps {
+                unstash 'source'
+                sh 'mvn -f 23070122077_ChintanPradhan/Project4-Distributed-Jenkins-Maven/portfolio/pom.xml clean compile'
+            }
+        }
+        stage('Test on Slave 2') {
+            agent { label 'slave2' }
+            steps {
+                unstash 'source'
+                sh 'mvn -f 23070122077_ChintanPradhan/Project4-Distributed-Jenkins-Maven/portfolio/pom.xml test'
+            }
+        }
+    }
+}
