@@ -1,0 +1,10 @@
+Aug 02, 2026 9:10:00 PM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: agent2
+Aug 02, 2026 9:10:00 PM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3355.v388858a_47b_33
+Aug 02, 2026 9:10:00 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using D:\SYMBIOSIS UNIVERSITY\Final Year\Seventh Semester\DevOps +Lab\Devops-Lab-L1_2023-27\23070122141_mohammed_alhajj\Project3_Jenkins_Pipeline\agent2\remoting as a remoting work directory
+Aug 02, 2026 9:10:00 PM hudson.remoting.Launcher$CuiListener status
+INFO: WebSocket connection open
+Aug 02, 2026 9:10:00 PM hudson.remoting.Launcher$CuiListener status
+INFO: Connected
