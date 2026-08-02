@@ -5,25 +5,31 @@ pipeline {
 
         stage('Build') {
             agent { label 'agent1' }
+
             steps {
-                echo 'Building on agent1...'
-                bat 'mvn clean compile'
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn clean compile'
+                }
             }
         }
 
         stage('Test') {
             agent { label 'agent2' }
+
             steps {
-                echo 'Testing on agent2...'
-                bat 'mvn test'
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn test'
+                }
             }
         }
 
         stage('Package') {
             agent { label 'agent1' }
+
             steps {
-                echo 'Packaging application...'
-                bat 'mvn package'
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn package'
+                }
             }
         }
     }
