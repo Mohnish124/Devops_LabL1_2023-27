@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Project</title>
+</head>
+<body>
+    <h1>Hello from Frontend</h1>
+    <p id="msg">Loading...</p>
+
+    <script>
+        fetch("http://backend-service:5000/")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("msg").innerHTML =
+                    "Backend says:<br>" + data.message + "<br>Redis Status:<br>" + data.redis;
+            })
+            .catch(() => {
+                document.getElementById("msg").innerHTML = "Backend is unavailable";
+            });
+    </script>
+</body>
+</html>
