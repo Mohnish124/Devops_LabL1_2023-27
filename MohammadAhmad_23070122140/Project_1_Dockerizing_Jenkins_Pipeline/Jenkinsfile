@@ -1,0 +1,86 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "flask-pipeline-app"
+        CONTAINER_NAME = "flask-test-container"
+        PORT = "5000"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo '=== Stage 1: Checkout Source Code ==='
+                checkout scm
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo '=== Stage 2: Building Docker Image ==='
+                sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -t ${IMAGE_NAME}:latest .'
+                sh 'docker images | grep ${IMAGE_NAME}'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                echo '=== Stage 3: Deploying Container for Testing ==='
+                sh '''
+                    if [ $(docker ps -a -q -f name=${CONTAINER_NAME}) ]; then
+                        echo "Cleaning up existing container..."
+                        docker rm -f ${CONTAINER_NAME}
+                    fi
+                    docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}:${BUILD_NUMBER}
+                    sleep 5
+                    docker ps | grep ${CONTAINER_NAME}
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo '=== Stage 4: Executing Automated Container Health Verification ==='
+                sh '''
+                    echo "Testing / route endpoint..."
+                    curl -s -f http://localhost:${PORT}/ | grep "status"
+                    
+                    echo "Testing /health route endpoint..."
+                    HEALTH_CHECK=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${PORT}/health)
+                    if [ "$HEALTH_CHECK" -eq 200 ]; then
+                        echo "HEALTH CHECK PASSED: HTTP 200 OK"
+                    else
+                        echo "HEALTH CHECK FAILED: HTTP $HEALTH_CHECK"
+                        exit 1
+                    fi
+                '''
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                echo '=== Stage 5: Environment Cleanup ==='
+                sh '''
+                    echo "Stopping test container..."
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
+                    echo "Test environment cleaned up successfully."
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            echo '=== Pipeline Execution Completed ==='
+        }
+        success {
+            echo 'SUCCESS: Dockerized Jenkins Pipeline executed cleanly!'
+        }
+        failure {
+            echo 'FAILURE: Pipeline execution encountered an error.'
+        }
+    }
+}

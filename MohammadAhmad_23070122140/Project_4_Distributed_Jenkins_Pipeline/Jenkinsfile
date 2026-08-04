@@ -1,0 +1,65 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Checkout Source Code') {
+            agent { label 'master' }
+            steps {
+                echo '=== Master Node: Initializing Pipeline Checkout ==='
+                checkout scm
+                dir('Project_4_Distributed_Jenkins_Pipeline/portfolio') {
+                    sh 'pwd'
+                    sh 'ls -la'
+                }
+            }
+        }
+
+        stage('Compile on Slave Node 1') {
+            agent { label 'slave-node-1' }
+            steps {
+                echo '=== Slave Node 1: Executing Maven Compilation Stage ==='
+                dir('Project_4_Distributed_Jenkins_Pipeline/portfolio') {
+                    sh 'echo "Node Agent Label: slave-node-1"'
+                    sh 'echo "Executing Java/Maven Source Code Compilation..."'
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Test on Slave Node 2') {
+            agent { label 'slave-node-2' }
+            steps {
+                echo '=== Slave Node 2: Executing JUnit Test Automation Stage ==='
+                dir('Project_4_Distributed_Jenkins_Pipeline/portfolio') {
+                    sh 'echo "Node Agent Label: slave-node-2"'
+                    sh 'echo "Executing Automated JUnit 5 Unit Tests..."'
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            agent { label 'master' }
+            steps {
+                echo '=== Master Node: Packaging & Archiving Build Artifacts ==='
+                dir('Project_4_Distributed_Jenkins_Pipeline/portfolio') {
+                    sh 'mvn package -DskipTests'
+                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+                    echo "Build Artifact target/*.jar successfully archived."
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo '=== Distributed Jenkins Pipeline Execution Finished ==='
+        }
+        success {
+            echo 'SUCCESS: Distributed Build Pipeline completed successfully across slave-node-1 and slave-node-2!'
+        }
+        failure {
+            echo 'FAILURE: Distributed Pipeline stage failed. Inspect node logs for details.'
+        }
+    }
+}
