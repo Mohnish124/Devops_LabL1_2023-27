@@ -19,7 +19,7 @@ pipeline {
                 // Building the maven portfolio project
                 // Note: For Windows slave nodes, use 'bat' instead of 'sh' (e.g., bat 'mvn clean compile')
                 echo "Compiling the Maven project..."
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
         
@@ -27,7 +27,7 @@ pipeline {
             agent { label 'slave-1' }
             steps {
                 echo "Running Unit Tests on Slave-1..."
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
@@ -46,7 +46,7 @@ pipeline {
                 checkout scm
                 
                 // Package the application (skip tests as they were done on slave-1)
-                sh 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests'
             }
             post {
                 success {
@@ -61,7 +61,7 @@ pipeline {
             steps {
                 echo "Deploying portfolio to staging server from Slave-2..."
                 // Simulated deployment step
-                sh 'echo "Deployment successful on distributed node!"'
+                bat 'echo "Deployment successful on distributed node!"'
             }
         }
     }
