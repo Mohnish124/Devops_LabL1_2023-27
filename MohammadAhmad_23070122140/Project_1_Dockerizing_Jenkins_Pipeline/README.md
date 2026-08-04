@@ -37,8 +37,11 @@ Project_1_Dockerizing_Jenkins_Pipeline/
 ├── Dockerfile              # Container spec with HEALTHCHECK instruction
 ├── Jenkinsfile             # Declarative pipeline script (5 stages)
 ├── README.md               # Pipeline architecture & execution guide
-└── screenshots/            # Verification screenshot requirements
-    └── SCREENSHOTS_REQUIRED.md
+└── screenshots/            # Verified execution screenshots
+    ├── SCREENSHOTS_REQUIRED.md
+    ├── P1_01_jenkins_pipeline_stage_view.png
+    ├── P1_02_jenkins_pipeline_console_success.png
+    └── P1_03_flask_health_browser_output.png
 ```
 
 ---
@@ -105,18 +108,15 @@ pipeline {
 Started by user Mohammad Ahmad
 === Stage 1: Checkout Source Code ===
 + pwd
-/var/jenkins_home/workspace/Dockerized-Flask-Pipeline
+/var/jenkins_home/workspace/Dockerizing-Jenkins-Pipeline
 === Stage 2: Building Docker Image ===
-Successfully tagged flask-pipeline-app:1
+Successfully tagged dockerizing-jenkins-pipeline:latest
 === Stage 3: Deploying Container for Testing ===
-a1b2c3d4e5f6g7h8
+Container started successfully
 === Stage 4: Executing Automated Container Health Verification ===
-{"app_name":"Flask CI/CD Pipeline App","author":"Mohammad Ahmad (23070122140)","pipeline_stage":"Production Containerized Build","status":"success","version":"2.0.0"}
-HEALTH CHECK PASSED: HTTP 200 OK
+Health check passed
 === Stage 5: Environment Cleanup ===
-flask-test-container
-Test environment cleaned up successfully.
-SUCCESS: Dockerized Jenkins Pipeline executed cleanly!
+Stopping container... Removing container...
 Finished: SUCCESS
 ```
 
@@ -141,13 +141,21 @@ Finished: SUCCESS
 
 ## 9. Screenshots Section
 
-All required visual proofs are detailed in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
+All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
 
-Screenshots to be included in `screenshots/`:
-- `P1_SS_01_jenkinsfile_editor.png`
-- `P1_SS_03_pipeline_stage_view.png`
-- `P1_SS_05_health_check_console.png`
-- `P1_SS_08_browser_verification.png`
+### Verified Execution Screenshots:
+
+#### 1. Jenkins Pipeline Stage View (5 Stages Green)
+![Jenkins Pipeline Stage View](screenshots/P1_01_jenkins_pipeline_stage_view.png)
+*Figure 1: Jenkins Stage View UI showing all 5 stages (`Checkout`, `Build Docker Image`, `Run Container`, `Test`, `Cleanup`) executing successfully (Green checkmarks).*
+
+#### 2. Pipeline Build Console Output (Finished SUCCESS)
+![Pipeline Console Output Success](screenshots/P1_02_jenkins_pipeline_console_success.png)
+*Figure 2: Jenkins Build #1 console output log showing step execution across stages, container deployment, health check assertion, cleanup, and `Finished: SUCCESS`.*
+
+#### 3. Flask Health Endpoint Browser Access (`/health`)
+![Flask Health Check Endpoint](screenshots/P1_03_flask_health_browser_output.png)
+*Figure 3: Web browser displaying `http://localhost:5000/health` showing healthy API JSON payload (`{ "status": "healthy" }`).*
 
 ---
 
