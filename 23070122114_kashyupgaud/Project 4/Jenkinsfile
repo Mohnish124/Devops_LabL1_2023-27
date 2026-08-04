@@ -1,0 +1,68 @@
+pipeline {
+    agent none
+
+    // Define tools configured in Jenkins Global Tool Configuration
+    tools {
+        maven 'Maven-3.8' 
+        jdk 'Java-11'
+    }
+
+    stages {
+        stage('Checkout & Build') {
+            // Distribute this stage to the first slave node
+            agent { label 'slave-1' }
+            steps {
+                echo "Running Checkout and Build on Slave-1..."
+                // Checkout code from source control
+                checkout scm
+                
+                // Building the maven portfolio project
+                // Note: For Windows slave nodes, use 'bat' instead of 'sh' (e.g., bat 'mvn clean compile')
+                echo "Compiling the Maven project..."
+                sh 'mvn clean compile'
+            }
+        }
+        
+        stage('Unit Testing') {
+            agent { label 'slave-1' }
+            steps {
+                echo "Running Unit Tests on Slave-1..."
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    // Archive JUnit test results
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        
+        stage('Package & Archive Artifacts') {
+            // Distribute this stage to the second slave node
+            agent { label 'slave-2' }
+            steps {
+                echo "Running Packaging on Slave-2..."
+                // Since this is a different node, we need to checkout the code again
+                checkout scm
+                
+                // Package the application (skip tests as they were done on slave-1)
+                sh 'mvn package -DskipTests'
+            }
+            post {
+                success {
+                    // Archive the built artifacts (jar/war files)
+                    archiveArtifacts artifacts: 'target/*.jar, target/*.war', fingerprint: true, allowEmptyArchive: true
+                }
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            agent { label 'slave-2' }
+            steps {
+                echo "Deploying portfolio to staging server from Slave-2..."
+                // Simulated deployment step
+                sh 'echo "Deployment successful on distributed node!"'
+            }
+        }
+    }
+}
