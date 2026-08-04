@@ -37,8 +37,12 @@ Assignment_TW1.3_Docker_Jenkins/
 │   └── requirements.txt     # Python dependencies
 ├── Dockerfile              # Docker container build specification
 ├── README.md               # Complete Docker & Jenkins Freestyle guide
-└── screenshots/            # Verification screenshot requirements
-    └── SCREENSHOTS_REQUIRED.md
+└── screenshots/            # Verified execution screenshots
+    ├── SCREENSHOTS_REQUIRED.md
+    ├── TW1.3_01_docker_run_jenkins_ps.png
+    ├── TW1.3_02_jenkins_dashboard_ui.png
+    ├── TW1.3_03_jenkins_freestyle_console_output.png
+    └── TW1.3_04_jenkins_plugin_management.png
 ```
 
 ---
@@ -157,14 +161,25 @@ Finished: SUCCESS
 
 ## 9. Screenshots Section
 
-All required visual proofs are detailed in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
+All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
 
-Place screenshot files inside `screenshots/` directory:
-- `TW1.3_SS_02_docker_build.png`
-- `TW1.3_SS_05_docker_ps.png`
-- `TW1.3_SS_06_browser_5000.png`
-- `TW1.3_SS_08_jenkins_freestyle_config.png`
-- `TW1.3_SS_10_jenkins_console_output.png`
+### Verified Execution Screenshots:
+
+#### 1. Docker Pull & Jenkins Container Execution
+![Docker Run Jenkins Container](./screenshots/TW1.3_01_docker_run_jenkins_ps.png)
+*Figure 1: Terminal output showing `docker pull jenkins/jenkins:lts`, volume creation, `docker run -d` on port 8080, `docker ps`, and initial admin secret extraction.*
+
+#### 2. Jenkins Server Dashboard UI
+![Jenkins Main Dashboard](./screenshots/TW1.3_02_jenkins_dashboard_ui.png)
+*Figure 2: Web browser rendering `http://localhost:8080` displaying the active Jenkins main dashboard UI ("Welcome to Jenkins!").*
+
+#### 3. Jenkins Freestyle Build Console Output
+![Jenkins Build Console Output](./screenshots/TW1.3_03_jenkins_freestyle_console_output.png)
+*Figure 3: Jenkins console output log for Build `#1` (`Started by user Mohammad Ahmad`) showing Git repository cloning, workspace setup, and build execution.*
+
+#### 4. Jenkins Plugin Configuration
+![Jenkins Plugin Management](./screenshots/TW1.3_04_jenkins_plugin_management.png)
+*Figure 4: Jenkins UI showing active Git plugin installation in Plugin Manager.*
 
 ---
 
