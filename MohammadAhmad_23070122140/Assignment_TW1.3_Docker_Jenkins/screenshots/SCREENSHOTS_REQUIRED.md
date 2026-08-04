@@ -1,20 +1,14 @@
-# Screenshot Checklist - Assignment TW1.3: Docker & Jenkins Freestyle Job
+# Screenshot Checklist - Assignment TW1.3: Docker & Jenkins Freestyle (Optimized)
 
-This document lists all required screenshot artifacts to verify **Assignment TW1.3: Dockerizing Flask Application & Jenkins Freestyle Setup**.
+This document lists the **4 essential execution screenshots** required to verify **Assignment TW1.3**.
 
 ---
 
-## Required Screenshots List
+## Required Execution Proof Screenshots
 
-| Screenshot ID | Title | Description | Expected Visual Evidence |
+| Screenshot ID | Filename | Content / What it Contains | Why it is Necessary |
 | :--- | :--- | :--- | :--- |
-| `TW1.3_SS_01` | **Dockerfile Inspection** | Code editor displaying `Dockerfile` content using `python:3.11-slim` base image. | Editor view showing WORKDIR, COPY, RUN, EXPOSE 5000, CMD. |
-| `TW1.3_SS_02` | **Docker Image Build** | Terminal execution of `docker build -t hello-flask-app:v1 .` showing layer build steps. | Terminal log ending with `Successfully tagged hello-flask-app:v1`. |
-| `TW1.3_SS_03` | **Docker Image List** | Terminal execution of `docker images` showing `hello-flask-app:v1`. | Output table displaying image repository, tag, ID, and size. |
-| `TW1.3_SS_04` | **Docker Container Execution** | Terminal command `docker run -d -p 5000:5000 --name flask-container hello-flask-app:v1`. | Output printing the 64-character container ID. |
-| `TW1.3_SS_05` | **Running Container Verification** | Terminal execution of `docker ps` confirming active status of container. | Container status `Up X seconds`, mapping `0.0.0.0:5000->5000/tcp`. |
-| `TW1.3_SS_06` | **Browser Verification** | Web browser displaying `http://localhost:5000` JSON response. | Browser rendering `{ "status": "success", "message": "Hello World...", ... }`. |
-| `TW1.3_SS_07` | **Jenkins Dashboard** | Jenkins Web UI main dashboard (`http://localhost:8080`). | Dashboard displaying Freestyle Project job named `Hello-Flask-Freestyle`. |
-| `TW1.3_SS_08` | **Jenkins Job UI Configuration** | Job configuration screen showing Source Code Management (Git repository URL & branch). | SCM configuration targeting GitHub repository. |
-| `TW1.3_SS_09` | **Jenkins Build Step Setup** | Configuration UI showing Execute Shell build step (`pwd`, `ls -la`, Docker build/run). | Execute Shell text area displaying target shell commands. |
-| `TW1.3_SS_10` | **Jenkins Build Execution & Console Output** | Console output log from Jenkins build `#1` showing shell output, `pwd`, file listing, and build status. | Console log ending with `Finished: SUCCESS` and blue ball status icon. |
+| `TW1.3_SS_01` | `TW1.3_01_docker_build_run_ps.png` | Terminal window showing `docker build -t hello-flask-app:v1 .`, `docker run -d ...`, and `docker ps`. | Proves Docker CLI container image compilation and container launch. |
+| `TW1.3_SS_02` | `TW1.3_02_flask_browser_output.png` | Web browser rendering `http://localhost:5000` showing active Flask JSON response. | Proves containerized application execution and network port mapping. |
+| `TW1.3_SS_03` | `TW1.3_03_jenkins_freestyle_config.png` | Jenkins UI job configuration screen showing Git SCM and Execute Shell build step (`pwd`, `ls -la`, `docker build`). | Proves Jenkins Freestyle job UI setup and build commands configuration. |
+| `TW1.3_SS_04` | `TW1.3_04_jenkins_freestyle_success_console.png` | Jenkins build console output log showing workspace files listing and ending with `Finished: SUCCESS`. | Proves successful Jenkins Freestyle build execution. |

@@ -1,18 +1,14 @@
-# Screenshot Checklist - Assignment TW1.2: Jira Project Management
+# Screenshot Checklist - Assignment TW1.2: Jira Project (Optimized)
 
-This document details the required screenshot artifacts to verify the completion of **Assignment TW1.2: Jira Project Setup and Issue Management**.
+This document lists the **4 essential execution screenshots** required to verify **Assignment TW1.2**.
 
 ---
 
-## Required Screenshots List
+## Required Execution Proof Screenshots
 
-| Screenshot ID | Title | Description | Expected Visual Evidence |
+| Screenshot ID | Filename | Content / What it Contains | Why it is Necessary |
 | :--- | :--- | :--- | :--- |
-| `TW1.2_SS_01` | **Jira Project Creation** | Project creation screen displaying project name `Hello World Flask` and project type `Scrum`. | Jira UI showing active project with Project Key `HWF`. |
-| `TW1.2_SS_02` | **Jira Backlog View** | Project backlog view listing all created issues (Story, Task, Bug). | Backlog view containing `HWF-1`, `HWF-2`, and `HWF-3`. |
-| `TW1.2_SS_03` | **Story Creation (`HWF-1`)** | Detailed issue view for User Story: *Implement User Authentication Feature*. | Issue detail modal with Story icon, description, and acceptance criteria. |
-| `TW1.2_SS_04` | **Task Creation (`HWF-2`)** | Detailed issue view for Task: *Setup Flask Environment*. | Issue detail modal with Task icon and environment setup details. |
-| `TW1.2_SS_05` | **Bug Creation (`HWF-3`)** | Detailed issue view for Bug: *Login Page Displays Error*. | Issue detail modal with Bug icon, steps to reproduce, and severity. |
-| `TW1.2_SS_06` | **Active Sprint Board (To Do)** | Scrum Board view showing all 3 issues located under the `TO DO` column. | Scrum board displaying `HWF-1`, `HWF-2`, `HWF-3` cards in `TO DO`. |
-| `TW1.2_SS_07` | **Issue Transition (In Progress)** | Scrum Board view demonstrating drag-and-drop or status change of `HWF-2 (Setup Flask Environment)` from `TO DO` to `IN PROGRESS`. | Scrum board showing `HWF-2` card positioned under `IN PROGRESS` column. |
-| `TW1.2_SS_08` | **Issue Completion (Done)** | Scrum Board showing completed task `HWF-2` moved to `DONE` column. | Scrum board displaying card in green `DONE` status column. |
+| `TW1.2_SS_01` | `TW1.2_01_jira_backlog_issues.png` | Jira Backlog view displaying created Story (`HWF-1`), Task (`HWF-2`), and Bug (`HWF-3`). | Proves Scrum project creation (`HWF`) and issue generation. |
+| `TW1.2_SS_02` | `TW1.2_02_scrum_board_todo.png` | Scrum Board initial view with all issues positioned under `TO DO` column. | Proves initial board status state prior to sprint work. |
+| `TW1.2_SS_03` | `TW1.2_03_scrum_board_in_progress.png` | Scrum Board view showing `HWF-2 (Setup Flask Environment)` moved to `IN PROGRESS`. | Proves status transition execution (`To Do` -> `In Progress`). |
+| `TW1.2_SS_04` | `TW1.2_04_scrum_board_done.png` | Scrum Board view showing completed task `HWF-2` moved to `DONE` column. | Proves task completion and workflow lifecycle resolution. |

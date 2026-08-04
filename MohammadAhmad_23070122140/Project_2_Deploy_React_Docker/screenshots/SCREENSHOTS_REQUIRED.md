@@ -1,20 +1,14 @@
-# Screenshot Checklist - Project 2: Deploy React Application using Docker
+# Screenshot Checklist - Project 2: Deploy React Application using Docker (Optimized)
 
-This document details all required screenshot proof for **Project 2: Deploy React Application using Docker**.
+This document lists the **4 essential execution screenshots** required to verify **Project 2**.
 
 ---
 
-## Required Screenshots List
+## Required Execution Proof Screenshots
 
-| Screenshot ID | Title | Description | Expected Visual Evidence |
+| Screenshot ID | Filename | Content / What it Contains | Why it is Necessary |
 | :--- | :--- | :--- | :--- |
-| `P2_SS_01` | **React Source Code View** | Code editor snippet showing Vite + React source files (`App.jsx`, `package.json`). | Editor displaying modern React SPA code. |
-| `P2_SS_02` | **Multi-Stage Dockerfile View** | Code editor showing multi-stage `Dockerfile` (`builder` stage Node 18 -> `runner` stage Nginx Alpine). | Complete Dockerfile showing multi-stage configuration. |
-| `P2_SS_03` | **Nginx Configuration File** | Code editor displaying `nginx.conf` (`try_files $uri /index.html;` routing fallback). | Nginx configuration snippet. |
-| `P2_SS_04` | **Docker Multi-Stage Build Execution** | Terminal execution of `docker build -t react-app-nginx:latest .` showing stage 1 compilation and stage 2 Nginx setup. | Terminal logs showing multi-stage build progress. |
-| `P2_SS_05` | **Docker Image Inspection (`docker images`)** | Terminal execution of `docker images` showing `react-app-nginx` image size (~25MB optimized Nginx image). | Image size optimization output. |
-| `P2_SS_06` | **Docker Container Execution (`docker run`)** | Terminal execution of `docker run -d -p 8080:80 --name react-app-container react-app-nginx:latest`. | Output displaying container startup ID. |
-| `P2_SS_07` | **Docker Active Container Inspection (`docker ps`)** | Terminal execution of `docker ps` confirming active container on port `0.0.0.0:8080->80/tcp`. | Container status `Up X minutes`. |
-| `P2_SS_08` | **Docker Compose Execution** | Terminal execution of `docker-compose up -d --build` showing service creation. | Terminal confirmation of Docker Compose stack creation. |
-| `P2_SS_09` | **Browser Access (React SPA UI)** | Web browser rendering `http://localhost:8080` displaying the dark-mode React DevOps Portfolio dashboard. | Browser screenshot showcasing rich React UI, student metadata, and interactive metrics. |
-| `P2_SS_10` | **Nginx Access & Error Logs** | Terminal execution of `docker logs react-app-container` showing HTTP GET requests returned with `200 OK`. | Nginx access log lines. |
+| `P2_SS_01` | `P2_01_multistage_docker_build_and_images.png` | Terminal showing `docker build -t react-app-nginx:latest .` logs and `docker images` showing ~25MB image size. | Proves multi-stage Docker build compilation and image optimization. |
+| `P2_SS_02` | `P2_02_docker_run_and_ps.png` | Terminal showing `docker run -d -p 8080:80 ...` or `docker-compose up -d` and `docker ps` confirming container on port 8080. | Proves active container deployment state. |
+| `P2_SS_03` | `P2_03_react_browser_portfolio_ui.png` | Web browser rendering `http://localhost:8080` displaying the dark-mode React DevOps Portfolio UI dashboard. | Proves successful React SPA deployment and browser rendering. |
+| `P2_SS_04` | `P2_04_nginx_access_logs.png` | Terminal output of `docker logs react-app-container` showing HTTP GET requests returning `200 OK` from Nginx server. | Proves Nginx web server handling client requests. |

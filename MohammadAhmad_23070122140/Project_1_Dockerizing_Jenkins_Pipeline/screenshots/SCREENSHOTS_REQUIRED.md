@@ -1,19 +1,14 @@
-# Screenshot Checklist - Project 1: Dockerizing Jenkins Pipeline
+# Screenshot Checklist - Project 1: Dockerizing Jenkins Pipeline (Optimized)
 
-This document details all required screenshot proof for **Project 1: Dockerizing Jenkins Pipeline**.
+This document lists the **4 essential execution screenshots** required to verify **Project 1**.
 
 ---
 
-## Required Screenshots List
+## Required Execution Proof Screenshots
 
-| Screenshot ID | Title | Description | Expected Visual Evidence |
+| Screenshot ID | Filename | Content / What it Contains | Why it is Necessary |
 | :--- | :--- | :--- | :--- |
-| `P1_SS_01` | **Jenkinsfile Inspection** | Code editor view showing the Declarative Pipeline stages (`Checkout`, `Build Docker Image`, `Run Container`, `Test`, `Cleanup`). | Complete Groovy Jenkinsfile code snippet in editor. |
-| `P1_SS_02` | **Jenkins Pipeline Job Configuration** | Job configuration screen showing Pipeline script from SCM pointing to `Jenkinsfile`. | Jenkins UI showing Pipeline SCM Git repository and script path. |
-| `P1_SS_03` | **Pipeline Execution Stage View** | Jenkins Stage View UI showing green status boxes across all 5 pipeline stages. | Stage View UI: Checkout -> Build -> Run -> Test -> Cleanup (All Green). |
-| `P1_SS_04` | **Build Stage Console Output** | Jenkins console log showing `docker build -t flask-pipeline-app...` execution. | Build logs displaying Docker layer building and tagging. |
-| `P1_SS_05` | **Container Execution & Test Stage Logs** | Jenkins console log showing `curl -s -f http://localhost:5000/` and HTTP 200 health check verification. | Console output confirming `HEALTH CHECK PASSED: HTTP 200 OK`. |
-| `P1_SS_06` | **Cleanup Stage Logs** | Console output log demonstrating container stop and removal (`docker stop`, `docker rm`). | Log messages confirming test container cleanup. |
-| `P1_SS_07` | **Docker Environment State (`ps` & `images`)** | Terminal execution of `docker images` and `docker ps` showing pipeline artifacts. | Output displaying created Docker images and clean container status. |
-| `P1_SS_08` | **Browser Verification** | Web browser accessing `http://localhost:5000` showing active Flask app API response. | Browser displaying `{ "status": "success", "app_name": "Flask CI/CD...", ... }`. |
-| `P1_SS_09` | **Successful Build Status (Blue Ball)** | Jenkins project overview page showing Build `#1` completed successfully with duration and trend graph. | Project UI displaying successful build badge. |
+| `P1_SS_01` | `P1_01_jenkins_pipeline_stage_view.png` | Jenkins Stage View UI showing green status boxes across all 5 stages (`Checkout` -> `Build` -> `Run` -> `Test` -> `Cleanup`). | Proves complete Declarative Pipeline execution. |
+| `P1_SS_02` | `P1_02_jenkins_pipeline_console_success.png` | Jenkins console log showing HTTP health test output (`HEALTH CHECK PASSED: HTTP 200 OK`) and `Finished: SUCCESS`. | Proves automated testing phase and build success. |
+| `P1_SS_03` | `P1_03_docker_state_and_cleanup.png` | Terminal output showing `docker ps` and container cleanup logs (`docker stop` / `docker rm`). | Proves test container cleanup and host environment hygiene. |
+| `P1_SS_04` | `P1_04_flask_health_browser_output.png` | Web browser displaying `http://localhost:5000/health` showing healthy API JSON payload. | Proves Flask application deployment verification. |
