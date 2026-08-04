@@ -39,8 +39,11 @@ Project_4_Distributed_Jenkins_Pipeline/
 │       └── test/java/com/devops/portfolio/PortfolioAppTest.java
 ├── Jenkinsfile             # Distributed Pipeline script allocating node labels
 ├── README.md               # Architecture documentation & execution guide
-└── screenshots/            # Verification screenshot requirements
-    └── SCREENSHOTS_REQUIRED.md
+└── screenshots/            # Verified execution screenshots
+    ├── SCREENSHOTS_REQUIRED.md
+    ├── P4_01_local_maven_build_success.png
+    ├── P4_02_jenkins_nodes_and_stage_view.png
+    └── P4_03_slave_nodes_console_and_artifact.png
 ```
 
 ---
@@ -162,14 +165,21 @@ Finished: SUCCESS
 
 ## 9. Screenshots Section
 
-All required visual proofs are detailed in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
+All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
 
-Screenshots to be placed in `screenshots/`:
-- `P4_SS_01_jenkins_nodes_list.png`
-- `P4_SS_02_slave_node_1_config.png`
-- `P4_SS_03_slave_node_2_config.png`
-- `P4_SS_05_distributed_stage_view.png`
-- `P4_SS_08_archived_artifact.png`
+### Verified Execution Screenshots:
+
+#### 1. Local Maven Build & JAR Packaging (`BUILD SUCCESS`)
+![Maven Build](screenshots/P4_01_local_maven_build_success.png)
+*Figure 1: Terminal execution of `mvn clean test package` showing automated unit test execution, executable JAR artifact creation (`target/devops-portfolio-app-1.0.0.jar`), and `BUILD SUCCESS`.*
+
+#### 2. Jenkins Node Management & Distributed Stage View
+![Distributed Pipeline](screenshots/P4_02_jenkins_nodes_and_stage_view.png)
+*Figure 2: Jenkins UI showing Manage Nodes dashboard (`master`, `slave-node-1`, `slave-node-2` all Online) and Pipeline Stage View showing green checkmarks across `Compile`, `Test`, `Archive`, and `Success`.*
+
+#### 3. Slave Nodes Work Offloading & Archived Artifact Log
+![Pipeline Console](screenshots/P4_03_slave_nodes_console_and_artifact.png)
+*Figure 3: Jenkins console output showing compilation running on `slave-node-1`, test execution on `slave-node-2`, artifact archiving (`target/devops-portfolio-app-1.0.0.jar`), and `Finished: SUCCESS`.*
 
 ---
 
