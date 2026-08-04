@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: '23070122077_ChintanPradhan',
+                    url: 'https://github.com/Chintnn/Devops-Lab-L1_2023-27.git'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t node-hello -f 23070122077_ChintanPradhan/Project1-Dockerized-Jenkins-Pipeline/node-hello/Dockerfile 23070122077_ChintanPradhan/Project1-Dockerized-Jenkins-Pipeline/node-hello'
+            }
+        }
+        stage('Run Container') {
+            steps {
+                sh 'docker run --rm node-hello'
+            }
+        }
+    }
+}
