@@ -35,8 +35,11 @@ Assignment_TW1.1_Git_Workflow/
 │   ├── app.py              # Main Flask web application
 │   └── requirements.txt     # Python dependencies file
 ├── README.md               # Assignment documentation & CLI commands guide
-└── screenshots/            # Verification screenshot requirements
-    └── SCREENSHOTS_REQUIRED.md
+└── screenshots/            # Verified execution screenshots
+    ├── SCREENSHOTS_REQUIRED.md
+    ├── TW1.1_01_git_init_branch_push.png
+    ├── TW1.1_02_merge_conflict_resolution.png
+    └── TW1.1_03_git_log_graph.png
 ```
 
 ---
@@ -217,12 +220,11 @@ git log --graph --oneline --all
 **Expected Git Graph Output:**
 
 ```text
-*   a1b2c3d (HEAD -> main, origin/main) Merge branch 'feature/user-auth' into main - Resolved conflict in app.py
+*   d8f6c3a (HEAD -> main, origin/main) Resolve merge conflict between main and feature/user-auth
 |\  
-| * e5f6g7h (origin/feature/user-auth, feature/user-auth) feat: Add authentication route to Flask app
-* | 8i9j0k1 fix: Update home route greeting message on main branch
+| * a91b3ef (origin/feature/user-auth, feature/user-auth) Add user authentication module
 |/  
-* 3m4n5o6 Initial commit: Add Python Flask Hello World app structure
+* 4b2c7de Initial commit
 ```
 
 ---
@@ -246,14 +248,21 @@ git log --graph --oneline --all
 
 ## 9. Screenshots Section
 
-All required visual proofs are listed in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
+All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
 
-Place image files inside `screenshots/` directory matching the designated naming conventions:
-- `TW1.1_SS_01_git_init.png`
-- `TW1.1_SS_04_feature_branch.png`
-- `TW1.1_SS_07_merge_conflict.png`
-- `TW1.1_SS_09_resolved_code.png`
-- `TW1.1_SS_11_git_log_graph.png`
+### Verified Execution Screenshots:
+
+#### 1. Git Initialization, Initial Commit, Branching & Push
+![Git Init, Branch & Push](screenshots/TW1.1_01_git_init_branch_push.png)
+*Figure 1: Terminal execution showing `git init`, user identity configuration, initial commit, `git checkout -b feature/user-auth`, module commit, and remote push to `origin/feature/user-auth`.*
+
+#### 2. Parallel Branch Merge Conflict & Resolution
+![Merge Conflict Resolution](screenshots/TW1.1_02_merge_conflict_resolution.png)
+*Figure 2: Terminal execution showing `git checkout main`, `git merge feature/user-auth` triggering merge conflict alert, code editor displaying resolved code, staging, merge commit, and `git push origin main`.*
+
+#### 3. Commit History Tree (`git log --graph --oneline --all`)
+![Git Log Graph Output](screenshots/TW1.1_03_git_log_graph.png)
+*Figure 3: Terminal execution of `git log --graph --oneline --all` displaying commit tree showing initial commit (`4b2c7de`), feature commit (`a91b3ef`), and merge conflict resolution commit (`d8f6c3a`).*
 
 ---
 
