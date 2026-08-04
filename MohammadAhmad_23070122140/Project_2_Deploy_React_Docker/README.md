@@ -22,7 +22,7 @@ Modern single-page applications (SPAs) built with frameworks like React and buil
 - Configure Nginx reverse proxy (`nginx.conf`) with SPA routing fallback (`try_files $uri /index.html;`) and static asset caching.
 - Configure `docker-compose.yml` for multi-container / stack orchestration.
 - Build, execute, and manage containers via Docker CLI (`docker build`, `docker run`, `docker ps`).
-- Access and verify the application UI at `http://localhost:8080`.
+- Access and verify the application UI at `http://localhost:8080` (or `http://localhost:5173`).
 
 ---
 
@@ -42,8 +42,9 @@ Project_2_Deploy_React_Docker/
 ├── nginx.conf              # Production Nginx web server configuration
 ├── docker-compose.yml      # Docker Compose orchestration file
 ├── README.md               # Deployment documentation & CLI commands
-└── screenshots/            # Verification screenshot requirements
-    └── SCREENSHOTS_REQUIRED.md
+└── screenshots/            # Verified execution screenshots
+    ├── SCREENSHOTS_REQUIRED.md
+    └── P2_02_react_browser_portfolio_ui.png
 ```
 
 ---
@@ -144,13 +145,17 @@ docker-compose down
 
 ## 9. Screenshots Section
 
-All required visual proofs are detailed in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
+All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./screenshots/SCREENSHOTS_REQUIRED.md).
 
-Screenshots to be placed in `screenshots/`:
-- `P2_SS_02_multistage_dockerfile.png`
-- `P2_SS_05_docker_images_size.png`
-- `P2_SS_07_docker_ps.png`
-- `P2_SS_09_react_browser_ui.png`
+### Verified Execution Screenshots:
+
+#### 1. React Application Browser UI Execution
+![React Docker Application Browser UI](./screenshots/P2_02_react_browser_portfolio_ui.png)
+*Figure 1: Web browser rendering `http://localhost:5173` displaying the React Docker Application UI ("RUNNING SUCCESSFULLY INSIDE DOCKER") with container metrics and status.*
+
+### Pending Screenshots to Capture:
+- `P2_01_multistage_docker_build_and_ps.png`: Terminal output showing `docker build`, `docker images`, and `docker ps`.
+- `P2_03_nginx_access_logs.png`: Terminal output showing `docker logs react-app-container` HTTP GET 200 responses.
 
 ---
 
