@@ -1,0 +1,46 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Compile') {
+            agent { label 'compile' }
+
+            steps {
+                dir('23070122167_pritikakurup/Project 4: Architecting Jenkins Pipeline for Scale-Use Jenkins to set up a distributed pipeline for maven project (portfolio) for two different slave nodes/Source Code') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            agent { label 'test' }
+
+            steps {
+                dir('23070122167_pritikakurup/Project 4: Architecting Jenkins Pipeline for Scale-Use Jenkins to set up a distributed pipeline for maven project (portfolio) for two different slave nodes/Source Code') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            agent { label 'compile' }
+
+            steps {
+                dir('23070122167_pritikakurup/Project 4: Architecting Jenkins Pipeline for Scale-Use Jenkins to set up a distributed pipeline for maven project (portfolio) for two different slave nodes/Source Code') {
+                    sh 'mvn package -DskipTests'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Portfolio pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Portfolio pipeline failed.'
+        }
+    }
+}
