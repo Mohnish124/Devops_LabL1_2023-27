@@ -1,0 +1,36 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Build') {
+            agent { label 'agent1' }
+
+            steps {
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            agent { label 'agent2' }
+
+            steps {
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            agent { label 'agent1' }
+
+            steps {
+                dir('23070122141_mohammed_alhajj/Project3_Jenkins_Pipeline/portfolio') {
+                    bat 'mvn package'
+                }
+            }
+        }
+    }
+}
