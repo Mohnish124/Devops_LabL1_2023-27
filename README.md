@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# Hello! 👋
+# Aarya Balwadkar
+=======
 # DevOps Lab Assignments
 
 **Name:** Omika Shrestha
@@ -91,3 +95,4 @@ Jenkins Distributed Pipeline for Maven Portfolio Project
 Omika Shrestha
 
 PRN: 23070122245
+>>>>>>> Devops_LabL1_2023-27
