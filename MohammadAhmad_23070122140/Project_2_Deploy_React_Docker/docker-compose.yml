@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  react-web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react-nginx-container
+    ports:
+      - "8080:80"
+    restart: always
+    environment:
+      - NODE_ENV=production

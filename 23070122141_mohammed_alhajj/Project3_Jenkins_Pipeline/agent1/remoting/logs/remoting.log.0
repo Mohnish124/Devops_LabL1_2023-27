@@ -1,0 +1,36 @@
+Aug 02, 2026 9:11:53 PM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: agent1
+Aug 02, 2026 9:11:53 PM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3355.v388858a_47b_33
+Aug 02, 2026 9:11:53 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using D:\SYMBIOSIS UNIVERSITY\Final Year\Seventh Semester\DevOps +Lab\Devops-Lab-L1_2023-27\23070122141_mohammed_alhajj\Project3_Jenkins_Pipeline\agent1\remoting as a remoting work directory
+Aug 02, 2026 9:11:53 PM hudson.remoting.Launcher$CuiListener status
+INFO: WebSocket connection open
+Aug 02, 2026 9:11:53 PM hudson.remoting.Launcher$CuiListener status
+INFO: Connected
+Aug 02, 2026 9:16:48 PM org.jvnet.winp.Native loadByUrl
+INFO: Failed to load DLL from static location, falling back to temp file
+java.io.FileNotFoundException: D:\SYMBIOSIS UNIVERSITY\Final Year\Seventh Semester\DevOps  Lab\Devops-Lab-L1_2023-27\23070122141_mohammed_alhajj\Project3_Jenkins_Pipeline\agent1\remoting\jarCache\3A\winp.x64.BFFE30B3B50581290B1866EF8D48C609.dll (The system cannot find the path specified)
+	at java.base/java.io.FileOutputStream.open0(Native Method)
+	at java.base/java.io.FileOutputStream.open(FileOutputStream.java:255)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:210)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:171)
+	at Jenkins v2.568.1//org.jvnet.winp.Native.extractToStaticLocation(Native.java:195)
+	at Jenkins v2.568.1//org.jvnet.winp.Native.loadByUrl(Native.java:171)
+	at Jenkins v2.568.1//org.jvnet.winp.Native.load(Native.java:135)
+	at Jenkins v2.568.1//org.jvnet.winp.Native.<clinit>(Native.java:102)
+	at Jenkins v2.568.1//org.jvnet.winp.WinProcess.enableDebugPrivilege(WinProcess.java:230)
+	at Jenkins v2.568.1//hudson.util.ProcessTree$Windows.<clinit>(ProcessTree.java:722)
+	at Jenkins v2.568.1//hudson.util.ProcessTree.get(ProcessTree.java:462)
+	at Jenkins v2.568.1//hudson.Launcher$RemoteLauncher$KillTask.call(Launcher.java:1180)
+	at Jenkins v2.568.1//hudson.Launcher$RemoteLauncher$KillTask.call(Launcher.java:1170)
+	at hudson.remoting.UserRequest.perform(UserRequest.java:225)
+	at hudson.remoting.UserRequest.perform(UserRequest.java:50)
+	at hudson.remoting.Request$2.run(Request.java:391)
+	at hudson.remoting.InterceptingExecutorService.lambda$wrap$0(InterceptingExecutorService.java:81)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at hudson.remoting.Engine$1.lambda$newThread$0(Engine.java:312)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+

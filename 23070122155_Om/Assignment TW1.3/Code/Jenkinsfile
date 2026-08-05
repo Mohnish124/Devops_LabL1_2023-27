@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_BACKEND = 'ohmschrodinger/backend:v1'
+        IMAGE_FRONTEND = 'ohmschrodinger/frontend:v1'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker build -t $IMAGE_BACKEND ./backend'
+                    } else {
+                        bat 'docker build -t %IMAGE_BACKEND% ./backend'
+                    }
+                }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker build -t $IMAGE_FRONTEND ./frontend'
+                    } else {
+                        bat 'docker build -t %IMAGE_FRONTEND% ./frontend'
+                    }
+                }
+            }
+        }
+
+        stage('Push Images') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        if (isUnix()) {
+                            sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                            sh 'docker push $IMAGE_BACKEND'
+                            sh 'docker push $IMAGE_FRONTEND'
+                        } else {
+                            bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                            bat 'docker push %IMAGE_BACKEND%'
+                            bat 'docker push %IMAGE_FRONTEND%'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy stage completed.'
+            }
+        }
+    }
+}
