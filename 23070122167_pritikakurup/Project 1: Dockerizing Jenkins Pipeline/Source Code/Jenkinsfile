@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Source Code') {
+
+            steps {
+
+                echo 'Starting Git checkout...'
+
+                git branch: 'main',
+                    url: 'https://github.com/pritikakurup/HelloWorld-Flask.git'
+
+                echo 'Git checkout completed.'
+            }
+        }
+
+        stage('Run Example Command') {
+
+            steps {
+
+                echo 'Executing shell commands...'
+
+                sh 'echo "Hello from Declarative Pipeline!"'
+
+                sh 'echo "--- Listing Files ---"'
+
+                sh 'ls -la'
+
+            }
+        }
+    }
+
+    post {
+
+        always {
+
+            echo 'Pipeline finished.'
+        }
+    }
+}
