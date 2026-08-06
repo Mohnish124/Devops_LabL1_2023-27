@@ -8,7 +8,9 @@ pipeline {
             }
             steps {
                 echo 'Starting compilation on Compile Node...'
-                bat 'mvn clean compile' 
+                dir('Project_4') {
+                    bat 'mvn clean compile' 
+                }
             }
         }
 
@@ -18,7 +20,9 @@ pipeline {
             }
             steps {
                 echo 'Starting testing on Test Node...'
-                bat 'mvn test'
+                dir('Project_4') {
+                    bat 'mvn test'
+                }
             }
         }
     }
