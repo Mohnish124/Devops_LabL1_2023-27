@@ -12,17 +12,17 @@ This project demonstrates a distributed Jenkins pipeline. The work is delegated 
 
 \### 1. Distributed Nodes Online
 
-!\[Nodes Online](screenshot1.png)
+!\[Nodes Online](screenshot1.jpeg)
 
 
 
 \### 2. Pipeline Stage View Success
 
-!\[Pipeline Success](screenshot2.png)
+!\[Pipeline Success](screenshot2.jpeg)
 
 
 
 \### 3. Console Output Verification
 
-!\[Console Output](screenshot3.png)
+!\[Console Output](screenshot3.jpeg)
 
