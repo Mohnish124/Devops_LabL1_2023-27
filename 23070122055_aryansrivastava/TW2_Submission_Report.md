@@ -1,7 +1,7 @@
 # DevOps Lab TW2 Assignment Submission
 
 **Name:** Aryan Srivastava  
-**PNR:** 23070122055  
+**PRN:** 23070122055  
 **GitHub Repository:** [https://github.com/aryan20s/Devops-Lab-L1_2023-27](https://github.com/aryan20s/Devops-Lab-L1_2023-27)
 
 ---
