@@ -1,5 +1,3 @@
-cat > README.md <<'EOF'
-
 # Project 5 - Containerizing application and scanning its Docker image with DTR
 
 ## Objective
