@@ -11,7 +11,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-app .'
+                dir('23070122035_AnushkaDesai/Project1_Dockerizing_Jenkins_Pipeline/my-flask-app') {
+                    sh 'docker build -t flask-app .'
+                }
             }
         }
 
