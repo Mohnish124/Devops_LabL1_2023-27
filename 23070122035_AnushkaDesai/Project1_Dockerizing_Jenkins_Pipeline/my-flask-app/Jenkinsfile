@@ -11,14 +11,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t flask-app .'
+                sh 'docker build -t flask-app .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                bat 'docker rm -f flask-container || exit 0'
-                bat 'docker run -d -p 5001:5000 --name flask-container flask-app'
+                sh 'docker rm -f flask-container || true'
+                sh 'docker run -d -p 5001:5000 --name flask-container flask-app'
             }
         }
     }
