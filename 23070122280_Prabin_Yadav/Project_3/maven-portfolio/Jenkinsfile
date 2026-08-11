@@ -1,0 +1,63 @@
+pipeline {
+    agent none
+
+    tools {
+        maven 'Maven-3.9'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            agent { label 'agent1' }
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Clean') {
+            agent { label 'agent1' }
+            steps {
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn clean'
+                }
+            }
+        }
+
+        stage('Compile') {
+            agent { label 'agent2' }
+            steps {
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            agent { label 'agent2' }
+            steps {
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            agent { label 'agent2' }
+            steps {
+                dir('23070122280_Prabin_Yadav/Project_3/maven-portfolio') {
+                    sh 'mvn package'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Distributed Maven Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}

@@ -1,1 +1,11 @@
 .DS_Store
+node_modules/
+target/
+dist/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.idea/
+.vscode/

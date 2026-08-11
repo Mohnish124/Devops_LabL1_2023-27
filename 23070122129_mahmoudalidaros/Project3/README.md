@@ -1,5 +1,16 @@
-# Git Branching Development Model
+# Project 3 - Branching Development Model
 
-This project demonstrates the Git Branching Development Model for a DevOps Lab assignment.
+## Objective
+Implement a Git branching model to improve team collaboration and faster work integration.
 
-Created by: Mahmoud Al-Aidaros
+## Technologies Used
+- Git
+- GitHub
+
+## Description
+This project demonstrates a Git branching workflow where different branches are created for feature development, testing, and integration before merging into the main branch.
+
+## Outcome
+- Created feature branches
+- Performed branch merging
+- Managed version control efficiently

@@ -9,6 +9,7 @@ This repository contains the assignments and projects for the DevOps Lab.
 - `Assignment TW1.3/`: Contains the Docker & Jenkins setup, PDF documentation, and Python Flask application
 - `Project 1/`: Dockerizing Jenkins Pipeline
 - `Project 2/`: Deploy Angular/React Application in Docker Container
+- `Project 4/`: Architecting Jenkins Pipeline for Scale
 
 ## Assignments & Projects
 
@@ -32,3 +33,7 @@ This repository contains the assignments and projects for the DevOps Lab.
 ### Project 2: Deploy Angular/React Application in Docker Container
 - Containerized an Angular application using Docker.
 - Created `docker-compose.yml` for orchestration.
+
+### Project 4: Architecting Jenkins Pipeline for Scale
+- Designed a distributed Jenkins pipeline.
+- Configured tasks to run across multiple Jenkins slave nodes (`slave-1` and `slave-2`) for a Maven portfolio project.
