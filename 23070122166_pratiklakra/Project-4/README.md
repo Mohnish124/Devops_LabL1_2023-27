@@ -1,5 +1,9 @@
 # Project 4 — Distributed Jenkins CI Pipeline for a Maven-Based Java Application
 
+**Student Name:** Pratik Lakra  
+**PRN:** 23070122166
+
+---
 ## 📖 Project Description
 
 This project demonstrates a scalable Continuous Integration (CI) pipeline using Jenkins. A Maven-based Java application is stored in GitHub, and Jenkins distributes the Build, Test, and Package stages across two separate agent nodes. This architecture improves scalability, workload distribution, and build efficiency while demonstrating a distributed Jenkins Pipeline.
