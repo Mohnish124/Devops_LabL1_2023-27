@@ -11,14 +11,14 @@ The objective of this project is to create an Angular application using Angular 
 
 ---
 
-# Software \& Tools Used
+# Software & Tools Used
 
 * Angular CLI
 * Node.js
 * Docker Desktop
 * Docker Compose
 * Visual Studio Code
-* Git \& GitHub
+* Git & GitHub
 
 ---
 
@@ -58,7 +58,7 @@ Verify Docker Image
       │
       ▼
 Docker Compose
-(Development \& Production)
+(Development & Production)
       │
       ▼
 Run Angular Application in Container
@@ -80,7 +80,7 @@ The Angular CLI installation and version information were verified successfully.
 
 ### Screenshot
 
-!\[Angular CLI Installation](screenshots/angular\_installed\_cmd.png)
+![Angular CLI Installation](screenshots/angular_installed_cmd.png)
 
 ---
 
@@ -92,9 +92,9 @@ The generated project structure was verified in Visual Studio Code.
 
 ### Screenshots
 
-!\[Angular Application Created](screenshots/new\_angular\_app\_created.png)
+![Angular Application Created](screenshots/new_angular_app_created.png)
 
-!\[Angular Project Structure](screenshots/angular\_app\_vscode\_files.png)
+![Angular Project Structure](screenshots/angular_app_vscode_files.png)
 
 ---
 
@@ -110,7 +110,7 @@ http://localhost:4200
 
 ### Screenshot
 
-!\[Angular Application Running](screenshots/angular\_app\_running\_on\_local\_host.png)
+![Angular Application Running](screenshots/angular_app_running_on_local_host.png)
 
 ---
 
@@ -127,7 +127,7 @@ FROM node:22
 
 WORKDIR /app
 
-COPY package\*.json ./
+COPY package*.json ./
 
 RUN npm install
 
@@ -135,7 +135,7 @@ COPY . .
 
 EXPOSE 4200
 
-CMD \["npm", "start", "--", "--host", "0.0.0.0"]
+CMD ["npm", "start", "--", "--host", "0.0.0.0"]
 ```
 
 ---
@@ -152,7 +152,7 @@ docker build -t angular-docker-app .
 
 ### Screenshot
 
-!\[Docker Build](screenshots/docker\_build\_command\_cmd.png)
+![Docker Build](screenshots/docker_build_command_cmd.png)
 
 ---
 
@@ -170,7 +170,7 @@ The `angular-docker-app:latest` image was successfully listed among the availabl
 
 ### Screenshot
 
-!\[Docker Images](screenshots/docker\_images\_ss.png)
+![Docker Images](screenshots/docker_images_ss.png)
 
 ---
 
@@ -188,7 +188,7 @@ Docker Compose configuration files were created for the Angular application.
 
 ### Screenshot
 
-!\[Docker Compose Configurations](screenshots/docker\_compose\_and\_docker\_compose\_prod\_added\_ss.png)
+![Docker Compose Configurations](screenshots/docker_compose_and_docker_compose_prod_added_ss.png)
 
 ---
 
@@ -206,7 +206,7 @@ The running Angular container and its port mapping were displayed successfully.
 
 ### Screenshot
 
-!\[Docker Container](screenshots/docker\_ps\_command\_ss.png)
+![Docker Container](screenshots/docker_ps_command_ss.png)
 
 ---
 
