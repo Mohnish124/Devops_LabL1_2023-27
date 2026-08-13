@@ -1,59 +1,161 @@
-# AngularDockerApp
+# Project 2: Deploy Angular Application in Docker Container
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.20.
+## Student Details
+Name: Anushka Desai
+PRN: 23070122035
+Course: DevOps Lab
 
-## Development server
+## Project Objective
+The objective of this project is to deploy an Angular application using Docker. The application is built using Angular CLI and containerized for both **development** and **production** environments — using a lightweight Docker Compose setup for development, and a multi-stage Dockerfile with Nginx for production.
 
-To start a local development server, run:
+## Tools & Technologies
 
-```bash
-ng serve
+* Angular CLI 21.2.20
+* Node.js 24.13.0
+* npm 11.6.2
+* Docker Desktop
+* Docker Compose
+* Nginx (for production serving)
+* VS Code
+* Git & GitHub
+
+## Project Workflow
+
+```
+Create Angular Application
+            │
+            ▼
+Verify Angular CLI, Node.js & npm Versions
+            │
+            ▼
+Run Application in Development Container (Docker Compose)
+            │
+            ▼
+Access App on localhost:4200
+            │
+            ▼
+Build Production Image (Multi-Stage Dockerfile)
+            │
+            ▼
+Serve Production Build via Nginx Container
+            │
+            ▼
+Access Application on localhost:80
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Step 1 - Verify Environment
+Verified that Node.js, npm, and Angular CLI were installed correctly before starting the project.
 
-## Code scaffolding
+Commands
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+node --version
+npm --version
+ng version
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Output
 
-```bash
-ng generate --help
+```
+Angular CLI    : 21.2.20
+Node.js        : 24.13.0
+Package Manager: npm 11.6.2
+Operating System: win32 x64
 ```
 
-## Building
+## Step 2 - Run the Development Container
+Created a `Dockerfile.dev` and `docker-compose.yml` to run the Angular app in a development container with live file watching.
 
-To build the project run:
+Command
 
-```bash
-ng build
+```
+docker compose up --build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The container started successfully, bundled the app, and served it locally.
 
-## Running unit tests
+Development URL
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```
+http://localhost:4200
 ```
 
-## Running end-to-end tests
+## Step 3 - Build the Production Image
+Created a **multi-stage Dockerfile** that first builds the Angular app, then copies the compiled output into a lightweight Nginx image for production.
 
-For end-to-end (e2e) testing, run:
+Command
 
-```bash
-ng e2e
+```
+docker compose -f docker-compose.prod.yml build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+This produced a much smaller production image compared to the development image.
 
-## Additional Resources
+## Step 4 - Run the Production Container
+Ran the production image, which serves the compiled Angular app through Nginx on port 80.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Command
+
+```
+docker compose -f docker-compose.prod.yml up
+```
+
+Production URL
+
+```
+http://localhost
+```
+
+## Step 5 - Verify Everything is Running
+Used `docker ps` and `docker images` to confirm both the development and production setups, alongside other containers/images on the system.
+
+## Project Structure
+
+```
+angular_docker_app/
+│
+├── src/
+├── public/
+├── package.json
+├── angular.json
+├── Dockerfile.dev
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── .dockerignore
+└── README.md
+```
+
+## Docker Commands Used
+
+```
+docker compose up --build
+
+docker compose -f docker-compose.prod.yml build
+
+docker compose -f docker-compose.prod.yml up
+
+docker ps
+
+docker images
+
+docker stop <container-id>
+```
+
+## Output
+The Angular application was successfully run in a development container (with live reload) and later served through a production-ready Nginx container, accessible at:
+
+```
+Development: http://localhost:4200
+Production:  http://localhost
+```
+
+## Learning Outcomes
+
+* Set up an Angular development environment inside Docker using Docker Compose.
+* Understood the difference between development and production Docker builds.
+* Learned to write a multi-stage Dockerfile to reduce final image size.
+* Learned how to serve a compiled Angular app using Nginx inside a container.
+* Practiced verifying and managing multiple running containers with `docker ps` and `docker images`.
+
+## Conclusion
+This project successfully demonstrates deploying an Angular application using Docker in two setups: a development container for live coding with hot-reload, and a production container using a multi-stage build served via Nginx. It highlights key DevOps practices such as containerized development, multi-stage builds, and image optimization.
