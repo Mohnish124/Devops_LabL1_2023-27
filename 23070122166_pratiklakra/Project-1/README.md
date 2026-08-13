@@ -83,7 +83,7 @@ Configuration:
 
 ### Screenshot
 
-![](screenshots/03_pipeline_configuration.png)
+![](screenshots/02_pipeline_configuration.png)
 
 ---
 
