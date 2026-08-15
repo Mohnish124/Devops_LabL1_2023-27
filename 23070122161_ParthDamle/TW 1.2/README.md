@@ -1,5 +1,10 @@
 # Assignment TW1.2 - Jira Project & Issue Tracking
 
+**Student Name:** Parth Damle  
+**PRN:** 23070122161
+
+---
+
 ## Objective
 
 The objective of this assignment is to understand Agile project management and issue tracking using Jira. A Scrum project was created for the Flask "Hello World" application, and different issue types were created and managed throughout the development process.
