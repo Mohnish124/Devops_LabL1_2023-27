@@ -1,0 +1,52 @@
+pipeline {
+    agent none  // No default agent; each stage picks its own node
+
+    stages {
+        stage('Checkout') {
+            agent { label 'master' }
+            steps {
+                echo 'Checking out source code on master...'
+                checkout scm
+                stash name: 'source', includes: '**/*'
+            }
+        }
+
+        stage('Build on Slave-1') {
+            agent { label 'slave-1' }
+            steps {
+                echo 'Building Maven project on Slave Node 1...'
+                unstash 'source'
+                sh 'mvn clean compile -f Project4-Distributed-Jenkins-Maven/portfolio-app/pom.xml'
+                stash name: 'compiled', includes: 'Project4-Distributed-Jenkins-Maven/**/*'
+            }
+        }
+
+        stage('Test on Slave-2') {
+            agent { label 'slave-2' }
+            steps {
+                echo 'Running tests on Slave Node 2...'
+                unstash 'compiled'
+                sh 'mvn test -f Project4-Distributed-Jenkins-Maven/portfolio-app/pom.xml'
+            }
+        }
+
+        stage('Package on Slave-1') {
+            agent { label 'slave-1' }
+            steps {
+                echo 'Packaging artifact on Slave Node 1...'
+                unstash 'compiled'
+                sh 'mvn package -DskipTests -f Project4-Distributed-Jenkins-Maven/portfolio-app/pom.xml'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Distributed pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check individual stage logs.'
+        }
+    }
+}
