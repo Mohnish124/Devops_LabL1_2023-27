@@ -1,7 +1,7 @@
 # Project 1 -- Dockerizing Jenkins Pipeline
 
-**Student Name:** \[Your Name\]\
-**PRN:** \[Your PRN\]
+**Student Name:** Sreehari Nair
+**PRN:** 23070122144
 
 ------------------------------------------------------------------------
 
