@@ -44,6 +44,6 @@ Based on the provided manifest files, the deployment followed these exact phases
 
 To verify that the deployment was successful, the application was accessed through the exposed NodePort.
 
-> **Deployment Evidence:** The successful state and execution of this architecture are documented in the project files and visually confirmed by the capture located at `screenshots/Screenshot 2026-08-17 104623.png`.
+![screenshots/Screenshot 2026-08-17 104623.png]
 
 The deployment successfully demonstrates the integration of MongoDB and Mongo Express within a Kubernetes cluster using Deployments, Services, Secrets, ConfigMaps, and NodePort networking.
