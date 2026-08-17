@@ -1,5 +1,4 @@
-# Experiment Theory: Git Branching Development Model
-
+# Project 3: Branching Development Model-Build a branching model to help your team understand the git workflow for faster work integration.
 ## Overview
 
 This experiment demonstrates a standard **Git branching and merging workflow** for a DevOps laboratory project (**Project 3: Branching Development Model**).
