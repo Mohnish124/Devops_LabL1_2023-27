@@ -63,4 +63,19 @@ kubectl get services
 kubectl get hpa
 kubectl get hpa -w
 kubectl get pods -w
+```
 
+The application was successfully accessed through the Minikube service URL.Autoscaling ResultThe Horizontal Pod Autoscaler successfully demonstrated application scalability.ConfigurationValueMinimum replicas1Maximum replicas5Target CPU utilization50%Initial replicas1Scaled replicas observed2Scaling mechanismCPU utilizationLoad generatorBusyBoxMetrics providerMetrics ServerThe application scaled from 1 pod to 2 pods when CPU load increased.After the load generator was removed, the application scaled back toward the configured minimum of 1 pod.
+
+## Project Structure
+
+The project contains the following files and folders:
+├── README.md
+├── Screenshots/
+│   └── (contains the project implementation screenshots)
+└── Source Code/
+    ├── deployment.yaml
+    └── service.yaml
+    
+## Conclusion
+The social media application was successfully deployed on Kubernetes using Minikube.The project successfully demonstrated Kubernetes Horizontal Pod Autoscaling by generating CPU load and observing the application scale from 1 pod to 2 pods. The HPA was configured with a minimum of 1 replica and a maximum of 5 replicas, demonstrating automatic application scalability.
