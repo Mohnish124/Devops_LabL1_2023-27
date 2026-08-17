@@ -1,0 +1,40 @@
+pipeline {
+
+    agent none
+
+    stages {
+
+        stage('Compile') {
+            agent {
+                label 'compile'
+            }
+
+            steps {
+                git 'git@github.com:ishita2403/Devops-Coursework.git'
+                bat 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            agent {
+                label 'test'
+            }
+
+            steps {
+                git 'git@github.com:ishita2403/Devops-Coursework.git'
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            agent {
+                label 'compile'
+            }
+
+            steps {
+                git 'git@github.com:ishita2403/Devops-Coursework.git'
+                bat 'mvn package -DskipTests'
+            }
+        }
+    }
+}
