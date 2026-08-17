@@ -27,21 +27,6 @@ The objective of this project is to containerize a React application using Docke
 
 ---
 
-## Project Structure
-
-```text
-Project_2/
-├── src/
-├── public/
-├── Dockerfile
-├── Dockerfile.prod
-├── docker-compose.yml
-├── package.json
-└── README.md
-```
-
----
-
 ## Development Environment
 
 The React application was configured to run inside a Docker container during development.
