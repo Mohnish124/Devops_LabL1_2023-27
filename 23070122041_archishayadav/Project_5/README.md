@@ -1,368 +1,256 @@
-```markdown
+# Project 5: Containerizing and Scanning a Spring Boot Application
 
-\# Project 5: Containerizing and Scanning a Spring Boot Application
+This project demonstrates the development of a **Spring Boot web application**, containerization using **Docker**, vulnerability scanning using **Docker Scout**, and version control using **Git and GitHub**.
 
+---
 
+## Phase 1: Repository Setup and Branching
 
-This document outlines the step-by-step process used to complete Project 5, which involved creating a Spring Boot web application for a retail company, containerizing it using Docker, performing a vulnerability scan, and pushing the code to a remote repository.
-
-
-
-\---
-
-
-
-\## Phase 1: Repository Setup and Branching
-
-1\. \*\*Clone the repository:\*\*
-
-&#x20;  ```bash
-
-&#x20;  git clone \[https://github.com/adroitathena2/Devops-Lab-L1\_2023-27.git](https://github.com/adroitathena2/Devops-Lab-L1\_2023-27.git)
-
-
-
-```
-
-
-
-2\. \*\*Navigate to the repository:\*\*
+### 1. Clone the Repository
 
 ```bash
-
-cd Devops-Lab-L1\_2023-27
-
-
-
+git clone https://github.com/adroitathena2/Devops-Lab-L1_2023-27.git
 ```
 
-
-
-
-
-3\. \*\*Create and switch to a dedicated assignment branch:\*\*
+### 2. Navigate to the Repository
 
 ```bash
+cd Devops-Lab-L1_2023-27
+```
 
+### 3. Create and Switch to a Dedicated Assignment Branch
+
+```bash
 git checkout -b project-submissions
-
-
-
 ```
 
-
-
-
-
-4\. \*\*Create the main submission directory:\*\*
+### 4. Create the Main Submission Directory
 
 ```bash
-
-mkdir ArchishaYadav\_23070122041
-
-cd ArchishaYadav\_23070122041
-
-
-
+mkdir ArchishaYadav_23070122041
+cd ArchishaYadav_23070122041
 ```
 
-
-
-
-
-5\. \*\*Create the specific project directory:\*\*
+### 5. Create the Project Directory
 
 ```bash
-
-mkdir Project\_5
-
-cd Project\_5
-
-
-
+mkdir Project_5
+cd Project_5
 ```
 
+---
 
+## Phase 2: Application Development
 
+### 1. Generate Spring Boot Files
 
+The Spring Boot project was generated using [Spring Initializr](https://start.spring.io/) with the following configuration:
 
+* **Project:** Maven
+* **Language:** Java
+* **Java Version:** 17
+* **Dependency:** Spring Web
 
+The generated project was extracted into the `Project_5` directory.
 
-\---
+### 2. Create the Main Application Class
 
+The main application class is located at:
 
-
-\## Phase 2: Application Development
-
-
-
-1\. \*\*Generate Spring Boot files:\*\*
-
-Files were generated via \[Spring Initializr](https://start.spring.io/) (Maven, Java 17, Spring Web) and extracted into the `Project\_5` folder.
-
-2\. \*\*Create the Main Application Class:\*\*
-
-Located at `src\\main\\java\\com\\retail\\retail\_app\\RetailAppApplication.java`.
+```text
+src/main/java/com/retail/retail_app/RetailAppApplication.java
+```
 
 ```java
-
-package com.retail.retail\_app; 
-
-
+package com.retail.retail_app;
 
 import org.springframework.boot.SpringApplication;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @SpringBootApplication
-
 @RestController
+public class RetailAppApplication {
 
-public class RetailAppApplication { 
+    public static void main(String[] args) {
+        SpringApplication.run(RetailAppApplication.class, args);
+    }
 
-
-
-&#x20;   public static void main(String\[] args) {
-
-&#x20;       SpringApplication.run(RetailAppApplication.class, args); 
-
-&#x20;   }
-
-
-
-&#x20;   @GetMapping("/")
-
-&#x20;   public String home() {
-
-&#x20;       return "Welcome to the Retail Company Web Application!";
-
-&#x20;   }
-
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to the Retail Company Web Application!";
+    }
 }
-
-
-
 ```
 
+### 3. Build the Application
 
-
-
-
-3\. \*\*Build the Application:\*\*
+The application was compiled and packaged using Maven:
 
 ```bash
-
 mvnw clean install
-
-
-
 ```
 
+This generated the executable `.jar` file inside the `target` directory.
 
+---
 
+## Phase 3: Docker Containerization
 
+### 1. Create the Dockerfile
 
-
-
-\---
-
-
-
-\## Phase 3: Docker Containerization
-
-
-
-1\. \*\*Create the `Dockerfile`:\*\*
-
-In the root of `Project\_5`, created a file named exactly `Dockerfile` (removed the hidden `.txt` extension).
+A file named exactly `Dockerfile` was created in the root of the `Project_5` directory.
 
 ```dockerfile
-
 FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-COPY target/\*.jar app.jar
+COPY target/*.jar app.jar
 
 EXPOSE 8080
 
-CMD \["java", "-jar", "app.jar"]
-
-
-
+CMD ["java", "-jar", "app.jar"]
 ```
 
+> **Note:** `eclipse-temurin:17-jdk-jammy` was used instead of `openjdk:17-jdk-slim` because the latter has been deprecated.
 
-
-
-
-\*(Note: Switched to `eclipse-temurin:17-jdk-jammy` due to `openjdk:17-jdk-slim` deprecation).\*
-
-2\. \*\*Build the Docker Image:\*\*
+### 2. Build the Docker Image
 
 ```bash
-
 docker build -t retail-app:v1 .
-
-
-
 ```
 
+**Screenshot 1:** Successful Docker image build.
 
+![Screenshot 1 - Docker Build](screenshot1.png)
 
+---
 
+## Phase 4: Application Deployment and Verification
 
-\*Screenshot 1 captured: Successful Docker Build.\*
-
-
-
-\---
-
-
-
-\## Phase 4: Application Deployment \& Verification
-
-
-
-1\. \*\*Run the Docker Container:\*\*
+### 1. Run the Docker Container
 
 ```bash
-
 docker run -d -p 8080:8080 --name retail-web retail-app:v1
-
-
-
 ```
 
+The application was started inside a Docker container and mapped to port `8080`.
 
+### 2. Verify the Application
 
+The application was accessed through:
 
+```text
+http://localhost:8080
+```
 
-2\. \*\*Verify Application:\*\*
+The following message was displayed:
 
-Accessed `http://localhost:8080` in the web browser to verify the "Welcome to the Retail Company Web Application!" message.
+> Welcome to the Retail Company Web Application!
 
-\*Screenshot 2 captured: Working Web Application.\*
+**Screenshot 2:** Successfully running Spring Boot web application.
 
-3\. \*\*Stop the Container (Cleanup):\*\*
+![Screenshot 2 - Running Web Application](screenshot2.png)
+
+### 3. Stop the Container
+
+After verification, the container was stopped:
 
 ```bash
-
 docker stop retail-web
-
-
-
 ```
 
+---
 
+## Phase 5: Image Vulnerability Scanning
 
+To fulfill the Docker image vulnerability scanning requirement without using a dedicated enterprise registry, **Docker Scout** was used.
 
-
-
-
-\---
-
-
-
-\## Phase 5: Image Vulnerability Scanning
-
-
-
-To fulfill the DTR scanning requirement without a dedicated enterprise registry, Docker Scout (the native Docker scanning tool) was used.
-
-
-
-1\. \*\*Authenticate with Docker Hub:\*\*
+### 1. Authenticate with Docker Hub
 
 ```bash
-
 docker login
-
-
-
 ```
 
-
-
-
-
-2\. \*\*Execute the Vulnerability Scan:\*\*
+### 2. Scan the Docker Image
 
 ```bash
-
 docker scout cves retail-app:v1
-
-
-
 ```
 
+Docker Scout was used to identify known Common Vulnerabilities and Exposures (CVEs) associated with the Docker image and its dependencies.
 
+**Screenshot 3:** Docker Scout CVE scan results.
 
+![Screenshot 3 - Docker Scout CVE Scan](screenshot3.png)
 
+---
 
-\*Screenshot 3 captured: Docker Scout CVE Scan Results.\*
+## Phase 6: Documentation and Version Control
 
-
-
-\---
-
-
-
-\## Phase 6: Documentation and Version Control
-
-
-
-1\. \*\*Navigate to the main submission directory:\*\*
+### 1. Navigate to the Main Submission Directory
 
 ```bash
-
 cd ..
-
-
-
 ```
 
+### 2. Create the README.md File
 
+A `README.md` file was created containing:
 
+* Project information
+* Implementation phases
+* Commands used during execution
+* Docker configuration
+* Application verification steps
+* Vulnerability scanning details
+* Execution screenshots
 
-
-2\. \*\*Create the `README.md` file:\*\*
-
-Created a markdown file containing the project list and placeholders for the execution screenshots.
-
-3\. \*\*Stage, Commit, and Push:\*\*
+### 3. Stage the Changes
 
 ```bash
-
 git add .
+```
 
+### 4. Commit the Changes
+
+```bash
 git commit -m "Complete Project 5 and add README"
+```
 
+### 5. Push the Branch to GitHub
+
+```bash
 git push origin project-submissions
-
-
-
 ```
 
+### 6. Finalize on GitHub
 
+The three execution screenshots were uploaded and embedded into the `README.md` file using the GitHub web editor.
 
+Finally, a **Pull Request** was opened from the `project-submissions` branch.
 
+---
 
-4\. \*\*Finalize on GitHub:\*\*
+## Project Summary
 
-Uploaded the three saved screenshots directly into the `README.md` file via the GitHub web editor and opened a Pull Request.
+| Phase   | Description                             |
+| ------- | --------------------------------------- |
+| Phase 1 | Repository setup and branching          |
+| Phase 2 | Spring Boot application development     |
+| Phase 3 | Docker containerization                 |
+| Phase 4 | Application deployment and verification |
+| Phase 5 | Docker Scout vulnerability scanning     |
+| Phase 6 | Documentation and GitHub submission     |
 
+### Technologies Used
 
-
-```
-
-
-
-```
-
+* **Java 17**
+* **Spring Boot**
+* **Maven**
+* **Docker**
+* **Docker Scout**
+* **Git**
+* **GitHub**
