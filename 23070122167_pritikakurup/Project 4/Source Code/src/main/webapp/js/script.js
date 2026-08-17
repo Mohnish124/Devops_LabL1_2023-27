@@ -5,37 +5,35 @@ const words = [
     "Software Developer"
 ];
 
-let wordIndex = 0;
-let charIndex = 0;
-let deleting = false;
+let i = 0;
+let j = 0;
+let currentWord = "";
+let isDeleting = false;
 
-function typeEffect() {
-    const typing = document.getElementById("typing");
+function type() {
+    currentWord = words[i];
 
-    if (!typing) return;
-
-    const currentWord = words[wordIndex];
-
-    if (!deleting) {
-        typing.textContent = currentWord.substring(0, charIndex++);
+    if (!isDeleting) {
+        document.getElementById("typing").textContent =
+            currentWord.substring(0, j++);
     } else {
-        typing.textContent = currentWord.substring(0, charIndex--);
+        document.getElementById("typing").textContent =
+            currentWord.substring(0, j--);
     }
 
-    let speed = deleting ? 60 : 120;
+    let speed = isDeleting ? 60 : 120;
 
-    if (!deleting && charIndex > currentWord.length) {
-        deleting = true;
+    if (!isDeleting && j === currentWord.length + 1) {
         speed = 1500;
+        isDeleting = true;
     }
 
-    if (deleting && charIndex < 0) {
-        deleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        charIndex = 0;
+    if (isDeleting && j === 0) {
+        isDeleting = false;
+        i = (i + 1) % words.length;
     }
 
-    setTimeout(typeEffect, speed);
+    setTimeout(type, speed);
 }
 
-window.onload = typeEffect;
+type();
