@@ -1,30 +1,135 @@
-\# Lab 2: Project 2 - Deploy Angular Application in Docker Container
+# Project 2 - Deploy React Application in Docker Container
 
+## Objective
 
+The objective of this project is to containerize a React application using Docker and deploy it in both **development** and **production** environments.
 
-\## Overview
+---
 
-This project successfully deploys an Angular application in Docker\[cite: 1]. The application was built with the Angular CLI, and Docker Compose was utilized to handle both development and production environments\[cite: 1].
+## Technologies Used
 
+* React
+* Docker
+* Docker Compose
+* Nginx
+* Node.js
 
+---
 
-\## Execution Screenshots
+## Tasks Performed
 
+* Created a React application.
+* Built a Docker image for the React application.
+* Configured Docker Compose for container management.
+* Ran the application in development mode.
+* Created a production-ready Docker image.
+* Deployed the production application using Nginx.
 
+---
 
-\### 1. Angular CLI App Generation
+## Project Structure
 
-!\[App Creation](screenshot1.png)
+```text
+Project_2/
+├── src/
+├── public/
+├── Dockerfile
+├── Dockerfile.prod
+├── docker-compose.yml
+├── package.json
+└── README.md
+```
 
+---
 
+## Development Environment
 
-\### 2. Development Environment (Port 4200)
+The React application was configured to run inside a Docker container during development.
 
-!\[Dev Env](screenshot2.png)
+Docker Compose was used to simplify the process of building and running the development container.
 
+### Build and Run
 
+```bash
+docker compose up --build
+```
 
-\### 3. Production Environment (Port 8080)
+The React application can then be accessed through the configured local port.
 
-!\[Prod Env](screenshot3.png)
+To stop the containers:
 
+```bash
+docker compose down
+```
+
+---
+
+## Production Environment
+
+For production deployment, the React application was first built into static files and then served using **Nginx**.
+
+The production Docker image uses Nginx as the web server to efficiently serve the compiled React application.
+
+### Build the Production Image
+
+```bash
+docker build -f Dockerfile.prod -t react-app-prod .
+```
+
+### Run the Production Container
+
+```bash
+docker run -d -p 8080:80 --name react-production react-app-prod
+```
+
+The production application can be accessed at:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## Docker Compose
+
+Docker Compose was used to define and manage the application container configuration.
+
+Example command:
+
+```bash
+docker compose up --build
+```
+
+This automatically builds the required Docker image and starts the application container.
+
+---
+
+## Deployment Workflow
+
+```text
+React Application
+       │
+       ▼
+   Dockerfile
+       │
+       ▼
+ Docker Image
+       │
+       ├──────────────► Development
+       │                 Docker Compose
+       │
+       ▼
+ Production Build
+       │
+       ▼
+    Nginx
+       │
+       ▼
+   Web Browser
+```
+
+---
+
+## Conclusion
+
+The React application was successfully **containerized using Docker** and deployed in both development and production environments. Docker Compose was used for development, while **Nginx** was used to serve the production build efficiently.
