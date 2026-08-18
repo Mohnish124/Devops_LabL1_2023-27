@@ -27,6 +27,7 @@ Every task is structured into an independent, fully self-contained folder equipp
 | **Project 4** | Architecting Scalable Distributed Jenkins Pipeline across Agent Nodes | [Project_4_Distributed_Jenkins_Pipeline](./Project_4_Distributed_Jenkins_Pipeline) |
 | **Project 5** | Containerizing Spring Boot Retail Application & DTR Security Scanning | [Project_5_Containerizing_DTR](./Project_5_Containerizing_DTR) |
 | **Project 6** | Social Media Infra Scalability & Kubernetes Horizontal Pod Autoscaling | [Project_6_Kubernetes_Autoscaling](./Project_6_Kubernetes_Autoscaling) |
+| **Project 7** | Mongo & Mongo Express Kubernetes Deployments, Services, ConfigMaps & Secrets | [Project_7_Mongo_MongoExpress](./Project_7_Mongo_MongoExpress) |
 
 ---
 
@@ -89,11 +90,17 @@ MohammadAhmad_23070122140/
 │   └── screenshots/
 │       └── SCREENSHOTS_REQUIRED.md
 │
-└── Project_6_Kubernetes_Autoscaling/          # Social Media Infra & Kubernetes Horizontal Pod Autoscaler (HPA)
-    ├── app/                                   # Node.js Express Social Media Service & UI
-    ├── Dockerfile                             # Production Dockerfile (node:18-alpine)
-    ├── k8s/                                   # Kubernetes Manifests (Namespace, Deployment, Service, HPA, Load Generator)
-    ├── README.md                              # Complete architecture & autoscaling execution guide
+├── Project_6_Kubernetes_Autoscaling/          # Social Media Infra & Kubernetes Horizontal Pod Autoscaler (HPA)
+│   ├── app/                                   # Node.js Express Social Media Service & UI
+│   ├── Dockerfile                             # Production Dockerfile (node:18-alpine)
+│   ├── k8s/                                   # Kubernetes Manifests (Namespace, Deployment, Service, HPA, Load Generator)
+│   ├── README.md                              # Complete architecture & autoscaling execution guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+└── Project_7_Mongo_MongoExpress/              # Mongo & Mongo Express Deployments, Services, ConfigMaps & Secret
+    ├── k8s/                                   # Declarative Manifests (Namespace, Secret, ConfigMap, Deployments, Services)
+    ├── README.md                              # End-to-end architecture, DNS discovery & verification guide
     └── screenshots/
         └── SCREENSHOTS_REQUIRED.md
 ```

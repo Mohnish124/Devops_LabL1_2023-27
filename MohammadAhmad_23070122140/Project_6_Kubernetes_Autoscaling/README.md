@@ -190,6 +190,17 @@ kubectl get hpa -n social-media
 kubectl get pods -n social-media
 ```
 
+### Step 5: Access & Verify SocialSphere Web Dashboard
+```bash
+# Expose Kubernetes service port to host machine
+kubectl port-forward svc/social-media-service 3000:80 -n social-media
+
+# Open browser at http://localhost:3000
+# - Verify dynamic serving pod hostname
+# - Verify social feed loaded from /api/posts
+# - Click 'Run Compute Test' to execute CPU load calculation via /api/compute
+```
+
 ---
 
 ## 9. Screenshots Section
@@ -206,9 +217,9 @@ All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./scree
 ![Application Deployment and Initial Pods](screenshots/P6_02_application_deployment_running.png)
 *Figure 2: Execution of `docker build`, applying Kubernetes manifests, and verifying 2 baseline replicas running in `social-media` namespace with NodePort service and initial HPA.*
 
-#### 3. Service & Social Media REST API Verification
-![Service and Application Verification](screenshots/P6_03_service_and_application_verification.png)
-*Figure 3: Functional validation of `social-media-service` with HTTP responses from `/health` and `/api/posts`, showing serving pod hostname (`social-media-app-f8dbf7ddb-79cwf`).*
+#### 3. SocialSphere Web Application Dashboard & Pod Identity Verification
+![SocialSphere Web Dashboard](screenshots/P6_03_service_and_application_verification.png)
+*Figure 3: Live browser view of the **SocialSphere** Social Media Web Application Dashboard running on Kubernetes. The interface dynamically displays the serving pod hostname (`social-media-app-85dbf85fbb-j5jzn`), active system telemetry, live social feed fetched via `/api/posts`, real-time server requests, and completed `/api/compute` CPU simulation results proving inter-pod communication.*
 
 #### 4. Horizontal Pod Autoscaler (HPA) Scaling to 10 Replicas under Load
 ![HPA Scaling under Load](screenshots/P6_04_hpa_autoscaling_under_load.png)

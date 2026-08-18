@@ -96,15 +96,18 @@ app.get('/api/posts', (req, res) => {
     });
 });
 
-// 3. Dedicated CPU Load Endpoint for Autoscaler Testing
-app.get('/api/load', (req, res) => {
+// 3. Dedicated CPU Load / Compute Endpoints for Autoscaler Testing
+app.get(['/api/load', '/api/compute'], (req, res) => {
     const iterations = parseInt(req.query.iterations) || 600000;
+    const startTime = Date.now();
     const computeResult = performComputeWorkload(iterations);
+    const executionTimeMs = Date.now() - startTime;
 
     res.status(200).json({
         message: "Simulated social media indexing / recommendation compute load complete",
         servedByPod: HOSTNAME,
         computeIterations: iterations,
+        executionTimeMs: executionTimeMs,
         resultChecksum: computeResult.toFixed(4),
         totalRequestsHandled: requestCount,
         timestamp: new Date().toISOString()

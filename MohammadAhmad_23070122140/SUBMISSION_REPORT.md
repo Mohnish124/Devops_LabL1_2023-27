@@ -25,7 +25,8 @@ MohammadAhmad_23070122140/
 ├── Project_2_Deploy_React_Docker/             [VERIFIED - React SPA Build & Multi-stage Docker]
 ├── Project_4_Distributed_Jenkins_Pipeline/    [VERIFIED - Maven Build & Master/Slave Architecture]
 ├── Project_5_Containerizing_DTR/              [VERIFIED - Spring Boot Build, Docker Run & Security Scan]
-└── Project_6_Kubernetes_Autoscaling/          [VERIFIED - K8s Manifests, HPA Autoscaling & Load Verification]
+├── Project_6_Kubernetes_Autoscaling/          [VERIFIED - K8s Manifests, HPA Autoscaling & Load Verification]
+└── Project_7_Mongo_MongoExpress/              [VERIFIED - K8s Manifests, Secret, ConfigMap, Deployments & Services]
 ```
 
 ---
@@ -99,6 +100,8 @@ Every `screenshots/` directory contains a dedicated `SCREENSHOTS_REQUIRED.md` fi
 | `Project_2_Deploy_React_Docker/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 10 Screenshots (Vite source, multi-stage build, docker-compose, browser UI) |
 | `Project_4_Distributed_Jenkins_Pipeline/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 3 Screenshots (Slave nodes list, stage view across nodes, JAR artifact) |
 | `Project_5_Containerizing_DTR/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Spring Boot Maven build, Docker build/run, REST endpoints, Security scan) |
+| `Project_6_Kubernetes_Autoscaling/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 5 Screenshots (Cluster nodes, deployment, SocialSphere web UI & endpoints, HPA load scale-up, scale-down) |
+| `Project_7_Mongo_MongoExpress/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Cluster & namespace, Mongo deployment & svc, Mongo Express running, Mongo Express UI) |
 
 ---
 
