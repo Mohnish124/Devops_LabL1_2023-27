@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Infrastructure - Kubernetes Autoscaling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-light: #60a5fa;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .brand-title h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .brand-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 0.4rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .banner {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .banner-text h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .banner-text p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .pod-identity-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            text-align: right;
+        }
+
+        .pod-identity-box .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pod-identity-box .val {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .post-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #334155;
+        }
+
+        .post-user h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .post-user span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .post-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.25rem;
+        }
+
+        .panel h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .metrics-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .metrics-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .metrics-label {
+            color: var(--text-muted);
+        }
+
+        .metrics-val {
+            font-weight: 600;
+            font-family: monospace;
+            color: white;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 0.75rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            padding: 1.25rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="brand-icon">K8s</div>
+            <div class="brand-title">
+                <h1>Social Media Infra Hub</h1>
+                <p>Project 6 • Kubernetes Horizontal Pod Autoscaler (HPA)</p>
+            </div>
+        </div>
+        <div class="status-badge">
+            <div class="pulse-dot"></div>
+            <span>Kubernetes Cluster: Active</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="banner">
+            <div class="banner-text">
+                <h2>Underlying Infrastructure Scalability</h2>
+                <p>Handling dynamic social media traffic spikes via automated horizontal container scaling.</p>
+            </div>
+            <div class="pod-identity-box">
+                <div class="label">Serving Pod ID</div>
+                <div class="val" id="pod-name">loading...</div>
+            </div>
+        </section>
+
+        <section class="feed-container" id="feed-container">
+            <!-- Feed posts dynamically inserted -->
+        </section>
+
+        <aside class="sidebar">
+            <div class="panel">
+                <h3>⚡ Node / Pod Metrics</h3>
+                <ul class="metrics-list">
+                    <li class="metrics-item">
+                        <span class="metrics-label">Environment</span>
+                        <span class="metrics-val">Kubernetes (HPA)</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">Min Replicas</span>
+                        <span class="metrics-val">2 Pods</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">Max Replicas</span>
+                        <span class="metrics-val">10 Pods</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">CPU Target</span>
+                        <span class="metrics-val">50% Utilization</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">Requests Handled</span>
+                        <span class="metrics-val" id="req-count">0</span>
+                    </li>
+                </ul>
+                <a href="/api/posts" class="btn" target="_blank">View Raw JSON Feed</a>
+            </div>
+
+            <div class="panel">
+                <h3>🩺 Probe Endpoints</h3>
+                <ul class="metrics-list">
+                    <li class="metrics-item">
+                        <span class="metrics-label">Readiness Probe</span>
+                        <span class="metrics-val" style="color: var(--accent-green)">HTTP 200 /health</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">Liveness Probe</span>
+                        <span class="metrics-val" style="color: var(--accent-green)">HTTP 200 /health</span>
+                    </li>
+                    <li class="metrics-item">
+                        <span class="metrics-label">Load Test Route</span>
+                        <span class="metrics-val" style="color: var(--accent-amber)">GET /api/load</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Student: <strong>Mohammad Ahmad</strong> (PNR: <code>23070122140</code>) | DevOps Lab 2023-27 | Project 6: Kubernetes Autoscaling</p>
+    </footer>
+
+    <script>
+        async function fetchFeed() {
+            try {
+                const res = await fetch('/api/posts');
+                const data = await res.json();
+                document.getElementById('pod-name').textContent = data.servedByPod || 'unknown-pod';
+                document.getElementById('req-count').textContent = data.totalRequestsHandled || '1';
+
+                const container = document.getElementById('feed-container');
+                container.innerHTML = '';
+
+                data.posts.forEach(post => {
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    card.innerHTML = `
+                        <div class="post-header">
+                            <img src="${post.avatar}" alt="avatar" class="post-avatar" />
+                            <div class="post-user">
+                                <h4>${post.authorName}</h4>
+                                <span>${post.author} • ${post.timestamp}</span>
+                            </div>
+                        </div>
+                        <p class="post-content">${post.content}</p>
+                        <div class="post-tags">
+                            ${post.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                        </div>
+                        <div class="post-meta">
+                            <span>❤️ ${post.likes.toLocaleString()} Likes • 🔁 ${post.shares} Shares</span>
+                            <span>Served by: <code>${data.servedByPod}</code></span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Failed to load feed:", err);
+            }
+        }
+        fetchFeed();
+    </script>
+</body>
+</html>

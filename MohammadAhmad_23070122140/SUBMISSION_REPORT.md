@@ -24,7 +24,8 @@ MohammadAhmad_23070122140/
 ├── Project_1_Dockerizing_Jenkins_Pipeline/    [VERIFIED - 5-Stage Declarative Jenkinsfile]
 ├── Project_2_Deploy_React_Docker/             [VERIFIED - React SPA Build & Multi-stage Docker]
 ├── Project_4_Distributed_Jenkins_Pipeline/    [VERIFIED - Maven Build & Master/Slave Architecture]
-└── Project_5_Containerizing_DTR/              [VERIFIED - Spring Boot Build, Docker Run & Security Scan]
+├── Project_5_Containerizing_DTR/              [VERIFIED - Spring Boot Build, Docker Run & Security Scan]
+└── Project_6_Kubernetes_Autoscaling/          [VERIFIED - K8s Manifests, HPA Autoscaling & Load Verification]
 ```
 
 ---
