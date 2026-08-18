@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socialsphere-backend
+  labels:
+    app: socialsphere-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: socialsphere-backend
+  template:
+    metadata:
+      labels:
+        app: socialsphere-backend
+    spec:
+      containers:
+      - name: backend
+        image: socialsphere-backend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3001
+        envFrom:
+        - configMapRef:
+            name: socialsphere-config
+        - secretRef:
+            name: socialsphere-secret
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 10
