@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Development Environment
+  dev-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  # Production Environment
+  prod-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"

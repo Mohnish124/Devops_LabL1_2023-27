@@ -23,7 +23,12 @@ MohammadAhmad_23070122140/
 ├── Assignment_TW1.3_Docker_Jenkins/           [VERIFIED - Dockerfile & Freestyle UI Specs]
 ├── Project_1_Dockerizing_Jenkins_Pipeline/    [VERIFIED - 5-Stage Declarative Jenkinsfile]
 ├── Project_2_Deploy_React_Docker/             [VERIFIED - React SPA Build & Multi-stage Docker]
-└── Project_4_Distributed_Jenkins_Pipeline/    [VERIFIED - Maven Build & Master/Slave Architecture]
+├── Project_4_Distributed_Jenkins_Pipeline/    [VERIFIED - Maven Build & Master/Slave Architecture]
+├── Project_5_Containerizing_DTR/              [VERIFIED - Spring Boot Build, Docker Run & Security Scan]
+├── Project_6_Kubernetes_Autoscaling/          [VERIFIED - K8s Manifests, HPA Autoscaling & Load Verification]
+├── Project_7_Mongo_MongoExpress/              [VERIFIED - K8s Manifests, Secret, ConfigMap, Deployments & Services]
+├── Project_8_Microservices_Kubernetes/        [VERIFIED - 4 Microservices, Frontend UI, K8s Deployments, Services, ConfigMap & Secret]
+└── Project_9_Apache2_Kubernetes/              [VERIFIED - Apache2 httpd:2.4-alpine Deployment, ConfigMap & Host Access]
 ```
 
 ---
@@ -43,16 +48,17 @@ MohammadAhmad_23070122140/
 - **Verification Method:** Clean dependency installation (`npm install`) and Vite production bundle compilation (`npm run build`).
 - **Result:** ✅ PASSED (`vite v4.5.14 built in 590ms`, static bundle emitted to `dist/`).
 
-### C. Java Maven Portfolio Application (Project 4)
-- **Files Verified:** `portfolio/pom.xml`, `PortfolioApp.java`, `PortfolioAppTest.java`.
+### C. Java Maven Applications (Projects 4 & 5)
+- **Files Verified:** `portfolio/pom.xml`, `Project_5_Containerizing_DTR/pom.xml`, Java source controllers, JUnit 5 unit test classes.
 - **Verification Method:** Full Maven lifecycle build (`mvn clean test package`).
-- **Result:** ✅ PASSED (Java compiler source/target configured for Java 8/11 compatibility, JUnit 5 unit tests executed with 0 failures, `devops-portfolio-app-1.0.0.jar` created).
+- **Result:** ✅ PASSED (JUnit 5 unit tests executed with 0 failures, `retailapp-1.0.0.jar` created).
 
 ### D. Containerization & Infrastructure Configs
 - **Dockerfiles Verified:**
   - `Assignment_TW1.3_Docker_Jenkins/Dockerfile` (`python:3.11-slim`)
   - `Project_1_Dockerizing_Jenkins_Pipeline/Dockerfile` (Flask + `HEALTHCHECK`)
   - `Project_2_Deploy_React_Docker/Dockerfile` (Multi-stage `node:18-alpine` → `nginx:alpine`)
+  - `Project_5_Containerizing_DTR/Dockerfile` (`eclipse-temurin:17-jre-alpine`)
 - **Nginx Configuration:** `Project_2_Deploy_React_Docker/nginx.conf` (`try_files $uri /index.html;`, gzip compression, asset caching).
 - **Docker Compose:** `Project_2_Deploy_React_Docker/docker-compose.yml` (Service definitions, port mapping `8080:80`).
 - **Result:** ✅ PASSED (Valid syntax, clean layer instructions, production-ready parameters).
@@ -94,7 +100,12 @@ Every `screenshots/` directory contains a dedicated `SCREENSHOTS_REQUIRED.md` fi
 | `Assignment_TW1.3_Docker_Jenkins/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 10 Screenshots (Dockerfile, Docker build/run/ps, Jenkins Freestyle UI & console) |
 | `Project_1_Dockerizing_Jenkins_Pipeline/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 9 Screenshots (Jenkinsfile, Stage View, health check, cleanup logs) |
 | `Project_2_Deploy_React_Docker/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 10 Screenshots (Vite source, multi-stage build, docker-compose, browser UI) |
-| `Project_4_Distributed_Jenkins_Pipeline/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 9 Screenshots (Slave nodes list, node configs, stage view across nodes, JAR artifact) |
+| `Project_4_Distributed_Jenkins_Pipeline/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 3 Screenshots (Slave nodes list, stage view across nodes, JAR artifact) |
+| `Project_5_Containerizing_DTR/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Spring Boot Maven build, Docker build/run, REST endpoints, Security scan) |
+| `Project_6_Kubernetes_Autoscaling/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 5 Screenshots (Cluster nodes, deployment, SocialSphere web UI & endpoints, HPA load scale-up, scale-down) |
+| `Project_7_Mongo_MongoExpress/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Cluster & namespace, Mongo deployment & svc, Mongo Express running, Mongo Express UI) |
+| `Project_8_Microservices_Kubernetes/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Deployments & pods, Services & ConfigMap & Secret, API verification & RPC, ShopSphere web UI) |
+| `Project_9_Apache2_Kubernetes/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Cluster & deployment, Apache NodePort service, Host-machine curl access, Apache access logs) |
 
 ---
 
