@@ -1,0 +1,22 @@
+pipeline {
+  agent none
+  tools { maven 'M3' }
+  stages {
+    stage('Build') {
+      agent { label 'agent-1' }
+      steps {
+        echo "Building on ${env.NODE_NAME}"
+        sh 'mvn -B clean compile'
+      }
+    }
+    stage('Test & Package') {
+      agent { label 'agent-2' }
+      steps {
+        echo "Testing on ${env.NODE_NAME}"
+        sh 'mvn -B test package'
+        junit '**/target/surefire-reports/*.xml'
+        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+      }
+    }
+  }
+}

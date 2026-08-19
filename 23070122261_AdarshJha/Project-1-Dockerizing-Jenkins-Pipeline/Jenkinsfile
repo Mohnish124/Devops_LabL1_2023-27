@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Workspace Information') {
+            steps {
+                sh 'echo "Current Working Directory:"'
+                sh 'pwd'
+                sh 'echo "Workspace Contents:"'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Verify Project Files') {
+            steps {
+                sh 'echo "Checking Assignment Folder..."'
+                sh 'ls -la Assignment-TW1.3Docker-Jenkins'
+                sh 'echo "Jenkins Pipeline is running successfully!"'
+            }
+        }
+
+        stage('Pipeline Completed') {
+            steps {
+                echo 'Project 1: Dockerizing Jenkins Pipeline completed successfully!'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution finished.'
+        }
+
+        success {
+            echo 'SUCCESS: All pipeline stages executed successfully.'
+        }
+
+        failure {
+            echo 'FAILURE: Please check the console output.'
+        }
+    }
+}
