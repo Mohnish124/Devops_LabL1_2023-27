@@ -1,0 +1,12 @@
+{
+  "name": "socialsphere",
+  "version": "1.0.0",
+  "description": "Kubernetes Social Media Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
