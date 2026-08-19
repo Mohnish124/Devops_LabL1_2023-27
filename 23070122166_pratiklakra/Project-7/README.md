@@ -57,7 +57,7 @@ Project-7/
 ├── mongo-express-deployment.yaml
 ├── mongo-express-service.yaml
 │
-├── Screenshots/
+├── screenshots/
 │
 ├── README.md
 │
@@ -72,7 +72,7 @@ Project-7/
 | `mongodb-service.yaml` | Provides internal MongoDB networking using ClusterIP |
 | `mongo-express-deployment.yaml` | Defines the Mongo Express Deployment and environment variables |
 | `mongo-express-service.yaml` | Exposes Mongo Express using NodePort |
-| `Screenshots/` | Contains screenshots captured during implementation |
+| `screenshots/` | Contains screenshots captured during implementation |
 | `README.md` | Project documentation |
 | `.gitignore` | Specifies files ignored by Git |
 
@@ -123,7 +123,7 @@ The Kubernetes cluster was verified using Minikube and `kubectl` before deployin
 minikube status
 ```
 
-![Step 1 - Cluster Running](Screenshots/02_cluster_running.png)
+![Step 1 - Cluster Running](screenshots/02_cluster_running.png)
 
 The Minikube cluster is running successfully and is ready for Kubernetes deployments.
 
@@ -131,7 +131,7 @@ The Minikube cluster is running successfully and is ready for Kubernetes deploym
 kubectl get all
 ```
 
-![Step 1 - Existing Cluster Resources](Screenshots/03_existing_cluster_resources.png)
+![Step 1 - Existing Cluster Resources](screenshots/03_existing_cluster_resources.png)
 
 Existing Kubernetes resources were checked before starting the MongoDB and Mongo Express deployment.
 
@@ -150,7 +150,7 @@ data:
   mongodb-password: cGFzc3dvcmQ=
 ```
 
-![Step 2 - MongoDB Secret YAML](Screenshots/04_mongodb_secret_yaml.png)
+![Step 2 - MongoDB Secret YAML](screenshots/04_mongodb_secret_yaml.png)
 
 The Secret manifest defines the credentials required for authenticated MongoDB access.
 
@@ -167,7 +167,7 @@ data:
   database_url: mongodb-service
 ```
 
-![Step 3 - ConfigMap YAML](Screenshots/05_configmap_yaml.png)
+![Step 3 - ConfigMap YAML](screenshots/05_configmap_yaml.png)
 
 The ConfigMap defines `mongodb-service` as the internal MongoDB endpoint.
 
@@ -208,7 +208,7 @@ spec:
                   key: mongodb-password
 ```
 
-![Step 4 - MongoDB Deployment YAML](Screenshots/06_mongodb_deployment_yaml.png)
+![Step 4 - MongoDB Deployment YAML](screenshots/06_mongodb_deployment_yaml.png)
 
 The MongoDB Deployment creates the database Pod and retrieves its credentials from the Kubernetes Secret.
 
@@ -231,7 +231,7 @@ spec:
   type: ClusterIP
 ```
 
-![Step 5 - MongoDB Service YAML](Screenshots/07_mongodb_service_yaml.png)
+![Step 5 - MongoDB Service YAML](screenshots/07_mongodb_service_yaml.png)
 
 The MongoDB Service exposes port `27017` for internal cluster communication.
 
@@ -277,7 +277,7 @@ spec:
                   key: database_url
 ```
 
-![Step 6 - Mongo Express Deployment YAML](Screenshots/08_mongo_express_deployment_yaml.png)
+![Step 6 - Mongo Express Deployment YAML](screenshots/08_mongo_express_deployment_yaml.png)
 
 Mongo Express obtains its credentials from the Secret and its MongoDB service name from the ConfigMap.
 
@@ -301,7 +301,7 @@ spec:
   type: NodePort
 ```
 
-![Step 7 - Mongo Express Service YAML](Screenshots/09_mongo_express_service_yaml.png)
+![Step 7 - Mongo Express Service YAML](screenshots/09_mongo_express_service_yaml.png)
 
 The NodePort Service exposes Mongo Express externally through port `30000`.
 
@@ -313,7 +313,7 @@ The Kubernetes resource files were applied using `kubectl apply` in the required
 kubectl apply -f mongodb-secret.yaml
 ```
 
-![Step 8 - Secret Apply](Screenshots/10_secret_apply_success.png)
+![Step 8 - Secret Apply](screenshots/10_secret_apply_success.png)
 
 The MongoDB Secret was created successfully.
 
@@ -321,7 +321,7 @@ The MongoDB Secret was created successfully.
 kubectl apply -f mongodb-configmap.yaml
 ```
 
-![Step 8 - ConfigMap Apply](Screenshots/11_configmap_apply_success.png)
+![Step 8 - ConfigMap Apply](screenshots/11_configmap_apply_success.png)
 
 The MongoDB ConfigMap was created successfully.
 
@@ -329,7 +329,7 @@ The MongoDB ConfigMap was created successfully.
 kubectl apply -f mongodb-deployment.yaml
 ```
 
-![Step 8 - MongoDB Deployment Apply](Screenshots/12_mongodb_deployment_apply.png)
+![Step 8 - MongoDB Deployment Apply](screenshots/12_mongodb_deployment_apply.png)
 
 The MongoDB Deployment was created successfully.
 
@@ -337,7 +337,7 @@ The MongoDB Deployment was created successfully.
 kubectl apply -f mongodb-service.yaml
 ```
 
-![Step 8 - MongoDB Service Apply](Screenshots/13_mongodb_service_apply.png)
+![Step 8 - MongoDB Service Apply](screenshots/13_mongodb_service_apply.png)
 
 The MongoDB ClusterIP Service was created successfully.
 
@@ -345,7 +345,7 @@ The MongoDB ClusterIP Service was created successfully.
 kubectl apply -f mongo-express-deployment.yaml
 ```
 
-![Step 8 - Mongo Express Deployment Apply](Screenshots/14_mongo_express_deployment_apply.png)
+![Step 8 - Mongo Express Deployment Apply](screenshots/14_mongo_express_deployment_apply.png)
 
 The Mongo Express Deployment was created successfully.
 
@@ -353,7 +353,7 @@ The Mongo Express Deployment was created successfully.
 kubectl apply -f mongo-express-service.yaml
 ```
 
-![Step 8 - Mongo Express Service Apply](Screenshots/15_mongo_express_service_apply.png)
+![Step 8 - Mongo Express Service Apply](screenshots/15_mongo_express_service_apply.png)
 
 The Mongo Express NodePort Service was created successfully.
 
@@ -365,7 +365,7 @@ The Kubernetes resources were verified individually to confirm that the deployme
 kubectl get secrets
 ```
 
-![Step 9 - Secret Created](Screenshots/16_secret_created.png)
+![Step 9 - Secret Created](screenshots/16_secret_created.png)
 
 The MongoDB Secret is available in the Kubernetes cluster.
 
@@ -373,7 +373,7 @@ The MongoDB Secret is available in the Kubernetes cluster.
 kubectl get configmaps
 ```
 
-![Step 9 - ConfigMap Created](Screenshots/17_configmap_created.png)
+![Step 9 - ConfigMap Created](screenshots/17_configmap_created.png)
 
 The MongoDB ConfigMap is available for application configuration.
 
@@ -381,7 +381,7 @@ The MongoDB ConfigMap is available for application configuration.
 kubectl get deployments
 ```
 
-![Step 9 - Deployments Running](Screenshots/18_deployments_running.png)
+![Step 9 - Deployments Running](screenshots/18_deployments_running.png)
 
 Both MongoDB and Mongo Express Deployments are running successfully.
 
@@ -389,7 +389,7 @@ Both MongoDB and Mongo Express Deployments are running successfully.
 kubectl get pods
 ```
 
-![Step 9 - Pods Running](Screenshots/19_pods_running.png)
+![Step 9 - Pods Running](screenshots/19_pods_running.png)
 
 The MongoDB and Mongo Express Pods have reached the running state.
 
@@ -397,7 +397,7 @@ The MongoDB and Mongo Express Pods have reached the running state.
 kubectl get svc
 ```
 
-![Step 9 - Services Running](Screenshots/20_services_running.png)
+![Step 9 - Services Running](screenshots/20_services_running.png)
 
 The MongoDB ClusterIP and Mongo Express NodePort Services are available.
 
@@ -405,7 +405,7 @@ The MongoDB ClusterIP and Mongo Express NodePort Services are available.
 kubectl get all
 ```
 
-![Step 9 - Cluster Resources](Screenshots/21_cluster_resources.png)
+![Step 9 - Cluster Resources](screenshots/21_cluster_resources.png)
 
 The cluster resource overview confirms that the required application resources are deployed.
 
@@ -417,11 +417,11 @@ Mongo Express was accessed through the Minikube Service command.
 minikube service mongo-express-service
 ```
 
-![Step 10 - Open Mongo Express](Screenshots/22_open_mongo_express.png)
+![Step 10 - Open Mongo Express](screenshots/22_open_mongo_express.png)
 
 Minikube successfully exposed the Mongo Express NodePort Service for browser access.
 
-![Step 10 - Mongo Express Dashboard](Screenshots/22_mongo_express_dashboard.png)
+![Step 10 - Mongo Express Dashboard](screenshots/22_mongo_express_dashboard.png)
 
 The Mongo Express dashboard loaded successfully, confirming communication with MongoDB.
 
@@ -433,7 +433,7 @@ The Mongo Express logs were checked to verify application startup and database c
 kubectl logs deployment/mongo-express-deployment
 ```
 
-![Step 11 - Mongo Express Logs](Screenshots/23_mongo_express_logs.png)
+![Step 11 - Mongo Express Logs](screenshots/23_mongo_express_logs.png)
 
 The logs confirm successful Mongo Express operation and database connectivity. Sensitive credentials in the screenshot have been intentionally obscured as a security best practice.
 
@@ -445,7 +445,7 @@ The final Kubernetes cluster state was verified using:
 kubectl get all
 ```
 
-![Step 12 - Final Cluster State](Screenshots/24_final_cluster_state.png)
+![Step 12 - Final Cluster State](screenshots/24_final_cluster_state.png)
 
 The final state confirms that only MongoDB-related Kubernetes resources remain after cleaning up resources from previous projects.
 
