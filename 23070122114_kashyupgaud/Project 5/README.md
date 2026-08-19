@@ -1,7 +1,7 @@
-# Project 5 — Containerizing a Spring Boot Application and Scanning Its Docker Image
+# Project 5 — Containerizing a Spring Boot Application and Inspecting Its Docker Image
 
 ## 1. Project Overview
-This project demonstrates how to containerize a Spring Boot retail web application, deploy it as a Docker container, test its endpoints, inspect the Docker image, and scan the image for known vulnerabilities.
+This project demonstrates how to containerize a Spring Boot retail web application, deploy it as a Docker container, test its endpoints, and inspect the Docker image layers.
 
 **Final configuration used for the main run:**
 - **Application**: retail-app
@@ -11,7 +11,6 @@ This project demonstrates how to containerize a Spring Boot retail web applicati
 - **Docker image**: retail-app:latest
 - **Container**: retail-container1
 - **Port mapping**: 8085:8080
-- **Image scanner**: Docker Scout
 
 ### Architecture
 ```text
@@ -34,9 +33,6 @@ Docker Container: retail-container1
         |
         v
 localhost:8085
-        |
-        v
-Docker Scout CVE Scan
 ```
 
 ## 2. Prerequisites
@@ -75,15 +71,7 @@ public String orders() {
 }
 ```
 
-## 4. Run the Application Locally
-The application was started using the Maven Wrapper:
-```bash
-.\mvnw.cmd spring-boot:run
-```
-**Evidence:**
-![Spring Boot local run](screenshots/01-spring-boot-local.png)
-
-## 5. Build the Spring Boot JAR
+## 4. Build the Spring Boot JAR
 The executable JAR was generated using:
 ```bash
 .\mvnw.cmd clean package -DskipTests
@@ -91,13 +79,7 @@ The executable JAR was generated using:
 **Evidence:**
 ![Maven build](screenshots/02-maven-build-and-jar.png)
 
-The target directory contains the executable JAR used by Docker:
-`retail-app-0.0.1-SNAPSHOT.jar`
-
-**JAR selection evidence:**
-![Generated JAR files](screenshots/03-jar-files.png)
-
-## 6. Dockerfile
+## 5. Dockerfile
 The Dockerfile uses a Java 17 JRE image and copies the executable Spring Boot JAR into the container.
 
 ```dockerfile
@@ -107,7 +89,7 @@ COPY target/retail-app-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## 7. Build the Docker Image
+## 6. Build the Docker Image
 The image was built with:
 ```bash
 docker build -t retail-app:latest .
@@ -115,50 +97,31 @@ docker build -t retail-app:latest .
 **Evidence:**
 ![Docker build](screenshots/04-docker-build.png)
 
-## 8. Verify the Docker Image
-The created images were checked with:
-```bash
-docker images
-```
-**Evidence:**
-![Docker images](screenshots/05-docker-image-list.png)
-
-## 9. Run the Docker Container
+## 7. Run the Docker Container
 The Spring Boot application was deployed in a Docker container using:
 ```bash
 docker run -d --name retail-container1 -p 8085:8080 retail-app:latest
 ```
-The running container was verified with `docker ps`.
-**Evidence:**
-![Docker container running](screenshots/06-container-run-and-ps.png)
 
-## 10. Test the Home Endpoint
+## 8. Test the Home Endpoint
 Open `http://localhost:8085` in a browser.
 **Expected response:** `Retail Company Web Application is Running!`
 **Evidence:**
 ![Retail home page](screenshots/07-home-page.png)
 
-## 11. Test the Products Endpoint
+## 9. Test the Products Endpoint
 Open `http://localhost:8085/products` in a browser.
 **Expected response:** `Product Catalog: Laptop, Smartphone, Headphones, Smart Watch`
 **Evidence:**
 ![Products endpoint](screenshots/08-products-endpoint.png)
 
-## 12. Test the Orders Endpoint
+## 10. Test the Orders Endpoint
 Open `http://localhost:8085/orders` in a browser.
 **Expected response:** `Order Management Service is Running!`
 **Evidence:**
 ![Orders endpoint](screenshots/09-orders-endpoint.png)
 
-## 13. Check Docker Container Logs
-The application logs were checked using:
-```bash
-docker logs retail-container1
-```
-**Evidence:**
-![Docker logs](screenshots/10-container-logs.png)
-
-## 14. Inspect Docker Image Layers
+## 11. Inspect Docker Image Layers
 The image history was inspected using:
 ```bash
 docker history retail-app:latest
@@ -166,17 +129,7 @@ docker history retail-app:latest
 **Evidence:**
 ![Docker image history](screenshots/11-docker-history.png)
 
-## 15. Scan the Docker Image for Vulnerabilities
-Docker Scout was used to scan the image:
-```bash
-docker scout cves local://retail-app:latest
-```
-**Evidence:**
-![Docker Scout vulnerability scan](screenshots/12-scout-vulnerability-scan.png)
-
-*Important note: A vulnerability finding does not mean the Docker build failed. The purpose of this step is to identify security issues in the image so that the base image or affected dependency can be updated.*
-
-## 16. Final Result
+## 12. Final Result
 The Spring Boot retail application was successfully:
 - Built with Maven.
 - Packaged as an executable JAR.
@@ -185,5 +138,32 @@ The Spring Boot retail application was successfully:
 - Deployed as `retail-container1`.
 - Exposed through port `8085`.
 - Tested through the home, products, and orders endpoints.
-- Verified through Docker logs and image history.
-- Scanned using Docker Scout for known vulnerabilities.
+- Verified through image history.
+
+### Final deployment
+```text
+Docker Image
+retail-app:latest
+       |
+       v
+Docker Container
+retail-container1
+       |
+       | 8085:8080
+       v
+http://localhost:8085
+```
+
+## 13. Project Deliverables
+This package contains:
+```text
+Project5_Retail_App_Docker/
+├── README.md
+└── screenshots/
+    ├── 02-maven-build-and-jar.png
+    ├── 04-docker-build.png
+    ├── 07-home-page.png
+    ├── 08-products-endpoint.png
+    ├── 09-orders-endpoint.png
+    └── 11-docker-history.png
+```
