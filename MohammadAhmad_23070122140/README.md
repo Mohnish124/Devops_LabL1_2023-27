@@ -26,6 +26,10 @@ Every task is structured into an independent, fully self-contained folder equipp
 | **Project 2** | Production React SPA Deployment with Multi-Stage Docker & Nginx | [Project_2_Deploy_React_Docker](./Project_2_Deploy_React_Docker) |
 | **Project 4** | Architecting Scalable Distributed Jenkins Pipeline across Agent Nodes | [Project_4_Distributed_Jenkins_Pipeline](./Project_4_Distributed_Jenkins_Pipeline) |
 | **Project 5** | Containerizing Spring Boot Retail Application & DTR Security Scanning | [Project_5_Containerizing_DTR](./Project_5_Containerizing_DTR) |
+| **Project 6** | Social Media Infra Scalability & Kubernetes Horizontal Pod Autoscaling | [Project_6_Kubernetes_Autoscaling](./Project_6_Kubernetes_Autoscaling) |
+| **Project 7** | Mongo & Mongo Express Kubernetes Deployments, Services, ConfigMaps & Secrets | [Project_7_Mongo_MongoExpress](./Project_7_Mongo_MongoExpress) |
+| **Project 8** | Multi-Tier E-Commerce Microservices Mesh with Kubernetes Deployments, Services, ConfigMaps & Secrets | [Project_8_Microservices_Kubernetes](./Project_8_Microservices_Kubernetes) |
+| **Project 9** | Apache2 Web Server Kubernetes Deployment, ConfigMap Mounting & Host Access | [Project_9_Apache2_Kubernetes](./Project_9_Apache2_Kubernetes) |
 
 ---
 
@@ -80,11 +84,40 @@ MohammadAhmad_23070122140/
 │   └── screenshots/
 │       └── SCREENSHOTS_REQUIRED.md
 │
-└── Project_5_Containerizing_DTR/              # Containerized Spring Boot Application & DTR Security Scanning
-    ├── src/                                   # Spring Boot Retail REST Application
-    ├── Dockerfile                             # Production Dockerfile (eclipse-temurin:17-jre-alpine)
-    ├── pom.xml                                # Maven build descriptor
-    ├── README.md                              # End-to-end containerization & security scanning guide
+├── Project_5_Containerizing_DTR/              # Containerized Spring Boot Application & DTR Security Scanning
+│   ├── src/                                   # Spring Boot Retail REST Application
+│   ├── Dockerfile                             # Production Dockerfile (eclipse-temurin:17-jre-alpine)
+│   ├── pom.xml                                # Maven build descriptor
+│   ├── README.md                              # End-to-end containerization & security scanning guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+├── Project_6_Kubernetes_Autoscaling/          # Social Media Infra & Kubernetes Horizontal Pod Autoscaler (HPA)
+│   ├── app/                                   # Node.js Express Social Media Service & UI
+│   ├── Dockerfile                             # Production Dockerfile (node:18-alpine)
+│   ├── k8s/                                   # Kubernetes Manifests (Namespace, Deployment, Service, HPA, Load Generator)
+│   ├── README.md                              # Complete architecture & autoscaling execution guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+├── Project_7_Mongo_MongoExpress/              # Mongo & Mongo Express Deployments, Services, ConfigMaps & Secret
+│   ├── k8s/                                   # Declarative Manifests (Namespace, Secret, ConfigMap, Deployments, Services)
+│   ├── README.md                              # End-to-end architecture, DNS discovery & verification guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+├── Project_8_Microservices_Kubernetes/        # 4 Microservices & Frontend Orchestration with Deployments, Services, ConfigMaps & Secrets
+│   ├── frontend/                              # ShopSphere Web Dashboard & API Proxy Gateway
+│   ├── services/                              # Product, User, Order & Notification Microservices
+│   ├── k8s/                                   # Declarative Kubernetes Manifests (Namespace, ConfigMap, Secret, Deployments, Services)
+│   ├── README.md                              # Comprehensive microservices architecture & verification guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+└── Project_9_Apache2_Kubernetes/              # Apache2 (httpd:2.4-alpine) Deployment, ConfigMap Mounting & Host Access
+    ├── html/                                  # Custom HTML5 web document
+    ├── k8s/                                   # Declarative Manifests (Namespace, ConfigMap, Deployment, Service)
+    ├── README.md                              # Deployment, architecture & host access guide
     └── screenshots/
         └── SCREENSHOTS_REQUIRED.md
 ```
