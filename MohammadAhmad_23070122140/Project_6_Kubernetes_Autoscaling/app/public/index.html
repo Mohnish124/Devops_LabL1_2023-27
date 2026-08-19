@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialSphere — Kubernetes Social Media Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --card-bg: #1f293d;
+            --card-hover: #26334d;
+            --card-border: #374151;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.25);
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --text-dim: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ---------------- Header ---------------- */
+        header {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.9rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent-green);
+            padding: 0.45rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { transform: scale(1.15); opacity: 0.9; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        }
+
+        /* ---------------- Main Layout ---------------- */
+        main {
+            max-width: 1280px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        /* ---------------- Stats Row ---------------- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .stat-info .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ---------------- Infrastructure Banner ---------------- */
+        .infra-banner {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.35), rgba(88, 28, 135, 0.35));
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 16px;
+            padding: 1.4rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .infra-text h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .infra-text p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            max-width: 620px;
+            line-height: 1.4;
+        }
+
+        .pod-identity-pill {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            border-radius: 12px;
+            padding: 0.75rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 260px;
+        }
+
+        .pod-identity-pill .pod-title {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .pod-identity-pill .pod-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            word-break: break-all;
+        }
+
+        /* ---------------- Content Columns ---------------- */
+        .content-columns {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* ---------------- Social Feed ---------------- */
+        .feed-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-refresh {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 8px;
+            padding: 0.4rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background: rgba(59, 130, 246, 0.3);
+            color: #ffffff;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.4rem;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.35);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-author-row {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .post-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .author-meta h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .author-meta span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .post-body {
+            font-size: 0.95rem;
+            line-height: 1.55;
+            color: #e2e8f0;
+            margin-bottom: 0.9rem;
+        }
+
+        .post-tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag-pill {
+            font-size: 0.75rem;
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 0.85rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .action-btn:hover {
+            color: #ffffff;
+        }
+
+        .serving-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        /* ---------------- Sidebar Panels ---------------- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .sidebar-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.3rem;
+        }
+
+        .sidebar-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 0.6rem;
+        }
+
+        /* Compute Panel */
+        .compute-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .compute-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .btn-compute {
+            background: linear-gradient(135deg, var(--accent-amber), #d97706);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+            transition: transform 0.15s, opacity 0.15s;
+        }
+
+        .btn-compute:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-compute:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .compute-result-box {
+            display: none;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #fef3c7;
+        }
+
+        .compute-result-box.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Metrics list */
+        .metrics-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+        }
+
+        .metric-name {
+            color: var(--text-muted);
+        }
+
+        .metric-val {
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            color: #ffffff;
+        }
+
+        .tag-green {
+            color: var(--accent-green);
+        }
+
+        .tag-blue {
+            color: var(--primary);
+        }
+
+        .btn-endpoint {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 0.55rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s;
+        }
+
+        .btn-endpoint:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ---------------- Footer ---------------- */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            padding: 1.25rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            background: rgba(17, 24, 39, 0.4);
+        }
+
+        footer strong {
+            color: #ffffff;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content-columns {
+                grid-template-columns: 1fr;
+            }
+            .infra-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pod-identity-pill {
+                align-items: flex-start;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">🌐</div>
+            <div class="brand-text">
+                <h1>SocialSphere</h1>
+                <p>Kubernetes Social Media Platform • DevOps Lab</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="status-badge" id="system-status-badge">
+                <div class="pulse-dot"></div>
+                <span>SYSTEM ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+
+        <!-- Top Statistics Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Feed Posts</div>
+                    <div class="stat-value" id="stat-posts">3</div>
+                </div>
+                <div class="stat-icon">📰</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">API Requests</div>
+                    <div class="stat-value" id="stat-requests">...</div>
+                </div>
+                <div class="stat-icon">⚡</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Server Uptime</div>
+                    <div class="stat-value" id="stat-uptime">...</div>
+                </div>
+                <div class="stat-icon">⏱️</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Pod Replica Target</div>
+                    <div class="stat-value" style="color: var(--accent-green)">2 - 10</div>
+                </div>
+                <div class="stat-icon">☸️</div>
+            </div>
+        </section>
+
+        <!-- Kubernetes Infrastructure & Pod Identity Card -->
+        <section class="infra-banner">
+            <div class="infra-text">
+                <h2>☸️ Kubernetes Pod Identity & Infrastructure</h2>
+                <p>Every incoming HTTP request is load balanced across active container replicas by the <code>social-media-service</code>. The identity box confirms which Kubernetes pod processed this response.</p>
+            </div>
+            <div class="pod-identity-pill">
+                <span class="pod-title">Serving Pod ID</span>
+                <span class="pod-code" id="pod-hostname-display">fetching pod...</span>
+            </div>
+        </section>
+
+        <!-- 2 Column Content Layout -->
+        <div class="content-columns">
+
+            <!-- Social Media Feed Column -->
+            <section class="feed-section">
+                <div class="section-header">
+                    <h3>📢 Live Social Feed</h3>
+                    <button class="btn-refresh" id="btn-refresh-feed" onclick="fetchLiveFeed(true)">
+                        <span>🔄</span> Refresh Pod & Feed
+                    </button>
+                </div>
+                <div id="posts-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Dynamically generated posts -->
+                </div>
+            </section>
+
+            <!-- Sidebar Controls & Probes -->
+            <aside class="sidebar">
+
+                <!-- Compute Load Test -->
+                <div class="sidebar-card">
+                    <h3>⚡ Compute / Load Simulation</h3>
+                    <div class="compute-box">
+                        <p class="compute-desc">Trigger CPU-intensive calculations (trigonometric & square root iterations) to simulate social media indexing workloads that trigger Kubernetes Horizontal Pod Autoscaling (HPA).</p>
+                        <button class="btn-compute" id="btn-run-compute" onclick="runComputeTest()">
+                            <span>🔥</span> Run Compute Test
+                        </button>
+                        <div class="compute-result-box" id="compute-result-box">
+                            <div><strong>STATUS:</strong> Complete</div>
+                            <div><strong>POD:</strong> <span id="comp-pod">-</span></div>
+                            <div><strong>TIME:</strong> <span id="comp-time">-</span> ms</div>
+                            <div><strong>CHECKSUM:</strong> <span id="comp-sum">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Health Probes -->
+                <div class="sidebar-card">
+                    <h3>🩺 Service Telemetry</h3>
+                    <ul class="metrics-list">
+                        <li class="metric-row">
+                            <span class="metric-name">Application Status</span>
+                            <span class="metric-val tag-green" id="telemetry-status">ONLINE</span>
+                        </li>
+                        <li class="metric-row">
+                            <span class="metric-name">Active Namespace</span>
+                            <span class="metric-val tag-blue">social-media</span>
+                        </li>
+                        <li class="metric-row">
+                            <span class="metric-name">Readiness Probe</span>
+                            <span class="metric-val tag-green">HTTP 200 /health</span>
+                        </li>
+                        <li class="metric-row">
+                            <span class="metric-name">Liveness Probe</span>
+                            <span class="metric-val tag-green">HTTP 200 /health</span>
+                        </li>
+                        <li class="metric-row">
+                            <span class="metric-name">Cluster Architecture</span>
+                            <span class="metric-val" id="telemetry-arch">Linux / x64</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- API Explorer Links -->
+                <div class="sidebar-card">
+                    <h3>🔗 Backend Endpoints</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="/api/posts" target="_blank" class="btn-endpoint">
+                            <span>GET /api/posts</span> <span>↗</span>
+                        </a>
+                        <a href="/health" target="_blank" class="btn-endpoint">
+                            <span>GET /health</span> <span>↗</span>
+                        </a>
+                        <a href="/api/compute" target="_blank" class="btn-endpoint">
+                            <span>GET /api/compute</span> <span>↗</span>
+                        </a>
+                        <a href="/api/info" target="_blank" class="btn-endpoint">
+                            <span>GET /api/info</span> <span>↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Student: <strong>Mohammad Ahmad</strong> (PNR: <code>23070122140</code>) • DevOps Lab 2023-27 • Project 6: Kubernetes Infrastructure & Application Autoscaling</p>
+    </footer>
+
+    <!-- Frontend Interactive JavaScript -->
+    <script>
+        function formatUptime(seconds) {
+            if (!seconds || isNaN(seconds)) return '0s';
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            if (h > 0) return `${h}h ${m}m ${s}s`;
+            if (m > 0) return `${m}m ${s}s`;
+            return `${s}s`;
+        }
+
+        async function fetchHealthTelemetry() {
+            try {
+                const res = await fetch('/health');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('stat-requests').textContent = Number(data.totalRequestsHandled).toLocaleString();
+                    document.getElementById('stat-uptime').textContent = formatUptime(data.uptimeSeconds);
+                    document.getElementById('pod-hostname-display').textContent = data.hostname || 'social-media-app';
+                    document.getElementById('telemetry-status').textContent = 'ONLINE (200 OK)';
+                }
+            } catch (err) {
+                console.warn("Telemetry fetch error:", err);
+            }
+        }
+
+        async function fetchLiveFeed(animate = false) {
+            const refreshBtn = document.getElementById('btn-refresh-feed');
+            if (animate) {
+                refreshBtn.style.opacity = '0.6';
+                refreshBtn.innerHTML = '<span>⏳</span> Querying...';
+            }
+
+            try {
+                const res = await fetch('/api/posts');
+                const data = await res.json();
+
+                if (data.systemCpus && data.hostArchitecture) {
+                    document.getElementById('telemetry-arch').textContent = `${data.hostArchitecture} (${data.systemCpus} Cores)`;
+                }
+
+                if (data.servedByPod) {
+                    document.getElementById('pod-hostname-display').textContent = data.servedByPod;
+                }
+
+                if (data.totalRequestsHandled) {
+                    document.getElementById('stat-requests').textContent = Number(data.totalRequestsHandled).toLocaleString();
+                }
+
+                if (data.feedCount) {
+                    document.getElementById('stat-posts').textContent = data.feedCount;
+                }
+
+                const container = document.getElementById('posts-container');
+                container.innerHTML = '';
+
+                data.posts.forEach((post, index) => {
+                    const card = document.createElement('article');
+                    card.className = 'post-card';
+                    card.innerHTML = `
+                        <div class="post-author-row">
+                            <img src="${post.avatar}" alt="${post.authorName}" class="post-avatar" />
+                            <div class="author-meta">
+                                <h4>${post.authorName}</h4>
+                                <span>${post.author} • ${post.timestamp}</span>
+                            </div>
+                        </div>
+                        <p class="post-body">${post.content}</p>
+                        <div class="post-tags-list">
+                            ${post.tags.map(t => `<span class="tag-pill">${t}</span>`).join('')}
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-actions">
+                                <button class="action-btn" onclick="likePost(this, ${post.likes})">
+                                    <span>❤️</span> <span>${Number(post.likes).toLocaleString()}</span>
+                                </button>
+                                <button class="action-btn">
+                                    <span>🔁</span> <span>${post.shares}</span>
+                                </button>
+                                <button class="action-btn">
+                                    <span>💬</span> <span>Comment</span>
+                                </button>
+                            </div>
+                            <span class="serving-tag">pod: ${data.servedByPod}</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Failed to load live feed:", err);
+            } finally {
+                if (animate) {
+                    setTimeout(() => {
+                        refreshBtn.style.opacity = '1';
+                        refreshBtn.innerHTML = '<span>🔄</span> Refresh Pod & Feed';
+                    }, 400);
+                }
+            }
+        }
+
+        function likePost(btn, initialCount) {
+            let countSpan = btn.querySelectorAll('span')[1];
+            let current = parseInt(countSpan.textContent.replace(/,/g, '')) || initialCount;
+            countSpan.textContent = (current + 1).toLocaleString();
+            btn.style.color = '#f43f5e';
+        }
+
+        async function runComputeTest() {
+            const btn = document.getElementById('btn-run-compute');
+            const resultBox = document.getElementById('compute-result-box');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span> Computing Load...';
+
+            try {
+                const startTime = performance.now();
+                const res = await fetch('/api/compute?iterations=600000');
+                const data = await res.json();
+                const elapsed = Math.round(performance.now() - startTime);
+
+                document.getElementById('comp-pod').textContent = data.servedByPod;
+                document.getElementById('comp-time').textContent = data.executionTimeMs || elapsed;
+                document.getElementById('comp-sum').textContent = data.resultChecksum;
+
+                resultBox.classList.add('active');
+                fetchHealthTelemetry();
+            } catch (err) {
+                alert("Compute test failed: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🔥</span> Run Compute Test';
+            }
+        }
+
+        // Initial fetch
+        fetchLiveFeed();
+        fetchHealthTelemetry();
+
+        // Background auto-refresh every 3.5 seconds
+        setInterval(fetchHealthTelemetry, 3500);
+    </script>
+</body>
+</html>

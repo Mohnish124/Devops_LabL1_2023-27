@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-express-configmap
+  namespace: mongo-lab
+  labels:
+    app.kubernetes.io/name: mongo-express-configmap
+data:
+  ME_CONFIG_MONGODB_SERVER: "mongo-service"
+  ME_CONFIG_MONGODB_PORT: "27017"
+  ME_CONFIG_MONGODB_URL: "mongodb://mongo-service:27017"
+  ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+  ME_CONFIG_BASICAUTH: "false"
