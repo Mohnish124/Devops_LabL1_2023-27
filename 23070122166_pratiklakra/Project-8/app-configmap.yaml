@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  APP_NAME: Retail Microservices
+  ENVIRONMENT: Kubernetes
+  VERSION: v1.0
