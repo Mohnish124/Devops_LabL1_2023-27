@@ -29,6 +29,7 @@ Every task is structured into an independent, fully self-contained folder equipp
 | **Project 6** | Social Media Infra Scalability & Kubernetes Horizontal Pod Autoscaling | [Project_6_Kubernetes_Autoscaling](./Project_6_Kubernetes_Autoscaling) |
 | **Project 7** | Mongo & Mongo Express Kubernetes Deployments, Services, ConfigMaps & Secrets | [Project_7_Mongo_MongoExpress](./Project_7_Mongo_MongoExpress) |
 | **Project 8** | Multi-Tier E-Commerce Microservices Mesh with Kubernetes Deployments, Services, ConfigMaps & Secrets | [Project_8_Microservices_Kubernetes](./Project_8_Microservices_Kubernetes) |
+| **Project 9** | Apache2 Web Server Kubernetes Deployment, ConfigMap Mounting & Host Access | [Project_9_Apache2_Kubernetes](./Project_9_Apache2_Kubernetes) |
 
 ---
 
@@ -105,11 +106,18 @@ MohammadAhmad_23070122140/
 │   └── screenshots/
 │       └── SCREENSHOTS_REQUIRED.md
 │
-└── Project_8_Microservices_Kubernetes/        # 4 Microservices & Frontend Orchestration with Deployments, Services, ConfigMaps & Secrets
-    ├── frontend/                              # ShopSphere Web Dashboard & API Proxy Gateway
-    ├── services/                              # Product, User, Order & Notification Microservices
-    ├── k8s/                                   # Declarative Kubernetes Manifests (Namespace, ConfigMap, Secret, Deployments, Services)
-    ├── README.md                              # Comprehensive microservices architecture & verification guide
+├── Project_8_Microservices_Kubernetes/        # 4 Microservices & Frontend Orchestration with Deployments, Services, ConfigMaps & Secrets
+│   ├── frontend/                              # ShopSphere Web Dashboard & API Proxy Gateway
+│   ├── services/                              # Product, User, Order & Notification Microservices
+│   ├── k8s/                                   # Declarative Kubernetes Manifests (Namespace, ConfigMap, Secret, Deployments, Services)
+│   ├── README.md                              # Comprehensive microservices architecture & verification guide
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+└── Project_9_Apache2_Kubernetes/              # Apache2 (httpd:2.4-alpine) Deployment, ConfigMap Mounting & Host Access
+    ├── html/                                  # Custom HTML5 web document
+    ├── k8s/                                   # Declarative Manifests (Namespace, ConfigMap, Deployment, Service)
+    ├── README.md                              # Deployment, architecture & host access guide
     └── screenshots/
         └── SCREENSHOTS_REQUIRED.md
 ```

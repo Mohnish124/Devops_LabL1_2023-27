@@ -27,7 +27,8 @@ MohammadAhmad_23070122140/
 ├── Project_5_Containerizing_DTR/              [VERIFIED - Spring Boot Build, Docker Run & Security Scan]
 ├── Project_6_Kubernetes_Autoscaling/          [VERIFIED - K8s Manifests, HPA Autoscaling & Load Verification]
 ├── Project_7_Mongo_MongoExpress/              [VERIFIED - K8s Manifests, Secret, ConfigMap, Deployments & Services]
-└── Project_8_Microservices_Kubernetes/        [VERIFIED - 4 Microservices, Frontend UI, K8s Deployments, Services, ConfigMap & Secret]
+├── Project_8_Microservices_Kubernetes/        [VERIFIED - 4 Microservices, Frontend UI, K8s Deployments, Services, ConfigMap & Secret]
+└── Project_9_Apache2_Kubernetes/              [VERIFIED - Apache2 httpd:2.4-alpine Deployment, ConfigMap & Host Access]
 ```
 
 ---
@@ -104,6 +105,7 @@ Every `screenshots/` directory contains a dedicated `SCREENSHOTS_REQUIRED.md` fi
 | `Project_6_Kubernetes_Autoscaling/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 5 Screenshots (Cluster nodes, deployment, SocialSphere web UI & endpoints, HPA load scale-up, scale-down) |
 | `Project_7_Mongo_MongoExpress/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Cluster & namespace, Mongo deployment & svc, Mongo Express running, Mongo Express UI) |
 | `Project_8_Microservices_Kubernetes/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Deployments & pods, Services & ConfigMap & Secret, API verification & RPC, ShopSphere web UI) |
+| `Project_9_Apache2_Kubernetes/screenshots/` | `SCREENSHOTS_REQUIRED.md` | 4 Screenshots (Cluster & deployment, Apache NodePort service, Host-machine curl access, Apache access logs) |
 
 ---
 
