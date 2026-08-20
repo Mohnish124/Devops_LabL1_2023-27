@@ -1,64 +1,90 @@
-# Project 7 — MongoDB and Mongo Express on Kubernetes
+# Project 7 — MongoDB and Mongo Express using Kubernetes
 
-## Overview
+## 1. Introduction
 
-This project deploys MongoDB and Mongo Express on a local Kubernetes cluster using Docker Desktop Kubernetes.
+Kubernetes is a container orchestration platform used to deploy, manage, scale, and network containerized applications. In this project, Kubernetes is used to deploy **MongoDB** as the database and **Mongo Express** as a web-based interface for managing MongoDB.
 
-The project demonstrates:
-- Kubernetes Deployments
-- Kubernetes Services
-- ConfigMaps
-- Secrets
-- MongoDB and Mongo Express communication
-- NodePort / port-forward access
-- Mongo Express Basic Authentication
+The project demonstrates four important Kubernetes concepts:
 
-## Architecture
+- **Deployment** — manages the Pods running MongoDB and Mongo Express.
+- **Service** — provides stable networking between Pods and exposes Mongo Express.
+- **ConfigMap** — stores non-sensitive configuration such as the MongoDB Service name.
+- **Secret** — stores sensitive MongoDB credentials.
+
+The final architecture is:
 
 ```text
-Browser
-   |
-   v
-Mongo Express Service
-   |
-   v
-Mongo Express Pod
-   |
-   v
-MongoDB Service
-   |
-   v
-MongoDB Pod
-   ^
-   |
-Secret + ConfigMap
+                         Browser
+                            |
+                            | localhost:30001
+                            v
+                 Mongo Express Service
+                    NodePort: 30001
+                    Service: 8088
+                            |
+                            | targetPort 8081
+                            v
+                 Mongo Express Pod
+                            |
+                            | mongo:27017
+                            v
+                    MongoDB Service
+                     ClusterIP:27017
+                            |
+                            v
+                     MongoDB Pod
+                            ^
+                            |
+                  Secret + ConfigMap
 ```
 
-## Prerequisites
+## 2. Prerequisites
 
-1. Install Docker Desktop.
-2. Enable Kubernetes in Docker Desktop.
-3. Make sure the Kubernetes cluster is running.
+Before starting:
+
+1. Install and start Docker Desktop.
+2. Enable Kubernetes from **Docker Desktop → Settings → Kubernetes**.
+3. Wait until Kubernetes is running.
 4. Make sure `kubectl` is available in PowerShell.
 
-Verify the cluster:
+Verify the Kubernetes cluster:
 
 ```powershell
 kubectl get nodes
 ```
 
-The Docker Desktop node should show `Ready`.
+The Docker Desktop node should have the status `Ready`.
 
-## Step 1 — Create the project directory
+![Kubernetes cluster verification](screenshots/screenshot_01.png)
 
-Create a directory for the Kubernetes manifests and open it in PowerShell.
+---
+
+## 3. Create the Project Directory
+
+Create a folder for the project and open it in PowerShell:
 
 ```powershell
 mkdir Project7-Mongo
 cd Project7-Mongo
 ```
 
-## Step 2 — Create the MongoDB Secret
+The final project contains these Kubernetes manifests:
+
+```text
+Project7/
+├── mongo-secret.yaml
+├── mongo-configmap.yaml
+├── mongo-deployment.yaml
+├── mongo-service.yaml
+├── mongo-express-deployment.yaml
+└── mongo-express-service.yaml
+```
+
+---
+
+## 4. Create the MongoDB Secret
+
+A Kubernetes **Secret** stores sensitive information separately from the application configuration. In this project, the Secret stores the MongoDB username and password.
 
 Create `mongo-secret.yaml`:
 
@@ -73,16 +99,27 @@ data:
   mongo-password: bW9uZ29wYXNz
 ```
 
-Apply it:
+Apply the Secret:
 
 ```powershell
 kubectl apply -f mongo-secret.yaml
+```
+
+Verify:
+
+```powershell
 kubectl get secrets
 ```
 
-The Base64 values represent the MongoDB username and password used by this lab.
+The Secret is then referenced by the MongoDB and Mongo Express Deployments.
 
-## Step 3 — Create the ConfigMap
+![MongoDB Secret verification](screenshots/screenshot_02.png)
+
+---
+
+## 5. Create the MongoDB ConfigMap
+
+A **ConfigMap** stores non-sensitive configuration. Mongo Express needs to know the Kubernetes Service through which MongoDB can be reached.
 
 Create `mongo-configmap.yaml`:
 
@@ -92,19 +129,30 @@ kind: ConfigMap
 metadata:
   name: mongo-configmap
 data:
-  mongo-url: mongo-service
+  mongo-url: mongo
 ```
 
 Apply it:
 
 ```powershell
 kubectl apply -f mongo-configmap.yaml
+```
+
+Verify:
+
+```powershell
 kubectl get configmaps
 ```
 
-The ConfigMap provides the MongoDB Service name to Mongo Express.
+The value `mongo` is the name of the MongoDB Service.
 
-## Step 4 — Create the MongoDB Deployment
+![MongoDB ConfigMap verification](screenshots/screenshot_03.png)
+
+---
+
+## 6. Create the MongoDB Deployment
+
+A **Deployment** manages the desired state of a set of Pods. Here, one MongoDB Pod is created.
 
 Create `mongo-deployment.yaml`:
 
@@ -141,17 +189,37 @@ spec:
                   key: mongo-password
 ```
 
-Apply and verify:
+Apply:
 
 ```powershell
 kubectl apply -f mongo-deployment.yaml
+```
+
+Check the Deployment:
+
+```powershell
 kubectl get deployments
+```
+
+Check the Pod:
+
+```powershell
 kubectl get pods
 ```
 
-Wait until the MongoDB Pod shows `1/1 Running`.
+The MongoDB Pod should eventually show:
 
-## Step 5 — Create the MongoDB Service
+```text
+1/1   Running
+```
+
+![MongoDB Deployment and Pod verification](screenshots/screenshot_04.png)
+
+---
+
+## 7. Create the MongoDB Service
+
+A Kubernetes **Service** gives Pods a stable network endpoint. Pod IP addresses can change, so Mongo Express should communicate with the MongoDB Service instead of directly using the Pod IP.
 
 Create `mongo-service.yaml`:
 
@@ -159,7 +227,7 @@ Create `mongo-service.yaml`:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-service
+  name: mongo
 spec:
   selector:
     app: mongo
@@ -169,16 +237,43 @@ spec:
       targetPort: 27017
 ```
 
-Apply it:
+Apply:
 
 ```powershell
 kubectl apply -f mongo-service.yaml
+```
+
+Verify:
+
+```powershell
 kubectl get services
 ```
 
-The MongoDB Service is a ClusterIP Service and is used by Mongo Express to reach MongoDB.
+Verify that the Service points to the MongoDB Pod:
 
-## Step 6 — Create the Mongo Express Deployment
+```powershell
+kubectl get endpoints mongo
+```
+
+An endpoint similar to the following confirms that the Service is connected to the MongoDB Pod:
+
+```text
+mongo   10.244.x.x:27017
+```
+
+![MongoDB Service and endpoint verification](screenshots/screenshot_05.png)
+
+---
+
+## 8. Create the Mongo Express Deployment
+
+Mongo Express provides a web interface for MongoDB. Its Deployment uses:
+
+- The ConfigMap to obtain the MongoDB Service name.
+- The Secret to obtain MongoDB credentials.
+- Basic Authentication credentials for the Mongo Express web interface.
+
+Mongo Express listens internally on port `8081`.
 
 Create `mongo-express-deployment.yaml`:
 
@@ -208,34 +303,75 @@ spec:
                 configMapKeyRef:
                   name: mongo-configmap
                   key: mongo-url
+
             - name: ME_CONFIG_MONGODB_ADMINUSERNAME
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: mongo-user
+
             - name: ME_CONFIG_MONGODB_ADMINPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: mongo-password
+
             - name: ME_CONFIG_BASICAUTH_USERNAME
               value: "admin"
+
             - name: ME_CONFIG_BASICAUTH_PASSWORD
               value: "admin123"
 ```
 
-Apply and verify:
+Apply:
 
 ```powershell
 kubectl apply -f mongo-express-deployment.yaml
+```
+
+Check:
+
+```powershell
 kubectl get pods
 ```
 
-Mongo Express uses the ConfigMap to locate MongoDB and the Secret for MongoDB credentials. Basic authentication is enabled for the Mongo Express web interface.
+Both MongoDB and Mongo Express Pods should show `Running`.
 
-## Step 7 — Create the Mongo Express Service
+![Mongo Express Deployment and Pod verification](screenshots/screenshot_06.png)
 
-Mongo Express listens inside its Pod on port `8081`. The Kubernetes Service uses port `8088`, and NodePort `30001` is used for external access.
+---
+
+## 9. Verify Mongo Express Configuration
+
+The Mongo Express Pod should receive the following values:
+
+```text
+ME_CONFIG_MONGODB_SERVER=mongo
+ME_CONFIG_MONGODB_ADMINUSERNAME=mongo
+ME_CONFIG_MONGODB_ADMINPASSWORD=mongopass
+ME_CONFIG_BASICAUTH_USERNAME=admin
+ME_CONFIG_BASICAUTH_PASSWORD=admin123
+```
+
+They can be verified using:
+
+```powershell
+kubectl exec deployment/mongo-express-deployment -- printenv ME_CONFIG_MONGODB_SERVER
+kubectl exec deployment/mongo-express-deployment -- printenv ME_CONFIG_MONGODB_ADMINUSERNAME
+kubectl exec deployment/mongo-express-deployment -- printenv ME_CONFIG_MONGODB_ADMINPASSWORD
+kubectl exec deployment/mongo-express-deployment -- printenv ME_CONFIG_BASICAUTH_USERNAME
+kubectl exec deployment/mongo-express-deployment -- printenv ME_CONFIG_BASICAUTH_PASSWORD
+```
+
+This confirms that Mongo Express receives its MongoDB connection information and Basic Authentication credentials.
+
+![Mongo Express environment configuration verification](screenshots/screenshot_07.png)
+
+---
+
+## 10. Create the Mongo Express Service
+
+Mongo Express listens on port `8081` inside its Pod. The Kubernetes Service uses port `8088`, while NodePort `30001` provides external access.
 
 Create `mongo-express-service.yaml`:
 
@@ -255,29 +391,54 @@ spec:
       nodePort: 30001
 ```
 
-Apply it:
+The port mapping is:
+
+```text
+Browser → NodePort 30001 → Service 8088 → Pod 8081
+```
+
+Apply:
 
 ```powershell
 kubectl apply -f mongo-express-service.yaml
+```
+
+Verify:
+
+```powershell
 kubectl get services
 ```
 
-## Step 8 — Access Mongo Express
+Expected output includes:
 
-With the NodePort configuration, open:
+```text
+mongo-express-service   NodePort   ...   8088:30001/TCP
+```
+
+![Mongo Express Service and port verification](screenshots/screenshot_08.png)
+
+---
+
+## 11. Access Mongo Express
+
+### Using NodePort
+
+Open the following URL in the browser:
 
 ```text
 http://localhost:30001
 ```
 
-The Mongo Express Basic Authentication credentials configured in the Deployment are:
+Use the Mongo Express Basic Authentication credentials:
 
 ```text
 Username: admin
 Password: admin123
 ```
 
-Alternatively, use port-forwarding to access the Service on localhost port `8088`:
+### Using Port Forwarding
+
+Alternatively, access the Service on localhost port `8088`:
 
 ```powershell
 kubectl port-forward service/mongo-express-service 8088:8088
@@ -289,56 +450,61 @@ Then open:
 http://localhost:8088
 ```
 
-## Step 9 — Verify the Kubernetes Resources
+Keep the PowerShell window running while using the application.
 
-Check Pods:
+![Mongo Express web interface](screenshots/screenshot_09.png)
+
+---
+
+## 12. Final Verification
+
+Verify all Kubernetes resources:
 
 ```powershell
 kubectl get pods
-```
-
-Check Deployments:
-
-```powershell
 kubectl get deployments
-```
-
-Check Services:
-
-```powershell
 kubectl get services
-```
-
-Check ConfigMap:
-
-```powershell
 kubectl get configmaps
-```
-
-Check Secret:
-
-```powershell
 kubectl get secrets
-```
-
-Check all major resources:
-
-```powershell
 kubectl get all
 ```
 
-## Step 10 — Troubleshooting
+The expected resources are:
 
-If a Pod is not running, check its status:
+```text
+Deployments:
+- mongo-deployment
+- mongo-express-deployment
+
+Services:
+- mongo
+- mongo-express-service
+
+ConfigMap:
+- mongo-configmap
+
+Secret:
+- mongo-secret
+```
+
+Both Pods should be in the `Running` state.
+
+![Final Kubernetes resource verification](screenshots/screenshot_10.png)
+
+---
+
+## 13. Troubleshooting
+
+If a Pod fails, check:
 
 ```powershell
 kubectl get pods
 ```
 
-View Pod logs:
+View logs:
 
 ```powershell
-kubectl logs <pod-name>
+kubectl logs deployment/mongo-express-deployment
 ```
 
 View detailed Pod information:
@@ -347,51 +513,33 @@ View detailed Pod information:
 kubectl describe pod <pod-name>
 ```
 
-Check MongoDB Service endpoints:
+Check the MongoDB Service endpoint:
 
 ```powershell
-kubectl get endpoints mongo-service
+kubectl get endpoints mongo
 ```
 
-## Final Result
+A valid endpoint such as:
 
-The completed project contains:
-- 2 Deployments: MongoDB and Mongo Express
-- 2 Services: MongoDB ClusterIP and Mongo Express NodePort
-- 1 ConfigMap for MongoDB service configuration
-- 1 Secret for MongoDB credentials
+```text
+10.244.x.x:27017
+```
+
+indicates that the MongoDB Service is correctly connected to the MongoDB Pod.
+
+---
+
+## 14. Result
+
+The Kubernetes application was successfully configured with:
+
+- MongoDB Deployment
+- MongoDB ClusterIP Service
+- Mongo Express Deployment
+- Mongo Express NodePort Service
+- ConfigMap
+- Secret
 - Mongo Express Basic Authentication
+- Kubernetes networking between Mongo Express and MongoDB
 
-## Screenshots
-
-### Screenshot 01
-
-![screenshot_01](screenshots/screenshot_01.png)
-
-### Screenshot 02
-
-![screenshot_02](screenshots/screenshot_02.png)
-
-### Screenshot 03
-
-![screenshot_03](screenshots/screenshot_03.png)
-
-### Screenshot 04
-
-![screenshot_04](screenshots/screenshot_04.png)
-
-### Screenshot 05
-
-![screenshot_05](screenshots/screenshot_05.png)
-
-### Screenshot 06
-
-![screenshot_06](screenshots/screenshot_06.png)
-
-### Screenshot 07
-
-![screenshot_07](screenshots/screenshot_07.png)
-
-### Screenshot 08
-
-![screenshot_08](screenshots/screenshot_08.png)
+The application can be accessed through Mongo Express after authentication, demonstrating the use of Kubernetes Deployments, Services, ConfigMaps, and Secrets.
