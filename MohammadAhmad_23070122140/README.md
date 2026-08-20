@@ -25,6 +25,7 @@ Every task is structured into an independent, fully self-contained folder equipp
 | **Project 1** | End-to-End Dockerized Jenkins Declarative CI/CD Pipeline | [Project_1_Dockerizing_Jenkins_Pipeline](./Project_1_Dockerizing_Jenkins_Pipeline) |
 | **Project 2** | Production React SPA Deployment with Multi-Stage Docker & Nginx | [Project_2_Deploy_React_Docker](./Project_2_Deploy_React_Docker) |
 | **Project 4** | Architecting Scalable Distributed Jenkins Pipeline across Agent Nodes | [Project_4_Distributed_Jenkins_Pipeline](./Project_4_Distributed_Jenkins_Pipeline) |
+| **Project 5** | Containerizing Spring Boot Retail Application & DTR Security Scanning | [Project_5_Containerizing_DTR](./Project_5_Containerizing_DTR) |
 
 ---
 
@@ -72,10 +73,18 @@ MohammadAhmad_23070122140/
 │   └── screenshots/
 │       └── SCREENSHOTS_REQUIRED.md
 │
-└── Project_4_Distributed_Jenkins_Pipeline/    # Scalable Master-Agent Jenkins Pipeline
-    ├── portfolio/                             # Java Maven Portfolio Application (pom.xml & tests)
-    ├── Jenkinsfile                            # Distributed pipeline assigning tasks to slave nodes
-    ├── README.md                              # Master/Slave architecture diagram & documentation
+├── Project_4_Distributed_Jenkins_Pipeline/    # Scalable Master-Agent Jenkins Pipeline
+│   ├── portfolio/                             # Java Maven Portfolio Application (pom.xml & tests)
+│   ├── Jenkinsfile                            # Distributed pipeline assigning tasks to slave nodes
+│   ├── README.md                              # Master/Slave architecture diagram & documentation
+│   └── screenshots/
+│       └── SCREENSHOTS_REQUIRED.md
+│
+└── Project_5_Containerizing_DTR/              # Containerized Spring Boot Application & DTR Security Scanning
+    ├── src/                                   # Spring Boot Retail REST Application
+    ├── Dockerfile                             # Production Dockerfile (eclipse-temurin:17-jre-alpine)
+    ├── pom.xml                                # Maven build descriptor
+    ├── README.md                              # End-to-end containerization & security scanning guide
     └── screenshots/
         └── SCREENSHOTS_REQUIRED.md
 ```

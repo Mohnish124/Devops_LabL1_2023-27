@@ -175,7 +175,7 @@ All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./scree
 
 #### 2. Jenkins Node Management & Distributed Stage View
 ![Distributed Pipeline](screenshots/P4_02_jenkins_nodes_and_stage_view.png)
-*Figure 2: Jenkins UI showing Manage Nodes dashboard (`master`, `slave-node-1`, `slave-node-2` all Online) and Pipeline Stage View showing green checkmarks across `Compile`, `Test`, `Archive`, and `Success`.*
+*Figure 2: Combined Jenkins UI view showing the Manage Nodes dashboard (`master`, `slave-node-1`, `slave-node-2` all Online) alongside the Pipeline Stage View with green checkmarks across `Compile`, `Test`, `Archive`, and `Success`.*
 
 #### 3. Slave Nodes Work Offloading & Archived Artifact Log
 ![Pipeline Console](screenshots/P4_03_slave_nodes_console_and_artifact.png)

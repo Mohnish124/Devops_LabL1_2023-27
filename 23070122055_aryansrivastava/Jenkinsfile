@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'aryan20s/flask-hello-world:latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dir('23070122055_aryansrivastava') {
+                        sh "docker build -t ${DOCKER_IMAGE} ."
+                    }
+                }
+            }
+        }
+
+        // Uncomment and configure credentials to push image
+        // stage('Push Docker Image') {
+        //     steps {
+        //         withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+        //             sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
+        //             sh "docker push ${DOCKER_IMAGE}"
+        //         }
+        //     }
+        // }
+    }
+}
