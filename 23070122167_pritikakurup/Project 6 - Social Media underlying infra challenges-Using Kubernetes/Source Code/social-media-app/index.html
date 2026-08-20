@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LinkVerse - Social Media Platform</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 18px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    nav span {
+      margin-left: 25px;
+      font-size: 15px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 70px 20px 50px;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #555;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 22px;
+      background: #e8f5e9;
+      border-radius: 25px;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    .status::before {
+      content: "●";
+      margin-right: 8px;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      padding: 20px 8% 70px;
+    }
+
+    .card {
+      background: white;
+      width: 280px;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card .icon {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      background: #1f2937;
+      color: white;
+      padding: 22px;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin: 5px;
+      color: #d1d5db;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🔗 LinkVerse</div>
+
+    <nav>
+      <span>Home</span>
+      <span>Explore</span>
+      <span>Community</span>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Connect. Share. Grow.</h1>
+
+    <p>A scalable social media platform powered by Kubernetes.</p>
+
+    <div class="status">
+      Application Running
+    </div>
+  </section>
+
+  <section class="features">
+
+    <div class="card">
+      <div class="icon">👥</div>
+      <h2>Connect</h2>
+      <p>Build communities and connect with people around the world.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💬</div>
+      <h2>Share</h2>
+      <p>Share your thoughts, ideas and experiences with your community.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h2>Scale</h2>
+      <p>Automatically scales using Kubernetes Horizontal Pod Autoscaling.</p>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>LinkVerse Social Media Platform</p>
+    <p>Deployed using Docker • Kubernetes • HPA</p>
+  </footer>
+
+</body>
+</html>
