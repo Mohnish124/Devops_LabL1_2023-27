@@ -2,113 +2,97 @@
 
 ## Objective
 
-Deploy a social media application using Kubernetes and demonstrate application scalability using Horizontal Pod Autoscaling (HPA).
-
-The project demonstrates Kubernetes deployment, service exposure, metrics monitoring, CPU-based autoscaling, load generation, and automatic scaling of application replicas.
+Deploy a social media web application using Kubernetes and demonstrate application scalability using Horizontal Pod Autoscaling (HPA).
 
 ## Application
 
-The application is a web application deployed using an NGINX container.
+The application developed for this project is **LinkVerse**, a simple social media web application.
 
-The application is deployed on a local Kubernetes cluster using Minikube.
+LinkVerse is containerized using Docker, served using NGINX, and deployed on a local Kubernetes cluster using Minikube.
 
 ## Technologies Used
 
+- Docker
 - Kubernetes
 - Minikube
 - kubectl
-- Docker
 - NGINX
 - YAML
+- HTML
 - Horizontal Pod Autoscaler (HPA)
 - Metrics Server
+- BusyBox
 
-## Kubernetes Components
+## Docker Containerization
 
-### Deployment
+The LinkVerse application is containerized using a Dockerfile based on the NGINX Alpine image.
 
-The application is deployed using a Kubernetes Deployment named `social-media-app`.
+The Docker image created for the application is:
 
-The deployment manages the application pods and allows Kubernetes to increase or decrease the number of replicas based on CPU utilization.
+`linkverse:1.0`
 
-### Service
+The application runs on port `80`.
 
-A NodePort service named `social-media-service` is used to expose the application outside the Kubernetes cluster.
+## Kubernetes Deployment
 
-### Horizontal Pod Autoscaler
+The application is deployed using a Kubernetes Deployment named:
 
-The HPA is configured with:
+`social-media-app`
 
-- Minimum replicas: 1
-- Maximum replicas: 5
-- Target CPU utilization: 50%
+The deployment initially runs with one replica.
 
-The HPA automatically increases the number of application pods when CPU utilization increases and reduces the number of pods when the load decreases.
+The container configuration includes:
 
-## Metrics Server
+- Image: `linkverse:1.0`
+- Container Port: `80`
+- CPU Request: `100m`
+- CPU Limit: `500m`
+- Image Pull Policy: `Never`
 
-The Kubernetes Metrics Server is enabled in Minikube to provide CPU and memory metrics required by the HPA.
+The Docker image is loaded directly into the local Minikube environment.
 
-Node metrics were verified using `kubectl top nodes`.
+## Kubernetes Service
 
-Pod metrics were verified using `kubectl top pods`.
+A NodePort service named `social-media-service` is used to expose the LinkVerse application outside the Kubernetes cluster.
 
-## Load Testing
+The application can be accessed using:
+
+```bash
+minikube service social-media-service
+Horizontal Pod Autoscaler
+
+The Horizontal Pod Autoscaler is configured with:
+
+Minimum replicas: 1
+Maximum replicas: 5
+Target CPU utilization: 50%
+
+The HPA automatically increases or decreases the number of application pods based on CPU utilization.
+
+Load Testing and Autoscaling
 
 A BusyBox-based load generator was used to generate continuous requests to the application.
 
-The command used was:
+kubectl run load-generator --image=busybox:1.36 --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://social-media-service; done"
 
-`kubectl run load-generator --image=busybox:1.36 --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://social-media-service; done"`
+The generated load increased CPU utilization and triggered the Horizontal Pod Autoscaler.
 
-The increased CPU load caused the HPA to scale the application from 1 replica to 2 replicas.
+The application successfully scaled from 1 pod to 2 pods.
 
-The HPA was monitored using `kubectl get hpa -w`.
+Project Structure
+Project 6 - Social Media Underlying Infrastructure Challenges Using Kubernetes/
+│
+├── README.md
+├── Screenshots/
+│
+└── Source Code/
+    ├── deployment.yaml
+    ├── service.yaml
+    └── social-media-app/
+        ├── Dockerfile
+        └── index.html
+Conclusion
 
-The application pods were monitored using `kubectl get pods -w`.
+The LinkVerse social media application was successfully containerized using Docker and deployed on Kubernetes using Minikube.
 
-## Verification
-
-The following commands were used to verify the Kubernetes deployment:
-
-- `kubectl get pods`
-- `kubectl get services`
-- `kubectl get hpa`
-- `kubectl get hpa -w`
-- `kubectl get pods -w`
-
-The application was successfully accessed through the Minikube service URL.
-
-## Autoscaling Result
-
-The Horizontal Pod Autoscaler successfully demonstrated application scalability.
-
-| Configuration | Value |
-|---|---|
-| Minimum replicas | 1 |
-| Maximum replicas | 5 |
-| Target CPU utilization | 50% |
-| Initial replicas | 1 |
-| Scaled replicas observed | 2 |
-| Scaling mechanism | CPU utilization |
-| Load generator | BusyBox |
-| Metrics provider | Metrics Server |
-
-The application scaled from **1 pod to 2 pods** when CPU load increased.
-
-After the load generator was removed, the application scaled back toward the configured minimum of **1 pod**.
-
-## Project Structure
-
-The project contains the following files and folders:
-
-- `README.md`
-- `Screenshots/` - contains the project implementation screenshots
-- `Source Code/deployment.yaml`
-- `Source Code/service.yaml`
-
-## Conclusion
-
-The social media application was successfully deployed on Kubernetes using Minikube.
-
-The project successfully demonstrated Kubernetes Horizontal Pod Autoscaling by generating CPU load and observing the application scale from 1 pod to 2 pods. The HPA was configured with a minimum of 1 replica and a maximum of 5 replicas, demonstrating automatic application scalability.
+The project successfully demonstrated Kubernetes Horizontal Pod Autoscaling by generating load using BusyBox and observing the application scale from 1 pod to 2 pods. The HPA was configured with a minimum of 1 replica, a maximum of 5 replicas, and a target CPU utilization of 50%.

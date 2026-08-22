@@ -1,0 +1,45 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Build') {
+            agent { label 'agent-1' }
+
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Sreenair-1/Project_4.git'
+
+                dir('app') {
+                    bat 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            agent { label 'agent-2' }
+
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Sreenair-1/Project_4.git'
+
+                dir('app') {
+                    bat 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            agent { label 'agent-1' }
+
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Sreenair-1/Project_4.git'
+
+                dir('app') {
+                    bat 'mvn package'
+                }
+            }
+        }
+    }
+}

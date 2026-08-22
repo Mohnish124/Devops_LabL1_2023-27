@@ -44,7 +44,9 @@ Project_2_Deploy_React_Docker/
 ├── README.md               # Deployment documentation & CLI commands
 └── screenshots/            # Verified execution screenshots
     ├── SCREENSHOTS_REQUIRED.md
-    └── P2_02_react_browser_portfolio_ui.png
+    ├── P2_01_multistage_docker_build_and_ps.png
+    ├── P2_02_react_browser_portfolio_ui.png
+    └── P2_03_nginx_access_logs.png
 ```
 
 ---
@@ -149,13 +151,17 @@ All verified execution proofs are cataloged in [SCREENSHOTS_REQUIRED.md](./scree
 
 ### Verified Execution Screenshots:
 
-#### 1. React Application Browser UI Execution
-![React Docker Application Browser UI](./screenshots/P2_02_react_browser_portfolio_ui.png)
-*Figure 1: Web browser rendering `http://localhost:5173` displaying the React Docker Application UI ("RUNNING SUCCESSFULLY INSIDE DOCKER") with container metrics and status.*
+#### 1. Multi-Stage Docker Build & Container Runtime Verification
+![Multi-Stage Docker Build and Runtime](./screenshots/P2_01_multistage_docker_build_and_ps.png)
+*Figure 1: Terminal output of `docker build -t react-app-nginx:latest .`, `docker images` showing optimized image size (~25MB), and `docker ps` showing running container on port 8080.*
 
-### Pending Screenshots to Capture:
-- `P2_01_multistage_docker_build_and_ps.png`: Terminal output showing `docker build`, `docker images`, and `docker ps`.
-- `P2_03_nginx_access_logs.png`: Terminal output showing `docker logs react-app-container` HTTP GET 200 responses.
+#### 2. React Application Browser UI Execution
+![React Docker Application Browser UI](./screenshots/P2_02_react_browser_portfolio_ui.png)
+*Figure 2: Web browser rendering `http://localhost:8080` (or `http://localhost:5173`) displaying the React Docker Application UI ("RUNNING SUCCESSFULLY INSIDE DOCKER") with container metrics and status.*
+
+#### 3. Nginx Access Logs & Client Request Handling
+![Nginx Access Logs](./screenshots/P2_03_nginx_access_logs.png)
+*Figure 3: Terminal output of `docker logs react-app-container` showing HTTP GET requests returning `200 OK` from the Nginx reverse proxy.*
 
 ---
 

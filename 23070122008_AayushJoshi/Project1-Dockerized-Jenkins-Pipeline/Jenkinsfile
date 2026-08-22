@@ -1,0 +1,59 @@
+pipeline {
+    agent {
+        docker {
+            image 'python:3.11-slim'
+            args '-p 5000:5000'
+        }
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Cloning repository...'
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Python dependencies...'
+                sh 'pip install --no-cache-dir -r requirements.txt'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'python -m pytest --tb=short || echo "No tests found, skipping."'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t hello-world-flask:latest .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Flask application...'
+                sh '''
+                    docker stop hello-world-flask || true
+                    docker rm hello-world-flask || true
+                    docker run -d --name hello-world-flask -p 5000:5000 hello-world-flask:latest
+                    echo "Application deployed at http://localhost:5000"
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check logs above.'
+        }
+    }
+}

@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('23070122035_AnushkaDesai/Project1_Dockerizing_Jenkins_Pipeline/my-flask-app') {
+                    sh 'docker build -t flask-app .'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker rm -f flask-container || true'
+                sh 'docker run -d -p 5001:5000 --name flask-container flask-app'
+            }
+        }
+    }
+}
