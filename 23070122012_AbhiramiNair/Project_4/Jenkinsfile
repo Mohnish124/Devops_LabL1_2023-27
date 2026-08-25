@@ -1,0 +1,71 @@
+pipeline {
+    agent none
+
+    options {
+        timestamps()
+        skipDefaultCheckout(true)
+    }
+
+    stages {
+        stage('Checkout') {
+            agent { label 'maven-compile' }
+            steps {
+                checkout scm
+                stash name: 'source', includes: '**/*', useDefaultExcludes: false
+            }
+        }
+
+        stage('Distributed Build') {
+            parallel {
+                stage('Compile on Agent 1') {
+                    agent { label 'maven-compile' }
+                    steps {
+                        cleanWs()
+                        unstash 'source'
+                        sh 'java -version'
+                        sh 'mvn -version'
+                        sh 'mvn -B -DskipTests clean compile'
+                    }
+                }
+
+                stage('Test on Agent 2') {
+                    agent { label 'maven-test' }
+                    steps {
+                        cleanWs()
+                        unstash 'source'
+                        sh 'java -version'
+                        sh 'mvn -version'
+                        sh 'mvn -B test'
+                    }
+                    post {
+                        always {
+                            junit allowEmptyResults: true,
+                                  testResults: 'target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Archive') {
+            agent { label 'maven-compile' }
+            steps {
+                archiveArtifacts artifacts: 'target/**/*.class',
+                                  allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Distributed Maven pipeline completed successfully.'
+        }
+        failure {
+            echo 'Distributed Maven pipeline failed. Check the agent stage logs.'
+        }
+        always {
+            echo "Build: ${env.BUILD_NUMBER}"
+            echo "Job: ${env.JOB_NAME}"
+        }
+    }
+}

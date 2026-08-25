@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+  namespace: mongo-demo
+data:
+  MONGO_DATABASE: devopsdb
+  MONGO_HOST: mongodb-service
+  MONGO_PORT: "27017"
+  MONGO_EXPRESS_SERVICE_PORT: "8081"
