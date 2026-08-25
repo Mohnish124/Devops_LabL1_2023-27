@@ -14,3 +14,4 @@
 - [Project 5 - SpringBoot App Docker Scan](./Project5-Spring-Boot-Docker-Scan/README.md)
 - [Project 6 - Kubernetes Autoscaling](./Project6-Kubernetes-Autoscaling/README.md)
 - [Project 7 - Mongo & Mongo Express on Kubernetes](./Project7-Mongo-MongoExpress/README.md)
+- [Project 8 - Microservices on Kubernetes](./Project8-Microservices-K8s/README.md)
