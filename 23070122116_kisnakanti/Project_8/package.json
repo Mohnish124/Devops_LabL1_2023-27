@@ -1,0 +1,7 @@
+{
+  "name": "project8-ecommerce",
+  "private": true,
+  "workspaces": ["services/*"],
+  "scripts": {"check": "node scripts/check.js"}
+}
+

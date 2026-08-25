@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: ecommerce_demo_password
+    volumes: ["postgres-data:/var/lib/postgresql/data", "./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro"]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U ecommerce -d ecommerce"], interval: 5s, timeout: 5s, retries: 10}
+  user-service: {build: {context: ., dockerfile: Dockerfile.service, args: {SERVICE: user-service}}, environment: &appenv {DB_HOST: postgres, DB_NAME: ecommerce, POSTGRES_USER: ecommerce, POSTGRES_PASSWORD: ecommerce_demo_password}, depends_on: {postgres: {condition: service_healthy}}}
+  product-service: {build: {context: ., dockerfile: Dockerfile.service, args: {SERVICE: product-service}}, environment: *appenv, depends_on: {postgres: {condition: service_healthy}}}
+  order-service: {build: {context: ., dockerfile: Dockerfile.service, args: {SERVICE: order-service}}, environment: *appenv, depends_on: {postgres: {condition: service_healthy}}}
+  payment-service: {build: {context: ., dockerfile: Dockerfile.service, args: {SERVICE: payment-service}}, environment: *appenv, depends_on: {postgres: {condition: service_healthy}}}
+  frontend: {build: ./frontend, ports: ["8080:80"], depends_on: [user-service, product-service, order-service, payment-service]}
+volumes:
+  postgres-data:

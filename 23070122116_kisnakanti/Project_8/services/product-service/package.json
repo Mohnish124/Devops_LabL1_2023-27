@@ -1,0 +1,1 @@
+{"name":"product-service","private":true,"dependencies":{"pg":"^8.12.0"}}

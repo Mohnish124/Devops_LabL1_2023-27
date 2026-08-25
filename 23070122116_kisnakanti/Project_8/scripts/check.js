@@ -1,0 +1,2 @@
+const fs=require('fs');const path=require('path');const required=['frontend/index.html','frontend/nginx.conf','docker-compose.yml','db/init.sql','k8s/config.yaml','k8s/storage.yaml','k8s/postgres.yaml','k8s/services.yaml','k8s/frontend.yaml'];for(const f of required)if(!fs.existsSync(path.join(process.cwd(),f)))throw new Error(`Missing ${f}`);for(const s of ['user-service','product-service','order-service','payment-service'])if(!fs.existsSync(`services/${s}/server.js`))throw new Error(`Missing ${s}`);console.log(`Project structure OK (${required.length+4} core checks)`);
+
