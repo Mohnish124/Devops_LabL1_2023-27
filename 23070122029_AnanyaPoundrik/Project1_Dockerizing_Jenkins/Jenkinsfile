@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t jenkins-flask-app 23070122029_AnanyaPoundrik/Project1_Dockerizing_Jenkins/source'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                bat 'docker rm -f jenkins-flask-container || exit 0'
+                bat 'docker run -d -p 5000:5000 --name jenkins-flask-container jenkins-flask-app'
+            }
+        }
+
+        stage('Test Application') {
+            steps {
+                bat 'curl -f http://localhost:5000'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                bat 'docker rm -f jenkins-flask-container || exit 0'
+            }
+        }
+    }
+}

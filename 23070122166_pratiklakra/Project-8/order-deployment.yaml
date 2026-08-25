@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: order-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: order
+
+  template:
+    metadata:
+      labels:
+        app: order
+
+    spec:
+      containers:
+      - name: order
+        image: nginx:latest
+
+        ports:
+        - containerPort: 80
+
+        envFrom:
+        - configMapRef:
+            name: app-config
+
+        - secretRef:
+            name: app-secret

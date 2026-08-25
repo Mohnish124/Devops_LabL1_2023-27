@@ -1,0 +1,30 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Compile on Agent 1') {
+            agent {
+                label 'maven-agent-1'
+            }
+            steps {
+                checkout scm
+                dir('23070122029_AnanyaPoundrik/Project4_Jenkins_Scale/maven-project') {
+                    bat 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Test on Agent 2') {
+            agent {
+                label 'maven-agent-2'
+            }
+            steps {
+                checkout scm
+                dir('23070122029_AnanyaPoundrik/Project4_Jenkins_Scale/maven-project') {
+                    bat 'mvn test'
+                }
+            }
+        }
+    }
+}

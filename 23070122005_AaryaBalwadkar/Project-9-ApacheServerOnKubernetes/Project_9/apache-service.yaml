@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-nodeport-service
+spec:
+  # NodePort tells Kubernetes to expose this on the external network
+  type: NodePort
+  selector:
+    # This must match the label we gave to the Apache pod in Phase 1
+    app: apache-web
+  ports:
+  - port: 80
+    targetPort: 80

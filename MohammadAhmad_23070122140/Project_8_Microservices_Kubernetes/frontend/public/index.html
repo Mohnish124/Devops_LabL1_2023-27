@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopSphere - Kubernetes Microservices Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="brand-section">
+        <div class="logo-icon">🌐</div>
+        <div>
+          <div class="brand-title">ShopSphere <span class="badge-k8s">k8s v1.32</span></div>
+          <div class="brand-subtitle">Distributed Cloud-Native Microservices Mesh</div>
+        </div>
+      </div>
+
+      <div class="meta-section">
+        <div class="student-chip">
+          <span class="dot-online"></span>
+          <span>Mohammad Ahmad</span>
+          <span class="pnr-tag">23070122140</span>
+        </div>
+        <button id="refreshBtn" class="btn btn-secondary" title="Refresh Live Data">
+          <span class="refresh-icon">↻</span> Refresh
+        </button>
+        <button id="newOrderBtn" class="btn btn-primary">
+          <span>+</span> Place Order
+        </button>
+      </div>
+    </header>
+
+    <!-- Microservices Health & Mesh Status Bar -->
+    <section class="section-card health-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">⚡</span> Microservices Mesh Telemetry
+        </div>
+        <div class="cluster-pill" id="frontendPodInfo">
+          Serving Frontend Pod: <code id="frontendPodName">checking...</code>
+        </div>
+      </div>
+
+      <div class="health-grid" id="healthGrid">
+        <!-- Product Service Health -->
+        <div class="health-card" id="cardProductHealth">
+          <div class="health-card-top">
+            <div class="service-name">📦 Product Service</div>
+            <span class="status-badge status-loading" id="badgeProduct">CHECKING</span>
+          </div>
+          <div class="service-meta">
+            <div>Pod: <code id="podProduct">-</code></div>
+            <div>Latency: <span id="latProduct">-</span></div>
+            <div class="endpoint-url">http://product-service:3000</div>
+          </div>
+        </div>
+
+        <!-- User Service Health -->
+        <div class="health-card" id="cardUserHealth">
+          <div class="health-card-top">
+            <div class="service-name">👤 User Service</div>
+            <span class="status-badge status-loading" id="badgeUser">CHECKING</span>
+          </div>
+          <div class="service-meta">
+            <div>Pod: <code id="podUser">-</code></div>
+            <div>Latency: <span id="latUser">-</span></div>
+            <div class="endpoint-url">http://user-service:3000</div>
+          </div>
+        </div>
+
+        <!-- Order Service Health -->
+        <div class="health-card" id="cardOrderHealth">
+          <div class="health-card-top">
+            <div class="service-name">🛒 Order Service</div>
+            <span class="status-badge status-loading" id="badgeOrder">CHECKING</span>
+          </div>
+          <div class="service-meta">
+            <div>Pod: <code id="podOrder">-</code></div>
+            <div>Latency: <span id="latOrder">-</span></div>
+            <div class="endpoint-url">http://order-service:3000</div>
+          </div>
+        </div>
+
+        <!-- Notification Service Health -->
+        <div class="health-card" id="cardNotifHealth">
+          <div class="health-card-top">
+            <div class="service-name">🔔 Notification Service</div>
+            <span class="status-badge status-loading" id="badgeNotif">CHECKING</span>
+          </div>
+          <div class="service-meta">
+            <div>Pod: <code id="podNotif">-</code></div>
+            <div>Latency: <span id="latNotif">-</span></div>
+            <div class="endpoint-url">http://notification-service:3000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="tabProducts">📦 Products Catalog (<span id="countProducts">0</span>)</button>
+      <button class="tab-btn" data-tab="tabUsers">👥 Users Directory (<span id="countUsers">0</span>)</button>
+      <button class="tab-btn" data-tab="tabOrders">📑 Orders Queue (<span id="countOrders">0</span>)</button>
+      <button class="tab-btn" data-tab="tabNotifications">🔔 Live Notifications (<span id="countNotifs">0</span>)</button>
+    </nav>
+
+    <!-- Tab 1: Products -->
+    <main id="tabProducts" class="tab-content active">
+      <div class="products-grid" id="productsContainer">
+        <!-- Rendered dynamically -->
+        <div class="loading-state">Loading products from Product Service...</div>
+      </div>
+    </main>
+
+    <!-- Tab 2: Users -->
+    <section id="tabUsers" class="tab-content">
+      <div class="users-grid" id="usersContainer">
+        <div class="loading-state">Loading users from User Service...</div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Orders -->
+    <section id="tabOrders" class="tab-content">
+      <div class="table-card">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Product Details</th>
+              <th>Qty</th>
+              <th>Total Amount</th>
+              <th>Status</th>
+              <th>Placed At</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <tr><td colspan="7" class="loading-state">Loading orders from Order Service...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab 4: Notifications -->
+    <section id="tabNotifications" class="tab-content">
+      <div class="notifications-list" id="notificationsContainer">
+        <div class="loading-state">Loading events from Notification Service...</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>DevOps Lab Project 8 • Kubernetes Microservices Mesh • Namespace: <code>microservices-demo</code></div>
+      <div>Declarative Deployments, ClusterIP Services, ConfigMaps & Secrets</div>
+    </footer>
+  </div>
+
+  <!-- Place Order Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🛍️ Place New E-Commerce Order</div>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <form id="orderForm">
+        <div class="form-group">
+          <label for="orderCustomer">Select Customer (User Service)</label>
+          <select id="orderCustomer" required>
+            <option value="">-- Choose Customer --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="orderProduct">Select Item (Product Service)</label>
+          <select id="orderProduct" required>
+            <option value="">-- Choose Product --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="orderQty">Quantity</label>
+          <input type="number" id="orderQty" min="1" max="10" value="1" required>
+        </div>
+
+        <div class="order-summary" id="orderSummary">
+          <div>Unit Price: <span id="summaryPrice">$0.00</span></div>
+          <div class="summary-total">Total Amount: <span id="summaryTotal">$0.00</span></div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitOrderBtn">Confirm & Dispatch Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

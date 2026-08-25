@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: social-media
+  labels:
+    app.kubernetes.io/name: social-media-platform
+    environment: devops-lab
