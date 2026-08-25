@@ -37,3 +37,8 @@ This repository contains the assignments and projects for the DevOps Lab.
 ### Project 4: Architecting Jenkins Pipeline for Scale
 - Designed a distributed Jenkins pipeline.
 - Configured tasks to run across multiple Jenkins slave nodes (`slave-1` and `slave-2`) for a Maven portfolio project.
+
+### Project 8: Containerize a Complete Application with 4 Microservices
+- Containerized an Online Student Management System across 4 microservices (Frontend, Auth Service, Student API Backend, and MongoDB).
+- Implemented Kubernetes Deployments, Services (LoadBalancer & ClusterIP for service discovery), ConfigMaps, and Secrets.
+- Demonstrated dynamic pod scaling and full end-to-end inter-service communication.
