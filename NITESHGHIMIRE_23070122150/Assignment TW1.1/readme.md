@@ -3,7 +3,7 @@
 ## Student Details
 
 - **Name:** NITESH GHIMIRE
-- **PNR:** 23070122150
+- **PRN:** 23070122150
 - **Course:** DevOps Lab
 
 ---

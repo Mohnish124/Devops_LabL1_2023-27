@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Connect | Kubernetes Demo</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar"><div class="brand">Campus<span>Connect</span></div><div class="badge">Kubernetes demo</div></header>
+  <main class="layout">
+    <aside class="profile card"><div class="avatar">MR</div><h2>Maya Rao</h2><p class="muted">DevOps student</p><div class="stats"><b>128<br><small>Following</small></b><b>2.4k<br><small>Followers</small></b></div></aside>
+    <section class="feed">
+      <div class="card composer"><h2>What is happening?</h2><textarea id="new-post" maxlength="180" placeholder="Share an update..."></textarea><div class="composer-actions"><span id="char-count">0/180</span><button id="publish">Post update</button></div></div>
+      <div class="feed-heading"><h1>Social feed</h1><button class="secondary" id="refresh">Refresh</button></div>
+      <div id="posts"></div>
+      <div class="server card"><span class="pulse"></span><span id="pod">Connecting to Kubernetes...</span><span id="status" class="muted"></span></div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

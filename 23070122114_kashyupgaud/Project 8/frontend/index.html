@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusEdu • Cloud Native Student Management</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: rgba(18, 26, 44, 0.7);
+            --bg-card-hover: rgba(26, 37, 63, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-bright: rgba(99, 102, 241, 0.35);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-sub: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Background */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(120px);
+            opacity: 0.35;
+            border-radius: 50%;
+            animation: pulse-glow 12s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #6366f1, #4f46e5);
+            top: -100px;
+            left: -100px;
+        }
+
+        .blob-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #ec4899, #8b5cf6);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -6s;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #06b6d4, #3b82f6);
+            top: 40%;
+            left: 45%;
+            opacity: 0.2;
+            animation-delay: -3s;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.15) translate(30px, 20px); }
+            100% { transform: scale(0.95) translate(-20px, 40px); }
+        }
+
+        /* Container & Glass */
+        .wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Top Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 28px;
+            margin-bottom: 32px;
+            border-radius: 16px;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 30%, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .k8s-badge {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        .cluster-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #34d399;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* Authentication View */
+        .auth-view {
+            max-width: 480px;
+            margin: auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+        }
+
+        .auth-title {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+
+        .auth-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-sub);
+            fill: none;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(10, 15, 29, 0.7);
+            border: 1px solid var(--border-glass);
+            padding: 14px 16px 14px 48px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            background: rgba(14, 21, 40, 0.9);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            padding: 15px 24px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .microservices-grid-mini {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .micro-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .micro-card .name {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .micro-card .port {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        /* Dashboard View */
+        .dashboard-view {
+            display: none;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-content .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .stat-content .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .icon-blue { background: rgba(99, 102, 241, 0.15); stroke: #818cf8; }
+        .icon-emerald { background: rgba(16, 185, 129, 0.15); stroke: #34d399; }
+        .icon-pink { background: rgba(236, 72, 153, 0.15); stroke: #f472b6; }
+        .icon-amber { background: rgba(245, 158, 11, 0.15); stroke: #fbbf24; }
+
+        /* Main Workspace Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 960px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Card */
+        .form-card {
+            padding: 28px;
+            height: fit-content;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary);
+        }
+
+        /* Student Records Table/Grid */
+        .records-card {
+            padding: 28px;
+        }
+
+        .records-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: rgba(10, 15, 29, 0.6);
+            border: 1px solid var(--border-glass);
+            padding: 10px 16px 10px 42px;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-sub);
+        }
+
+        .btn-refresh {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-refresh svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+        }
+
+        /* Student Grid */
+        .students-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .student-item {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .student-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #6366f1, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .student-item:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            border-color: var(--border-glass-bright);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .student-item:hover::before {
+            opacity: 1;
+        }
+
+        .student-item-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .student-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #a5b4fc;
+        }
+
+        .student-info h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .student-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .student-badge {
+            background: rgba(6, 182, 212, 0.12);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            stroke: var(--text-sub);
+            opacity: 0.6;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: #1e293b;
+            border: 1px solid var(--border-glass-bright);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .toast.success { border-color: rgba(16, 185, 129, 0.5); }
+        .toast.error { border-color: rgba(239, 68, 68, 0.5); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glowing Blobs -->
+    <div class="ambient-glow">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="wrapper">
+        <!-- Top Navigation -->
+        <nav class="navbar glass-panel">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                </div>
+                <div>
+                    <div class="logo-title">NexusEdu Cloud</div>
+                    <div class="logo-subtitle">
+                        Student Platform <span class="k8s-badge">Kubernetes v1.28</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="cluster-status-pill">
+                    <div class="status-dot"></div>
+                    <span>4 Services Healthy</span>
+                </div>
+                <button id="nav-logout-btn" class="btn-logout" style="display: none;" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                    Disconnect
+                </button>
+            </div>
+        </nav>
+
+        <!-- View 1: Auth Login Card -->
+        <div id="auth-section" class="auth-view glass-panel">
+            <div class="auth-header">
+                <div class="auth-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Auth Microservice • Port 9001
+                </div>
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-desc">Authenticate to access the Student Cloud Cluster</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label class="input-label">Operator Identity</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="text" id="username" class="form-input" placeholder="e.g. admin" value="admin" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Secret Key / Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="password" class="form-input" placeholder="••••••••••••" value="password123" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="login-submit-btn" class="btn-primary">
+                    <span>Authorize Session</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+
+            <div class="microservices-grid-mini">
+                <div class="micro-card">
+                    <div class="name">Frontend</div>
+                    <div class="port">:9000</div>
+                </div>
+                <div class="micro-card">
+                    <div class="name">Auth API</div>
+                    <div class="port">:9001</div>
+                </div>
+                <div class="micro-card">
+                    <div class="name">Student API</div>
+                    <div class="port">:9002</div>
+                </div>
+                <div class="micro-card">
+                    <div class="name">MongoDB</div>
+                    <div class="port">:27017</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 2: Main Dashboard -->
+        <div id="dashboard-section" class="dashboard-view">
+            <!-- Stats Overview Cards -->
+            <div class="stats-grid">
+                <div class="stat-card glass-panel">
+                    <div class="stat-content">
+                        <div class="stat-label">Total Students</div>
+                        <div id="total-count" class="stat-value">0</div>
+                    </div>
+                    <div class="stat-icon icon-blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-content">
+                        <div class="stat-label">Cluster Status</div>
+                        <div class="stat-value" style="font-size: 1.4rem; color: #34d399;">Active</div>
+                    </div>
+                    <div class="stat-icon icon-emerald">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-content">
+                        <div class="stat-label">Database Sync</div>
+                        <div class="stat-value" style="font-size: 1.4rem; color: #38bdf8;">MongoDB</div>
+                    </div>
+                    <div class="stat-icon icon-pink">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-content">
+                        <div class="stat-label">API Replicas</div>
+                        <div class="stat-value" style="color: #fbbf24;">2 Pods</div>
+                    </div>
+                    <div class="stat-icon icon-amber">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workspace Section -->
+            <div class="workspace-grid">
+                <!-- Add Student Form -->
+                <div class="form-card glass-panel">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                            Enroll Student
+                        </h3>
+                    </div>
+
+                    <form onsubmit="handleAddStudent(event)">
+                        <div class="input-group">
+                            <label class="input-label">Full Name</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <input type="text" id="student-name" class="form-input" placeholder="e.g. Kashyup Gaud" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Age</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                <input type="number" id="student-age" class="form-input" placeholder="e.g. 21" min="16" max="99" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Major / Course</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                <input type="text" id="student-course" class="form-input" placeholder="e.g. Cloud & DevOps Engineering" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="add-student-btn" class="btn-primary" style="margin-top: 10px;">
+                            <span>Register to Database</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Records View -->
+                <div class="records-card glass-panel">
+                    <div class="records-toolbar">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="search-input" placeholder="Filter enrolled students..." oninput="renderStudents()">
+                        </div>
+                        <button class="btn-refresh" onclick="fetchStudents()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                            Refresh
+                        </button>
+                    </div>
+
+                    <div id="students-grid" class="students-container">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+        const AUTH_URL = 'http://localhost:9001';
+        const BACKEND_URL = 'http://localhost:9002/api';
+
+        let studentsList = [];
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const iconSvg = type === 'success' 
+                ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`
+                : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+
+            toast.innerHTML = `${iconSvg} <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const btn = document.getElementById('login-submit-btn');
+
+            btn.disabled = true;
+            btn.innerHTML = `<span>Authorizing...</span>`;
+
+            try {
+                const res = await fetch(`${AUTH_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    showToast('Authenticated via Kubernetes Auth Service!', 'success');
+                    showDashboard();
+                } else {
+                    showToast(data.error || 'Authentication rejected', 'error');
+                }
+            } catch (err) {
+                showToast('Unable to reach Auth Microservice on port 9001', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Authorize Session</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'flex';
+            document.getElementById('nav-logout-btn').style.display = 'flex';
+            fetchStudents();
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('nav-logout-btn').style.display = 'none';
+            showToast('Session ended', 'success');
+        }
+
+        async function fetchStudents() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            try {
+                const res = await fetch(`${BACKEND_URL}/students`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (Array.isArray(data)) {
+                    studentsList = data;
+                    renderStudents();
+                    document.getElementById('total-count').innerText = data.length;
+                } else if (data.error && data.error.includes("Unauthorized")) {
+                    logout();
+                }
+            } catch (err) {
+                showToast('Backend API unreachable on port 9002', 'error');
+            }
+        }
+
+        function renderStudents() {
+            const container = document.getElementById('students-grid');
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filtered = studentsList.filter(s => 
+                (s.name && s.name.toLowerCase().includes(search)) || 
+                (s.course && s.course.toLowerCase().includes(search))
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <p style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">No Students Found</p>
+                        <p style="font-size: 0.85rem; color: #64748b;">Enroll your first student using the registration form.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(s => {
+                const initials = (s.name || 'S').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                return `
+                    <div class="student-item">
+                        <div class="student-item-top">
+                            <div class="student-avatar">${initials}</div>
+                            <div class="student-info">
+                                <h4>${s.name}</h4>
+                                <div class="student-meta">
+                                    <span>Age: ${s.age || 'N/A'}</span>
+                                    <span>•</span>
+                                    <span style="color: #34d399;">Enrolled</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="student-badge">${s.course || 'General Studies'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function handleAddStudent(e) {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const name = document.getElementById('student-name').value.trim();
+            const age = parseInt(document.getElementById('student-age').value);
+            const course = document.getElementById('student-course').value.trim();
+            const btn = document.getElementById('add-student-btn');
+
+            btn.disabled = true;
+            btn.innerHTML = `<span>Saving to Mongo...</span>`;
+
+            try {
+                const res = await fetch(`${BACKEND_URL}/students`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name, age, course })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast(`Student ${name} enrolled successfully!`, 'success');
+                    document.getElementById('student-name').value = '';
+                    document.getElementById('student-age').value = '';
+                    document.getElementById('student-course').value = '';
+                    fetchStudents();
+                } else {
+                    showToast(data.error || 'Failed to save student', 'error');
+                }
+            } catch (err) {
+                showToast('Error communicating with Backend Service', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Register to Database</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>`;
+            }
+        }
+
+        // Auto login on page load if token already saved
+        if (localStorage.getItem('token')) {
+            showDashboard();
+        }
+    </script>
+</body>
+</html>
