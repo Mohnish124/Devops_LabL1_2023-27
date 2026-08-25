@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-gateway
+  template:
+    metadata:
+      labels:
+        app: frontend-gateway
+    spec:
+      containers:
+        - name: frontend-gateway
+          image: frontend-gateway:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: api-key
