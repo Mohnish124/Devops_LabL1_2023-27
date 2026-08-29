@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aparna-nginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aparna-nginx
+  template:
+    metadata:
+      labels:
+        app: aparna-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
