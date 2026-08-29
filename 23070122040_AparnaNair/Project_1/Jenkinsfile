@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out Project 1 source code'
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+
+                sh '''
+                    docker build -t aparna-project1:${BUILD_NUMBER} .
+                '''
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                echo 'Running Docker container...'
+
+                sh '''
+                    docker run -d \
+                    --name aparna-project1-${BUILD_NUMBER} \
+                    -p 5001:5000 \
+                    aparna-project1:${BUILD_NUMBER}
+                '''
+            }
+        }
+
+        stage('Verify Container') {
+            steps {
+                echo 'Checking running container...'
+
+                sh '''
+                    docker ps
+                    docker logs aparna-project1-${BUILD_NUMBER}
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            sh '''
+                docker stop aparna-project1-${BUILD_NUMBER} || true
+                docker rm aparna-project1-${BUILD_NUMBER} || true
+            '''
+        }
+
+        success {
+            echo 'Project 1 Jenkins pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Project 1 Jenkins pipeline failed.'
+        }
+    }
+}
