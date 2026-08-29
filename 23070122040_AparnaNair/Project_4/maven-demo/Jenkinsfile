@@ -7,7 +7,10 @@ pipeline {
 
             steps {
                 echo 'Compiling on Agent 1'
-                sh 'mvn clean compile'
+
+                dir('23070122040_AparnaNair/Project_4/maven-demo') {
+                    bat 'mvn clean compile'
+                }
             }
         }
 
@@ -16,7 +19,10 @@ pipeline {
 
             steps {
                 echo 'Testing on Agent 2'
-                sh 'mvn test'
+
+                dir('23070122040_AparnaNair/Project_4/maven-demo') {
+                    bat 'mvn test'
+                }
             }
         }
     }
