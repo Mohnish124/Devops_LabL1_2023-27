@@ -1,0 +1,29 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Compile') {
+            agent { label 'agent1' }
+
+            steps {
+                echo 'Compiling on Agent 1'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            agent { label 'agent2' }
+
+            steps {
+                echo 'Testing on Agent 2'
+                sh 'mvn test'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Project 4 completed successfully!'
+        }
+    }
+}
