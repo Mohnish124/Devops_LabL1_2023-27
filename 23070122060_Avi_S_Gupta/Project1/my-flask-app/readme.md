@@ -88,14 +88,25 @@ A new **Pipeline** job named `Dockerized-Flask-Pipeline` was created with:
 ![](screenshots/03_pipeline_job_config.png)
 
 ### Step 6 – Run the Pipeline
-The build was triggered from the Jenkins dashboard. All three stages completed
-successfully, shown green in the Stage View.
+The build was triggered from the Jenkins dashboard. Build `#1` completed in 1 min 49 sec
+with every stage green — the implicit `Declarative: Checkout SCM` stage, the three defined
+stages, and the `Post Actions` block that prints the success message.
 
 ![](screenshots/04_jenkins_stage_view.png)
 
+| Stage | Duration | Result |
+|---|---|---|
+| Checkout SCM | 47s | ✅ |
+| Checkout | 1s | ✅ |
+| Build Docker Image | 12s | ✅ |
+| Run Docker Container | 1s | ✅ |
+| Post Actions | 31ms | ✅ |
+
 ### Step 7 – Verify the Console Output
-The console log records the checkout, the image build layers, the container start, and the
-final `Finished: SUCCESS` status.
+The console log confirms the pipeline definition was pulled from source control rather than
+entered in the Jenkins UI — `Obtained 23070122060_Avi_S_Gupta/Project1/my-flask-app/Jenkinsfile
+from git`, followed by the repository clone into the Jenkins workspace. The log ends with
+`Pipeline succeeded. App available at http://localhost:5001` and `Finished: SUCCESS`.
 
 ![](screenshots/05_console_output_success.png)
 
