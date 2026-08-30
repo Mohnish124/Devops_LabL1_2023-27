@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: customer-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: customer
+
+  template:
+    metadata:
+      labels:
+        app: customer
+
+    spec:
+      containers:
+      - name: customer
+        image: nginx:latest
+
+        ports:
+        - containerPort: 80
+
+        envFrom:
+        - configMapRef:
+            name: app-config
+
+        - secretRef:
+            name: app-secret

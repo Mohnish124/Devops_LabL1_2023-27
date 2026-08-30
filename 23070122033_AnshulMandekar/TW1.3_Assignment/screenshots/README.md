@@ -2,8 +2,8 @@
 
 ## 👤 Student Information
 
-- **Name:** Anshul Ravindra Mandekar
-- **PRN:** 23070122033
+- **Name:** Anshul Mandekar
+- **prn:** 23070122033
 
 ## Objective
 The objective of this assignment is to dockerize a web application, verify its container status, run it locally, and automate its build process using a Jenkins CI/CD pipeline.
