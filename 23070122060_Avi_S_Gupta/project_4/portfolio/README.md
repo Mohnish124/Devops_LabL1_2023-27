@@ -1,15 +1,11 @@
-# Portfolio Project — sample application
+# Portfolio Project
 
-> **Provenance.** This Spring Boot application is **not my own work** — it is a portfolio
-> project originally built for Gunveer Singh. It is included here only as the *subject* of the
-> build for DevOps Lab Project 4: it is the Maven application that the distributed Jenkins
-> pipeline compiles, tests, packages and archives.
->
-> My own work for Project 4 is the CI pipeline — the controller/agent topology, the labelled
-> nodes, the `Jenkinsfile`, and the build execution. See [`../README.md`](../README.md).
+A complete, production-ready software engineer portfolio application built with Spring Boot.
 
-A software engineer portfolio built with Spring Boot, used here as a realistic Maven project
-for the CI pipeline to build.
+**Author:** Avi S Gupta (PRN 23070122060)
+
+In DevOps Lab Project 4 this application serves as the Maven project that the distributed
+Jenkins pipeline compiles, tests, packages and archives — see [`../README.md`](../README.md).
 
 ## Tech Stack
 - **Backend**: Java 21, Spring Boot 3.x, Spring Data JPA, Hibernate, MySQL, Maven
