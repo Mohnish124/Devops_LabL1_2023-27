@@ -1,6 +1,11 @@
 # Portfolio Project
 
-This is a complete, production-ready software engineer portfolio built for Gunveer Singh.
+A complete, production-ready software engineer portfolio application built with Spring Boot.
+
+**Author:** Avi S Gupta (PRN 23070122060)
+
+In DevOps Lab Project 4 this application serves as the Maven project that the distributed
+Jenkins pipeline compiles, tests, packages and archives — see [`../README.md`](../README.md).
 
 ## Tech Stack
 - **Backend**: Java 21, Spring Boot 3.x, Spring Data JPA, Hibernate, MySQL, Maven
