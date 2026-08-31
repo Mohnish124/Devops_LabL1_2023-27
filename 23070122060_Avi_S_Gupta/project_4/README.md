@@ -277,7 +277,12 @@ directive together with `stash`/`unstash` makes that distribution explicit in co
 topology is reviewed and version-controlled alongside the application — extending the
 Pipeline-as-Code approach from Project 1 across multiple machines.
 
-> **Note on the application.** The Spring Boot application in `portfolio/` is used here as the
-> *subject* of the build. This project is assessed on the CI pipeline architecture — the
-> controller/agent topology, label routing, workspace transfer, test reporting and artifact
-> archiving — all of which were configured and executed on this machine.
+> **Note on the application.** The Spring Boot application in `portfolio/` is **not my own
+> work** — it is a portfolio project originally built for Gunveer Singh, included here purely as
+> the *subject* of the build, i.e. the Maven project the pipeline compiles, tests, packages and
+> archives.
+>
+> My work in this project is the CI pipeline itself: the controller/agent topology, the two
+> labelled agent nodes, the toolchain configuration, the `Jenkinsfile` (ported from Windows to
+> macOS, with the porting and heap-limit changes documented above), and the build execution
+> recorded in the screenshots.
