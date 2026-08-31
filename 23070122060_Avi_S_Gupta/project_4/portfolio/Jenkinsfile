@@ -7,7 +7,9 @@ pipeline {
     }
 
     environment {
-        APP_DIR = '23070122060_Avi_S_Gupta/project_4/portfolio'
+        APP_DIR    = '23070122060_Avi_S_Gupta/project_4/portfolio'
+        // Cap heap: this lab runs controller, both agents and Maven on one 8 GB host
+        MAVEN_OPTS = '-Xmx512m'
     }
 
     stages {
@@ -38,7 +40,7 @@ pipeline {
                 deleteDir()
                 unstash 'compiled'
                 dir("${APP_DIR}") {
-                    sh 'mvn -B test'
+                    sh 'mvn -B test -DargLine=-Xmx512m'
                 }
             }
             post {
