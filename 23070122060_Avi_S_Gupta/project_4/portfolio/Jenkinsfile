@@ -2,74 +2,73 @@ pipeline {
     agent none
 
     tools {
-        maven 'Maven 3.9.16'
-        jdk 'JDK 21'
+        maven 'Maven 3.9.14'
+        jdk   'JDK 21'
+    }
+
+    environment {
+        APP_DIR = '23070122060_Avi_S_Gupta/project_4/portfolio'
     }
 
     stages {
 
         stage('Checkout') {
-            agent {
-                label 'compile'
-            }
+            agent { label 'compile' }
             steps {
+                echo 'Checking out source from GitHub on the compile agent...'
                 checkout scm
-                stash name: 'source', includes: '**'
             }
         }
 
         stage('Compile') {
-            agent {
-                label 'compile'
-            }
+            agent { label 'compile' }
             steps {
-                unstash 'source'
-                bat 'mvn clean compile'
-                stash name: 'workspace', includes: '**'
+                echo "Compiling on ${env.NODE_NAME}"
+                dir("${APP_DIR}") {
+                    sh 'mvn -B clean compile'
+                }
+                stash name: 'compiled', includes: "${APP_DIR}/**"
             }
         }
 
         stage('Test') {
-            agent {
-                label 'test'
-            }
+            agent { label 'test' }
             steps {
-                unstash 'workspace'
-                bat 'mvn test'
+                echo "Testing on ${env.NODE_NAME}"
+                deleteDir()
+                unstash 'compiled'
+                dir("${APP_DIR}") {
+                    sh 'mvn -B test'
+                }
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit "${APP_DIR}/target/surefire-reports/*.xml"
                 }
             }
         }
 
         stage('Package') {
-            agent {
-                label 'compile'
-            }
+            agent { label 'compile' }
             steps {
-                unstash 'workspace'
-                bat 'mvn package -DskipTests'
+                echo "Packaging on ${env.NODE_NAME}"
+                dir("${APP_DIR}") {
+                    sh 'mvn -B package -DskipTests'
+                }
             }
         }
 
         stage('Archive Artifact') {
-            agent {
-                label 'compile'
-            }
+            agent { label 'compile' }
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                echo "Archiving JAR from ${env.NODE_NAME}"
+                archiveArtifacts artifacts: "${APP_DIR}/target/*.jar", fingerprint: true
             }
         }
     }
 
     post {
-        success {
-            echo 'Distributed Jenkins Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
+        success { echo 'Distributed Jenkins pipeline executed successfully across compile-agent and test-agent!' }
+        failure { echo 'Pipeline failed - check the console output above.' }
     }
 }
