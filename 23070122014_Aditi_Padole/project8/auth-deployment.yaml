@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  namespace: project8
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: auth } }
+  template:
+    metadata: { labels: { app: auth } }
+    spec:
+      containers:
+        - name: auth
+          image: aditi8888/project8-auth:latest
+          ports: [{ containerPort: 4000 }]
+          envFrom:
+            - secretRef: { name: app-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: project8
+spec:
+  selector: { app: auth }
+  ports: [{ port: 4000, targetPort: 4000 }]
+  
