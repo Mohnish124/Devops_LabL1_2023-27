@@ -4,8 +4,8 @@ This repository contains the setup and execution steps for the DevOps Lab Assign
 
 ## 👤 Student Information
 
-- **Name:** Anshul Ravindra Mandekar
-- **PRN:** 23070122033
+- **Name:** Anshul Mandekar
+- **prn:** 23070122033
 
 ## 🛠️ Phase 1: Setup Your Fork, Branch, and Folder
 
