@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-configmap
+  labels:
+    app: ecommerce-app
+    tier: auth-service
+data:
+  port: "5001"
+  token_expiry: "3600s"
+  db_host: "mongodb-service"
+  db_port: "27017"
+  db_name: "ecommerce_db"
+  db_user: "admin"

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+  labels:
+    app: ecommerce-app
+    tier: frontend
+data:
+  app_title: "Kubernetes 4-Tier Microservices Platform"
+  nginx_port: "80"
