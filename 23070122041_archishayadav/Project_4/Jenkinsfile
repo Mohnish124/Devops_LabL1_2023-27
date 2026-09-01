@@ -1,0 +1,29 @@
+pipeline {
+    agent none 
+
+    stages {
+        stage('Compile on Node 1') {
+            agent {
+                label 'maven-compile' 
+            }
+            steps {
+                echo 'Starting compilation on Compile Node...'
+                dir('Project_4') {
+                    bat 'mvn clean compile' 
+                }
+            }
+        }
+
+        stage('Test on Node 2') {
+            agent {
+                label 'maven-test' 
+            }
+            steps {
+                echo 'Starting testing on Test Node...'
+                dir('Project_4') {
+                    bat 'mvn test'
+                }
+            }
+        }
+    }
+}

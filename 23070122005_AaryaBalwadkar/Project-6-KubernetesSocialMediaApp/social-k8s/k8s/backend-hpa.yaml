@@ -1,0 +1,30 @@
+# This HPA watches the backend-deployment and automatically scales the
+# number of pods up or down based on average CPU utilization.
+#
+# - minReplicas: 2   -> never go below 2 pods
+# - maxReplicas: 8   -> never go above 8 pods
+# - target CPU: 50%  -> if average CPU across pods exceeds 50% of the
+#                       requested 100m, Kubernetes will add more pods
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-deployment
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0

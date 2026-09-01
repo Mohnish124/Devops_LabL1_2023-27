@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: postgres-deployment, namespace: ecommerce}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: postgres}}
+  template:
+    metadata: {labels: {app: postgres}}
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:16-alpine
+        ports: [{containerPort: 5432}]
+        envFrom: [{secretRef: {name: postgres-secret}}]
+        volumeMounts:
+        - {name: data, mountPath: /var/lib/postgresql/data}
+        - {name: init, mountPath: /docker-entrypoint-initdb.d/init.sql, subPath: init.sql}
+        readinessProbe: {exec: {command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]}, initialDelaySeconds: 8, periodSeconds: 5}
+      volumes:
+      - {name: data, persistentVolumeClaim: {claimName: postgres-pvc}}
+      - {name: init, configMap: {name: db-init}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: postgres-service, namespace: ecommerce}
+spec: {selector: {app: postgres}, ports: [{port: 5432, targetPort: 5432}]}
+

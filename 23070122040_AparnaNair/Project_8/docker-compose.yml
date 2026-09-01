@@ -1,0 +1,10 @@
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8084:80"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest

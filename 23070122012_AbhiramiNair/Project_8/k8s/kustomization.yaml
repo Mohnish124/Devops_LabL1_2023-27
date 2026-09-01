@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: retail-microservices
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - user-service.yaml
+  - product-service.yaml
+  - order-service.yaml
+  - api-gateway.yaml

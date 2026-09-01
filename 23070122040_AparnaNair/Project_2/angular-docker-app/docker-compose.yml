@@ -1,0 +1,26 @@
+services:
+
+  # Development environment
+  angular-dev:
+    build:
+      context: .
+      target: development
+    container_name: angular-project2-dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    profiles:
+      - dev
+
+  # Production environment
+  angular-prod:
+    build:
+      context: .
+      target: production
+    container_name: angular-project2-prod
+    ports:
+      - "8081:80"
+    profiles:
+      - prod

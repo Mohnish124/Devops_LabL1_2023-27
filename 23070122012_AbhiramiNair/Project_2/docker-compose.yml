@@ -1,0 +1,9 @@
+services:
+  angular-app:
+    build:
+      context: .
+      target: production
+    container_name: angular-docker-production
+    ports:
+      - "8080:80"
+    restart: unless-stopped

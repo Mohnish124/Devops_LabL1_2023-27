@@ -1,0 +1,40 @@
+pipeline {
+    agent none
+
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    stages {
+
+        stage('Compile') {
+            agent {
+                label 'compile'
+            }
+
+            steps {
+                bat 'mvn -f "C:\\Users\\anushka\\OneDrive\\Desktop\\Devops-Lab-L1_2023-27\\23070122035_AnushkaDesai\\Project4_Distributed_Jenkins_Pipeline\\pom.xml" clean compile'
+            }
+        }
+
+        stage('Test') {
+            agent {
+                label 'test'
+            }
+
+            steps {
+                bat 'mvn -f "C:\\Users\\anushka\\OneDrive\\Desktop\\Devops-Lab-L1_2023-27\\23070122035_AnushkaDesai\\Project4_Distributed_Jenkins_Pipeline\\pom.xml" test'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Distributed Jenkins Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}

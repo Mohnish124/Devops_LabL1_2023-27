@@ -1,0 +1,8 @@
+services:
+  angular-app:
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    container_name: angular-compose-dev

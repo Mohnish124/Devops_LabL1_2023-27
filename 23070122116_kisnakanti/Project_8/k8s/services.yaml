@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: user-deployment, namespace: ecommerce}
+spec: {replicas: 1, selector: {matchLabels: {app: user}}, template: {metadata: {labels: {app: user}}, spec: {containers: [{name: user, image: ecommerce-user-service:latest, imagePullPolicy: IfNotPresent, ports: [{containerPort: 3001}], envFrom: [{configMapRef: {name: app-config}}, {secretRef: {name: postgres-secret}}]}]}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: user-service, namespace: ecommerce}
+spec: {selector: {app: user}, ports: [{port: 3001, targetPort: 3001}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: product-deployment, namespace: ecommerce}
+spec: {replicas: 1, selector: {matchLabels: {app: product}}, template: {metadata: {labels: {app: product}}, spec: {containers: [{name: product, image: ecommerce-product-service:latest, imagePullPolicy: IfNotPresent, ports: [{containerPort: 3002}], envFrom: [{configMapRef: {name: app-config}}, {secretRef: {name: postgres-secret}}]}]}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: product-service, namespace: ecommerce}
+spec: {selector: {app: product}, ports: [{port: 3002, targetPort: 3002}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: order-deployment, namespace: ecommerce}
+spec: {replicas: 1, selector: {matchLabels: {app: order}}, template: {metadata: {labels: {app: order}}, spec: {containers: [{name: order, image: ecommerce-order-service:latest, imagePullPolicy: IfNotPresent, ports: [{containerPort: 3003}], envFrom: [{configMapRef: {name: app-config}}, {secretRef: {name: postgres-secret}}]}]}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: order-service, namespace: ecommerce}
+spec: {selector: {app: order}, ports: [{port: 3003, targetPort: 3003}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: payment-deployment, namespace: ecommerce}
+spec: {replicas: 1, selector: {matchLabels: {app: payment}}, template: {metadata: {labels: {app: payment}}, spec: {containers: [{name: payment, image: ecommerce-payment-service:latest, imagePullPolicy: IfNotPresent, ports: [{containerPort: 3004}], envFrom: [{configMapRef: {name: app-config}}, {secretRef: {name: postgres-secret}}]}]}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: payment-service, namespace: ecommerce}
+spec: {selector: {app: payment}, ports: [{port: 3004, targetPort: 3004}]}
+

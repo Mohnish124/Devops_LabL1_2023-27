@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-server-deployment
+  labels:
+    app: apache-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache-web
+  template:
+    metadata:
+      labels:
+        app: apache-web
+    spec:
+      containers:
+      - name: apache-container
+        # httpd is the official Apache image on Docker Hub
+        image: httpd:latest
+        ports:
+        # Apache runs on port 80 by default
+        - containerPort: 80

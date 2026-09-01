@@ -1,0 +1,9 @@
+services:
+  angular-app:
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    ports:
+      - "8082:80"
+    container_name: angular-compose-prod
+    restart: unless-stopped

@@ -2,8 +2,8 @@
 
 ## 👤 Student Information
 
-- **Name:** Anshul Ravindra Mandekar
-- **PRN:** 23070122033
+- **Name:** Anshul Mandekar
+- **prn:** 23070122033
 
 ## Objective
 The objective of this assignment is to learn how to manage software projects using Agile methodologies on the Jira project management platform. This includes setting up a Scrum board, creating and defining user stories, and managing backlog tasks.

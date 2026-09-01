@@ -10,6 +10,11 @@ This repository contains the assignments and projects for the DevOps Lab.
 - `Project 1/`: Dockerizing Jenkins Pipeline
 - `Project 2/`: Deploy Angular/React Application in Docker Container
 - `Project 4/`: Architecting Jenkins Pipeline for Scale
+- `Project 5/`: Persistent Volumes (PV) and PVCs
+- `Project 6/`: WordPress + MySQL on Kubernetes
+- `Project 7/`: Prometheus & Grafana Monitoring
+- `Project 8/`: Online Student Management System Microservices
+- `Project 9/`: Apache2 Server on Kubernetes
 
 ## Assignments & Projects
 
@@ -37,3 +42,13 @@ This repository contains the assignments and projects for the DevOps Lab.
 ### Project 4: Architecting Jenkins Pipeline for Scale
 - Designed a distributed Jenkins pipeline.
 - Configured tasks to run across multiple Jenkins slave nodes (`slave-1` and `slave-2`) for a Maven portfolio project.
+
+### Project 8: Containerize a Complete Application with 4 Microservices
+- Containerized an Online Student Management System across 4 microservices (Frontend, Auth Service, Student API Backend, and MongoDB).
+- Implemented Kubernetes Deployments, Services (LoadBalancer & ClusterIP for service discovery), ConfigMaps, and Secrets.
+- Demonstrated dynamic pod scaling and full end-to-end inter-service communication.
+
+### Project 9: Apache2 Server on Kubernetes
+- Deployed an Apache HTTP Server (`httpd`) inside a Kubernetes cluster using a Deployment.
+- Used a ConfigMap to inject a custom HTML web page into the Apache container.
+- Exposed the web server to the host machine using a LoadBalancer Service.

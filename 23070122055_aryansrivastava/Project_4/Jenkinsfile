@@ -1,0 +1,12 @@
+pipeline {
+    agent { label 'agent-1' }
+    stages {
+        stage('Compile') {
+            steps { sh 'mvn compile' }
+        }
+        stage('Test') {
+            agent { label 'agent-2' }
+            steps { sh 'mvn test' }
+        }
+    }
+}

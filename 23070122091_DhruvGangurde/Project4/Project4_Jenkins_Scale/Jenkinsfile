@@ -1,0 +1,77 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Checkout') {
+            agent {
+                label 'compile-node'
+            }
+
+            steps {
+                echo "Checkout running on ${env.NODE_NAME}"
+
+                deleteDir()
+
+                git branch: 'main',
+                    url: 'https://github.com/DhurvG/maven-distributed-pipeline'
+            }
+        }
+
+        stage('Compile') {
+            agent {
+                label 'compile-node'
+            }
+
+            steps {
+                echo "Compile running on ${env.NODE_NAME}"
+
+                bat '''
+                    set "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot"
+                    set "PATH=%JAVA_HOME%\\bin;%PATH%"
+
+                    echo ===== JAVA VERSION =====
+                    java -version
+
+                    echo ===== MAVEN VERSION =====
+                    mvn -version
+
+                    echo ===== MAVEN COMPILE =====
+                    mvn clean compile
+                '''
+
+                stash name: 'compiled-project',
+                      includes: 'pom.xml,src/**,target/**',
+                      useDefaultExcludes: true
+            }
+        }
+
+        stage('Test') {
+            agent {
+                label 'test-node'
+            }
+
+            steps {
+                echo "Test running on ${env.NODE_NAME}"
+
+                deleteDir()
+
+                unstash 'compiled-project'
+
+                bat '''
+                    set "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot"
+                    set "PATH=%JAVA_HOME%\\bin;%PATH%"
+
+                    echo ===== JAVA VERSION =====
+                    java -version
+
+                    echo ===== MAVEN VERSION =====
+                    mvn -version
+
+                    echo ===== MAVEN TEST =====
+                    mvn test
+                '''
+            }
+        }
+    }
+}
