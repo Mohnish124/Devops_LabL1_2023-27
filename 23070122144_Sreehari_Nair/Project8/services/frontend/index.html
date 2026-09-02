@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 8 - Microservices Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>☸ Project 8: Microservices Dashboard</h1>
+            <p>Deployments • Services • ConfigMaps • Secrets</p>
+        </header>
+
+        <!-- 4 Microservice Status Cards -->
+        <div class="status-grid">
+            <div class="status-card">
+                <span>🌐 <strong>Frontend:</strong></span>
+                <span class="badge online">Active</span>
+            </div>
+            <div class="status-card">
+                <span>🔐 <strong>Auth Service:</strong></span>
+                <span id="authStatus" class="badge checking">Checking...</span>
+            </div>
+            <div class="status-card">
+                <span>📦 <strong>Order Service:</strong></span>
+                <span id="orderStatus" class="badge checking">Checking...</span>
+            </div>
+            <div class="status-card">
+                <span>🗄️ <strong>MongoDB:</strong></span>
+                <span id="dbStatus" class="badge online">ClusterIP:27017</span>
+            </div>
+        </div>
+
+        <main class="main-grid">
+            <!-- Order Form -->
+            <div class="card">
+                <h2>Place New Order</h2>
+                <form onsubmit="handleCreateOrder(event)">
+                    <div class="form-group">
+                        <label for="customer">Customer:</label>
+                        <input type="text" id="customer" value="admin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item">Item Name:</label>
+                        <input type="text" id="item" value="Cloud Compute Pod" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price ($ USD):</label>
+                        <input type="number" id="price" value="49.99" step="0.01" required>
+                    </div>
+                    <button type="submit" id="submitBtn">Submit Order</button>
+                </form>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-title-row">
+                    <h2>Recent Orders (from DB)</h2>
+                    <button onclick="fetchOrders()" class="btn-sm">Refresh</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Loading orders...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+  labels:
+    app: order-service
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+        tier: backend
+    spec:
+      containers:
+        - name: order-service
+          image: order-service:v1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5002
+              name: http
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: port
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: app_env
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: db_port
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: db_user
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: order-configmap
+                  key: auth_service_url
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: order-secret
+                  key: db-password
+            - name: API_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: order-secret
+                  key: api-secret-key
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "150m"

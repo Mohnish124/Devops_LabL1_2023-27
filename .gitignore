@@ -9,3 +9,7 @@ __pycache__/
 venv/
 .idea/
 .vscode/
+
+# Jenkins agent runtime artifacts (regenerated on each agent run)
+**/Jenkins/*/remoting/jarCache/
+**/Jenkins/*/remoting/logs/

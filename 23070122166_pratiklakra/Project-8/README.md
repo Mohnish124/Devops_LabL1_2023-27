@@ -1,40 +1,30 @@
-# Project 7: MongoDB and Mongo Express Deployment on Kubernetes
+# Project 8 – Kubernetes Deployment of a Multi-Microservice Application
+
+**Student Name:** Pratik Lakra  
+**PRN:** 23070122166
 
 ## Project Description
 
-This project demonstrates deploying **MongoDB** and **Mongo Express** on Kubernetes using:
-
-- Deployments
-- Services
-- ConfigMaps
-- Secrets
-
-MongoDB acts as the database, while Mongo Express provides a browser-based administration interface for managing the MongoDB database.
-
-Kubernetes manages container deployment, networking, service discovery, and configuration securely within the cluster.
+This project demonstrates the deployment of a multi-microservice application on Kubernetes, consisting of a Frontend, Product, Customer, and Order service. Configuration and credentials are managed using a ConfigMap and a Secret, while each microservice is deployed and exposed independently using Deployments and Services. Kubernetes handles container orchestration, internal service communication, and external access to the application.
 
 ## Objective
 
-The objective is to:
-
-- Deploy MongoDB on Kubernetes
-- Deploy Mongo Express
-- Secure credentials using Kubernetes Secrets
-- Configure database connection using ConfigMaps
-- Expose Mongo Express through a NodePort Service
-- Verify successful communication between Mongo Express and MongoDB
+- Deploy multiple microservices on Kubernetes using Deployments and Services
+- Manage application configuration using a ConfigMap
+- Manage sensitive credentials using a Secret
+- Expose internal services using ClusterIP and the Frontend using NodePort
+- Verify all Kubernetes resources are running correctly
+- Access the Frontend application from a browser
 
 ## Technologies Used
 
 | Technology | Purpose |
 |---|---|
-| Kubernetes | Container orchestration |
+| Kubernetes | Container orchestration platform |
 | Minikube | Local Kubernetes cluster |
 | kubectl | Kubernetes command-line tool |
-| Docker | Container runtime |
-| MongoDB | Database |
-| Mongo Express | MongoDB administration interface |
-| YAML | Kubernetes configuration |
+| Docker | Containerization platform |
+| YAML | Configuration file format |
 
 ## Prerequisites
 
@@ -42,20 +32,27 @@ The objective is to:
 - Minikube
 - kubectl
 - Kubernetes Cluster
-- MongoDB Image
-- Mongo Express Image
+- Microservice Docker Images (Frontend, Product, Customer, Order)
 
 ## Project Structure
 
-```text
-Project-7/
+```
+Project-8/
 │
-├── mongodb-secret.yaml
-├── mongodb-configmap.yaml
-├── mongodb-deployment.yaml
-├── mongodb-service.yaml
-├── mongo-express-deployment.yaml
-├── mongo-express-service.yaml
+├── app-configmap.yaml
+├── app-secret.yaml
+│
+├── frontend-deployment.yaml
+├── frontend-service.yaml
+│
+├── product-deployment.yaml
+├── product-service.yaml
+│
+├── customer-deployment.yaml
+├── customer-service.yaml
+│
+├── order-deployment.yaml
+├── order-service.yaml
 │
 ├── Screenshots/
 │
@@ -64,493 +61,494 @@ Project-7/
 └── .gitignore
 ```
 
-| File | Description |
-|---|---|
-| `mongodb-secret.yaml` | Defines MongoDB credentials using a Kubernetes Secret |
-| `mongodb-configmap.yaml` | Stores the MongoDB service configuration |
-| `mongodb-deployment.yaml` | Defines the MongoDB Deployment |
-| `mongodb-service.yaml` | Provides internal MongoDB networking using ClusterIP |
-| `mongo-express-deployment.yaml` | Defines the Mongo Express Deployment and environment variables |
-| `mongo-express-service.yaml` | Exposes Mongo Express using NodePort |
-| `Screenshots/` | Contains screenshots captured during implementation |
-| `README.md` | Project documentation |
-| `.gitignore` | Specifies files ignored by Git |
-
 ## Kubernetes Architecture
 
-```text
-                         User Browser
-                              │
-                              ▼
-                 Mongo Express Service
-                       (NodePort)
-                              │
-                              ▼
-                 Mongo Express Deployment
-                              │
-                              ▼
-                    MongoDB Service
-                       (ClusterIP)
-                              │
-                              ▼
-                    MongoDB Deployment
-                              │
-                              ▼
-                         MongoDB Pod
-
-
-                         Secret
-                            │
-                            ▼
-                   MongoDB Credentials
-
-
-                       ConfigMap
-                            │
-                            ▼
-                   MongoDB Service Name
+```
+Browser
+   │
+   ▼
+Frontend Service (NodePort)
+   │
+   ▼
+Frontend Deployment
+   │
+   ▼
+Frontend Pod
+   │
+   ▼
+Product Service
+   │
+   ▼
+Product Pod
+   │
+   ▼
+Customer Service
+   │
+   ▼
+Customer Pod
+   │
+   ▼
+Order Service
+   │
+   ▼
+Order Pod
 ```
 
-The Secret provides MongoDB credentials, while the ConfigMap provides the MongoDB Service name required for internal communication.
+ConfigMap supplies configuration.
+Secret supplies credentials.
 
-# Implementation Steps
+## Implementation
 
-## Step 1: Verify Kubernetes Cluster
+### Step 1: Create ConfigMap
 
-The Kubernetes cluster was verified using Minikube and `kubectl` before deploying the application resources.
-
-```bash
-minikube status
-```
-
-![Step 1 - Cluster Running](screenshots/02_cluster_running.png)
-
-The Minikube cluster is running successfully and is ready for Kubernetes deployments.
-
-```bash
-kubectl get all
-```
-
-![Step 1 - Existing Cluster Resources](screenshots/03_existing_cluster_resources.png)
-
-Existing Kubernetes resources were checked before starting the MongoDB and Mongo Express deployment.
-
-## Step 2: Create MongoDB Secret
-
-Kubernetes Secrets are used to store sensitive information such as MongoDB usernames and passwords separately from application configuration.
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mongodb-secret
-type: Opaque
-data:
-  mongodb-user: YWRtaW4=
-  mongodb-password: cGFzc3dvcmQ=
-```
-
-![Step 2 - MongoDB Secret YAML](screenshots/04_mongodb_secret_yaml.png)
-
-The Secret manifest defines the credentials required for authenticated MongoDB access.
-
-## Step 3: Create ConfigMap
-
-A ConfigMap stores non-sensitive configuration separately from the application deployment. The MongoDB Service name is stored here for service discovery.
+A ConfigMap was created to store non-sensitive configuration data used by the microservices.
 
 ```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mongodb-configmap
+  name: app-configmap
 data:
-  database_url: mongodb-service
+  APP_ENV: production
+  SERVICE_TIMEOUT: "30"
 ```
 
-![Step 3 - ConfigMap YAML](screenshots/05_configmap_yaml.png)
+```bash
+kubectl apply -f app-configmap.yaml
+```
 
-The ConfigMap defines `mongodb-service` as the internal MongoDB endpoint.
+![ConfigMap](Screenshots/02_configmap_created.png)
+Confirmation that the ConfigMap was created successfully in the cluster.
 
-## Step 4: Create MongoDB Deployment
+### Step 2: Create Secret
 
-A Deployment manages the MongoDB Pod and ensures that the MongoDB container remains available in the Kubernetes cluster.
+A Secret was created to securely store sensitive credentials required by the microservices.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  DB_USERNAME: YWRtaW4=
+  DB_PASSWORD: cGFzc3dvcmQ=
+```
+
+```bash
+kubectl apply -f app-secret.yaml
+```
+
+![Secret](Screenshots/03_secret_created.png)
+Confirmation that the Secret was created successfully in the cluster.
+
+### Step 3: Frontend Deployment
+
+A Deployment was created to manage the Frontend microservice pods.
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb-deployment
+  name: frontend-deployment
+  labels:
+    app: frontend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: mongodb
+      app: frontend
   template:
     metadata:
       labels:
-        app: mongodb
+        app: frontend
     spec:
       containers:
-        - name: mongodb
-          image: mongo:latest
+        - name: frontend
+          image: frontend-service:latest
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
           ports:
-            - containerPort: 27017
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: mongodb-user
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: mongodb-password
+            - containerPort: 80
 ```
 
-![Step 4 - MongoDB Deployment YAML](screenshots/06_mongodb_deployment_yaml.png)
+![Frontend Deployment](Screenshots/04_frontend_deployment_yaml.png)
+The Deployment YAML file defining the Frontend microservice configuration.
 
-The MongoDB Deployment creates the database Pod and retrieves its credentials from the Kubernetes Secret.
+### Step 4: Frontend Service
 
-## Step 5: Create MongoDB Service
-
-A ClusterIP Service provides stable internal networking for MongoDB. Mongo Express can communicate with MongoDB through the Service name instead of using a Pod IP.
+A NodePort Service was created to expose the Frontend microservice externally.
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: frontend-service
 spec:
+  type: NodePort
   selector:
-    app: mongodb
+    app: frontend
   ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
-  type: ClusterIP
+    - port: 80
+      targetPort: 80
+      nodePort: 30081
 ```
 
-![Step 5 - MongoDB Service YAML](screenshots/07_mongodb_service_yaml.png)
+![Frontend Service](Screenshots/05_frontend_service_yaml.png)
+The Service YAML file exposing the Frontend Deployment using NodePort.
 
-The MongoDB Service exposes port `27017` for internal cluster communication.
+```bash
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+```
 
-## Step 6: Create Mongo Express Deployment
+![Frontend Running](Screenshots/06_frontend_running.png)
+Confirmation that the Frontend Deployment and Service were applied successfully.
 
-Mongo Express is deployed separately and receives the MongoDB connection details through environment variables.
+### Step 5: Product Deployment and Service
+
+A Deployment and ClusterIP Service were created for the Product microservice, handling internal communication within the cluster.
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-express-deployment
+  name: product-deployment
+  labels:
+    app: product
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: mongo-express
+      app: product
   template:
     metadata:
       labels:
-        app: mongo-express
+        app: product
     spec:
       containers:
-        - name: mongo-express
-          image: mongo-express:latest
+        - name: product
+          image: product-service:latest
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 8081
-          env:
-            - name: ME_CONFIG_MONGODB_ADMINUSERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: mongodb-user
-            - name: ME_CONFIG_MONGODB_ADMINPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: mongodb-password
-            - name: ME_CONFIG_MONGODB_SERVER
-              valueFrom:
-                configMapKeyRef:
-                  name: mongodb-configmap
-                  key: database_url
 ```
 
-![Step 6 - Mongo Express Deployment YAML](screenshots/08_mongo_express_deployment_yaml.png)
-
-Mongo Express obtains its credentials from the Secret and its MongoDB service name from the ConfigMap.
-
-## Step 7: Create Mongo Express Service
-
-A NodePort Service exposes Mongo Express outside the Kubernetes cluster so that it can be accessed through a web browser.
+![Product Deployment](Screenshots/07_product_deployment_yaml.png)
+The Deployment YAML file defining the Product microservice configuration.
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-express-service
+  name: product-service
 spec:
+  type: ClusterIP
   selector:
-    app: mongo-express
+    app: product
   ports:
-    - protocol: TCP
-      port: 8081
+    - port: 8081
       targetPort: 8081
-      nodePort: 30000
-  type: NodePort
 ```
 
-![Step 7 - Mongo Express Service YAML](screenshots/09_mongo_express_service_yaml.png)
-
-The NodePort Service exposes Mongo Express externally through port `30000`.
-
-## Step 8: Apply Kubernetes Resources
-
-The Kubernetes resource files were applied using `kubectl apply` in the required deployment order.
+![Product Service](Screenshots/08_product_service_yaml.png)
+The Service YAML file exposing the Product Deployment internally using ClusterIP.
 
 ```bash
-kubectl apply -f mongodb-secret.yaml
+kubectl apply -f product-deployment.yaml
+kubectl apply -f product-service.yaml
 ```
 
-![Step 8 - Secret Apply](screenshots/10_secret_apply_success.png)
+![Product Running](Screenshots/09_product_running_1.png)
+Verification output showing the Product Deployment running successfully.
 
-The MongoDB Secret was created successfully.
+![Product Running](Screenshots/09_product_running_2.png)
+Verification output showing the Product Service running successfully.
+
+### Step 6: Customer Deployment and Service
+
+A Deployment and ClusterIP Service were created for the Customer microservice, handling internal communication within the cluster.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-deployment
+  labels:
+    app: customer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customer
+  template:
+    metadata:
+      labels:
+        app: customer
+    spec:
+      containers:
+        - name: customer
+          image: customer-service:latest
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 8082
+```
+
+![Customer Deployment](Screenshots/10_customer_deployment_yaml.png)
+The Deployment YAML file defining the Customer microservice configuration.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+spec:
+  type: ClusterIP
+  selector:
+    app: customer
+  ports:
+    - port: 8082
+      targetPort: 8082
+```
+
+![Customer Service](Screenshots/11_customer_service_yaml.png)
+The Service YAML file exposing the Customer Deployment internally using ClusterIP.
 
 ```bash
-kubectl apply -f mongodb-configmap.yaml
+kubectl apply -f customer-deployment.yaml
+kubectl apply -f customer-service.yaml
 ```
 
-![Step 8 - ConfigMap Apply](screenshots/11_configmap_apply_success.png)
+### Step 7: Order Deployment and Service
 
-The MongoDB ConfigMap was created successfully.
+A Deployment and ClusterIP Service were created for the Order microservice, handling internal communication within the cluster.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+  labels:
+    app: order
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+        - name: order
+          image: order-service:latest
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 8083
+```
+
+![Order Deployment](Screenshots/12_order_deployment_yaml.png)
+The Deployment YAML file defining the Order microservice configuration.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  type: ClusterIP
+  selector:
+    app: order
+  ports:
+    - port: 8083
+      targetPort: 8083
+```
+
+![Order Service](Screenshots/13_order_service_yaml.png)
+The Service YAML file exposing the Order Deployment internally using ClusterIP.
 
 ```bash
-kubectl apply -f mongodb-deployment.yaml
+kubectl apply -f order-deployment.yaml
+kubectl apply -f order-service.yaml
 ```
 
-![Step 8 - MongoDB Deployment Apply](screenshots/12_mongodb_deployment_apply.png)
+### Step 8: Verify Resources
 
-The MongoDB Deployment was created successfully.
-
-```bash
-kubectl apply -f mongodb-service.yaml
-```
-
-![Step 8 - MongoDB Service Apply](screenshots/13_mongodb_service_apply.png)
-
-The MongoDB ClusterIP Service was created successfully.
-
-```bash
-kubectl apply -f mongo-express-deployment.yaml
-```
-
-![Step 8 - Mongo Express Deployment Apply](screenshots/14_mongo_express_deployment_apply.png)
-
-The Mongo Express Deployment was created successfully.
-
-```bash
-kubectl apply -f mongo-express-service.yaml
-```
-
-![Step 8 - Mongo Express Service Apply](screenshots/15_mongo_express_service_apply.png)
-
-The Mongo Express NodePort Service was created successfully.
-
-## Step 9: Verify Resources
-
-The Kubernetes resources were verified individually to confirm that the deployments, Pods, Services, Secrets, and ConfigMaps were created successfully.
-
-```bash
-kubectl get secrets
-```
-
-![Step 9 - Secret Created](screenshots/16_secret_created.png)
-
-The MongoDB Secret is available in the Kubernetes cluster.
-
-```bash
-kubectl get configmaps
-```
-
-![Step 9 - ConfigMap Created](screenshots/17_configmap_created.png)
-
-The MongoDB ConfigMap is available for application configuration.
+All Kubernetes resources were verified to confirm that the microservices, configuration, and credentials were deployed correctly.
 
 ```bash
 kubectl get deployments
-```
-
-![Step 9 - Deployments Running](screenshots/18_deployments_running.png)
-
-Both MongoDB and Mongo Express Deployments are running successfully.
-
-```bash
 kubectl get pods
-```
-
-![Step 9 - Pods Running](screenshots/19_pods_running.png)
-
-The MongoDB and Mongo Express Pods have reached the running state.
-
-```bash
 kubectl get svc
+kubectl get configmaps
+kubectl get secrets
+kubectl get all
 ```
 
-![Step 9 - Services Running](screenshots/20_services_running.png)
+![Deployments](Screenshots/14_all_deployments_running.png)
+Output showing all four microservice Deployments running with the desired replicas.
 
-The MongoDB ClusterIP and Mongo Express NodePort Services are available.
+![Pods](Screenshots/15_all_pods_running.png)
+Output showing all microservice pods in the Running state.
+
+![Services](Screenshots/16_all_services_running.png)
+Output showing all Services, including the Frontend NodePort and internal ClusterIP Services.
+
+![ConfigMap](Screenshots/17_configmap_verified.png)
+Verification confirming the ConfigMap is present in the cluster.
+
+![Secret](Screenshots/18_secret_verified.png)
+Verification confirming the Secret is present in the cluster.
+
+![Resources](Screenshots/19_all_kubernetes_resources.png)
+Combined output listing all active Kubernetes resources for the application.
+
+### Step 9: Access Frontend
+
+The Frontend application was accessed using Minikube's service command, which opens the exposed NodePort Service in the default browser.
+
+```bash
+minikube service frontend-service
+```
+
+![Frontend Browser](Screenshots/20_frontend_application_1.png)
+The Frontend application successfully loaded in the browser.
+
+![Frontend Browser](Screenshots/20_frontend_application_2.png)
+Additional view confirming the Frontend was accessed successfully.
+
+The frontend was successfully accessed using the NodePort Service.
+
+### Step 10: Final Cluster State
+
+Resources from the previous MongoDB project were removed before capturing the final cluster state, so that only the microservice application resources are displayed.
 
 ```bash
 kubectl get all
 ```
 
-![Step 9 - Cluster Resources](screenshots/21_cluster_resources.png)
+![Final Cluster](Screenshots/21_final_cluster_state.png)
+The final cluster state showing only the Frontend, Product, Customer, and Order resources.
 
-The cluster resource overview confirms that the required application resources are deployed.
+## Kubernetes Workflow
 
-## Step 10: Access Mongo Express
-
-Mongo Express was accessed through the Minikube Service command.
-
-```bash
-minikube service mongo-express-service
 ```
-
-![Step 10 - Open Mongo Express](screenshots/22_open_mongo_express.png)
-
-Minikube successfully exposed the Mongo Express NodePort Service for browser access.
-
-![Step 10 - Mongo Express Dashboard](screenshots/22_mongo_express_dashboard.png)
-
-The Mongo Express dashboard loaded successfully, confirming communication with MongoDB.
-
-## Step 11: Verify Mongo Express Logs
-
-The Mongo Express logs were checked to verify application startup and database connectivity.
-
-```bash
-kubectl logs deployment/mongo-express-deployment
-```
-
-![Step 11 - Mongo Express Logs](screenshots/23_mongo_express_logs.png)
-
-The logs confirm successful Mongo Express operation and database connectivity. Sensitive credentials in the screenshot have been intentionally obscured as a security best practice.
-
-## Step 12: Final Cluster State
-
-The final Kubernetes cluster state was verified using:
-
-```bash
-kubectl get all
-```
-
-![Step 12 - Final Cluster State](screenshots/24_final_cluster_state.png)
-
-The final state confirms that only MongoDB-related Kubernetes resources remain after cleaning up resources from previous projects.
-
-# Kubernetes Workflow
-
-```text
-Secret
-  ↓
-MongoDB Deployment
-  ↓
-MongoDB Service
-  ↓
 ConfigMap
-  ↓
-Mongo Express Deployment
-  ↓
-Mongo Express Service (NodePort)
-  ↓
-Browser Access
+   │
+   ▼
+Deployments
+   │
+   ▼
+Pods
+   │
+   ▼
+Services
+   │
+   ▼
+Frontend (NodePort)
+   │
+   ▼
+Browser
 ```
 
-# Kubernetes Components Used
+Secret is injected into all deployments.
+
+## Kubernetes Components Used
 
 | Component | Purpose |
 |---|---|
-| Deployment | Pod Management |
-| Service | Networking |
-| Secret | Store Credentials |
-| ConfigMap | Store Configuration |
-| NodePort | External Access |
-| ClusterIP | Internal Communication |
+| Deployment | Manages the desired state and lifecycle of microservice pods |
+| Pod | Runs an individual microservice container instance |
+| ReplicaSet | Ensures the specified number of pod replicas are running |
+| Service | Enables communication between microservices and external access |
+| ClusterIP | Exposes internal microservices within the cluster only |
+| NodePort | Exposes the Frontend Service to external traffic |
+| ConfigMap | Supplies non-sensitive configuration data to the microservices |
+| Secret | Supplies sensitive credentials to the microservices |
 
-# Commands Used
+## Commands Used
 
-## Cluster Verification
+### Deployment Commands
 
 ```bash
-minikube status
-kubectl get all
+kubectl apply -f app-configmap.yaml
+kubectl apply -f app-secret.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+kubectl apply -f product-deployment.yaml
+kubectl apply -f product-service.yaml
+kubectl apply -f customer-deployment.yaml
+kubectl apply -f customer-service.yaml
+kubectl apply -f order-deployment.yaml
+kubectl apply -f order-service.yaml
 ```
 
-## Resource Creation
+### Verification Commands
 
 ```bash
-kubectl apply -f mongodb-secret.yaml
-kubectl apply -f mongodb-configmap.yaml
-kubectl apply -f mongodb-deployment.yaml
-kubectl apply -f mongodb-service.yaml
-kubectl apply -f mongo-express-deployment.yaml
-kubectl apply -f mongo-express-service.yaml
-```
-
-## Resource Verification
-
-```bash
-kubectl get secrets
-kubectl get configmaps
 kubectl get deployments
 kubectl get pods
 kubectl get svc
+kubectl get configmaps
+kubectl get secrets
 kubectl get all
 ```
 
-## Application Access
+### Application Access Commands
 
 ```bash
-minikube service mongo-express-service
-kubectl logs deployment/mongo-express-deployment
+minikube service frontend-service
 ```
 
-# Build Result
+## Build Result
 
-Kubernetes cluster verified successfully.
+ConfigMap Created Successfully
 
-MongoDB Secret created successfully.
+Secret Created Successfully
 
-MongoDB ConfigMap created successfully.
+Frontend Deployment Created Successfully
 
-MongoDB Deployment created successfully.
+Product Deployment Created Successfully
 
-MongoDB Service created successfully.
+Customer Deployment Created Successfully
 
-Mongo Express Deployment created successfully.
+Order Deployment Created Successfully
 
-Mongo Express Service created successfully.
+All Services Running Successfully
 
-Mongo Express connected successfully to MongoDB.
-
-Application accessible through NodePort.
+Frontend Accessible Successfully
 
 Final Kubernetes Cluster Status: SUCCESS
 
-# Learning Outcomes
+## Learning Outcomes
 
 - Deployments
+- Pods
+- ReplicaSets
 - Services
-- Secrets
 - ConfigMaps
+- Secrets
 - NodePort
 - ClusterIP
-- Pod Management
-- MongoDB Deployment
-- Mongo Express Deployment
+- Microservices
 - Kubernetes Networking
 
-# Conclusion
+## Conclusion
 
-The project successfully demonstrated deploying MongoDB and Mongo Express on Kubernetes using Deployments, Services, ConfigMaps, and Secrets. Secure configuration, service communication, and browser-based database management were successfully implemented and verified.
+This project successfully demonstrated the deployment of a multi-microservice application on Kubernetes. The Frontend, Product, Customer, and Order microservices were deployed using Deployments and Services, with configuration and credentials managed through a ConfigMap and a Secret. All resources were verified, and the Frontend application was successfully accessed through a NodePort Service, reinforcing key concepts of Kubernetes microservice architecture and networking.

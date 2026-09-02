@@ -2,6 +2,9 @@
 
 This project demonstrates application scalability using Kubernetes Horizontal Pod Autoscaling (HPA). It deploys a simple application, exposes it through a Service, generates traffic, and shows Kubernetes increasing or decreasing the number of Pods based on CPU usage.
 
+## Name and PRN
+name- Harsh RAjput
+prn - 23070122102
 ## Project Flow
 
 ```text

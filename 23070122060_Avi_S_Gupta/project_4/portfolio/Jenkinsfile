@@ -1,0 +1,76 @@
+pipeline {
+    agent none
+
+    tools {
+        maven 'Maven 3.9.14'
+        jdk   'JDK 21'
+    }
+
+    environment {
+        APP_DIR    = '23070122060_Avi_S_Gupta/project_4/portfolio'
+        // Cap heap: this lab runs controller, both agents and Maven on one 8 GB host
+        MAVEN_OPTS = '-Xmx512m'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            agent { label 'compile' }
+            steps {
+                echo 'Checking out source from GitHub on the compile agent...'
+                checkout scm
+            }
+        }
+
+        stage('Compile') {
+            agent { label 'compile' }
+            steps {
+                echo "Compiling on ${env.NODE_NAME}"
+                dir("${APP_DIR}") {
+                    sh 'mvn -B clean compile'
+                }
+                stash name: 'compiled', includes: "${APP_DIR}/**"
+            }
+        }
+
+        stage('Test') {
+            agent { label 'test' }
+            steps {
+                echo "Testing on ${env.NODE_NAME}"
+                deleteDir()
+                unstash 'compiled'
+                dir("${APP_DIR}") {
+                    sh 'mvn -B test -DargLine=-Xmx512m'
+                }
+            }
+            post {
+                always {
+                    junit "${APP_DIR}/target/surefire-reports/*.xml"
+                }
+            }
+        }
+
+        stage('Package') {
+            agent { label 'compile' }
+            steps {
+                echo "Packaging on ${env.NODE_NAME}"
+                dir("${APP_DIR}") {
+                    sh 'mvn -B package -DskipTests'
+                }
+            }
+        }
+
+        stage('Archive Artifact') {
+            agent { label 'compile' }
+            steps {
+                echo "Archiving JAR from ${env.NODE_NAME}"
+                archiveArtifacts artifacts: "${APP_DIR}/target/*.jar", fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success { echo 'Distributed Jenkins pipeline executed successfully across compile-agent and test-agent!' }
+        failure { echo 'Pipeline failed - check the console output above.' }
+    }
+}

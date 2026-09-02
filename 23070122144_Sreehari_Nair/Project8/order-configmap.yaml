@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-configmap
+  labels:
+    app: ecommerce-app
+    tier: order-service
+data:
+  port: "5002"
+  app_env: "production"
+  db_host: "mongodb-service"
+  db_port: "27017"
+  db_name: "ecommerce_db"
+  db_user: "admin"
+  auth_service_url: "http://auth-service:5001"

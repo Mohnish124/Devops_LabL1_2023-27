@@ -1,4 +1,7 @@
 # Project 7: MongoDB and Mongo Express Deployment on Kubernetes
+**Student Name:** Pratik Lakra  
+**PRN:** 23070122166
+
 
 ## Project Description
 
